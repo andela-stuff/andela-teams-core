@@ -2,6 +2,10 @@
 
 This is the core server side for `Andela Teams`.
 
+## Contributing
+
+To see how to go about contributing to this project check the [contributing](contributing.md) file.
+
 ## Credits
 
 ## License

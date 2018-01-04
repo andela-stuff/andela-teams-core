@@ -2,11 +2,16 @@
 
 This is the core server side for `Andela Teams`.
 
+### Credits
+-----
+
 ### License
+-----
 
 [MIT](LICENSE)
 
 ### FAQ
+-----
 
 __Is this an Open-Source Application?__
 

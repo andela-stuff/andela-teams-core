@@ -1,7 +1,8 @@
 # Contributing
 
 ### New contributions to the application are welcome, but we ask that you please follow these guidelines:
-* Study the project [wiki](/wiki) thoroughly and see PR guideline and convention.
+* Study the project [wiki](wiki) thoroughly and see PR guideline and convention.
+* Check that your code will pass `eslint` code standards, `hound` will review your code and ensure you act accordingly.
 
 ## Joining the Project
 

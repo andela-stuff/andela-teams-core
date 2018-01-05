@@ -1,6 +1,17 @@
 # andela-teams-core
 
-This is the core server side for `Andela Teams`.
+This is the core server side for __Andela Teams__.
+
+Adela Teams seeks to automate some of the routine actions taken by __simulations learning facilitators__ at Andela.
+
+To paint a picture, when a new cohort (class) begins the simulations (*sims*), the cohort is broken into teams, and each team is assigned to a learning facilitator. The learning facilitator then creates a few Slack channels, a Github repo, and a Pivotal Tracker board. For each of these, the facilitator has to add every member of the team to the channel/repo/board. This is obviously a task that should be automated, especially considering that even the names of the channels/repo/board are always in a particular format. Andela Teams seeks to automate these and many more routine tasks perform by facilitators.
+
+This server contains (or should contain) endpoints that perform various actions like:
+* view, create, edit, delete teams
+* add members to teams, in various capacities (fellow, TTL, PO, ...)
+* add events to the Google Calendar of team members
+* generate various Google docs (like scorecards for fellows)
+* send out email notifications to team members
 
 ## Contributing
 

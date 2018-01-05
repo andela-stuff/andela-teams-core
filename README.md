@@ -13,6 +13,14 @@ This server contains (or should contain) endpoints that perform various actions 
 * generate various Google docs (like scorecards for fellows)
 * send out email notifications to team members
 
+## Technology Stack
+
+## Usage
+
+## Testing
+
+## API Docs
+
 ## Contributing
 
 To see how to go about contributing to this project check the [contributing](contributing.md) file.

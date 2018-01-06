@@ -8,5 +8,8 @@
   },
   "repository": "https://github.com/andela-stuff/andela-teams-core",
   "author": "Franklin Chieze <chieze.franklin@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^3.10.0"
+  }
 }

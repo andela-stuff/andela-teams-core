@@ -15,6 +15,22 @@ This server contains (or should contain) endpoints that perform various actions 
 
 ## Technology Stack
 
+#### Server:
+```
+Back end implementation is built on NODE, using EXPRESS as the server and SEQUELIZE
+as the ORM for communicating with the POSTGRES DB.
+```
+
+#### Authentication and Code Base Organization:
+```
+Written in ES6 and uses BABEL for transpiling down to ES5 and JWT for authentication.
+```
+
+#### Style Checking and Best Practices:
+```
+Uses ESLINT which was configured to use Airbnb-base rules for style checking
+```
+
 ## Usage
 
 ## Testing

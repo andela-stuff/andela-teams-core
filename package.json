@@ -1,0 +1,9 @@
+{
+  "name": "andela-teams-core",
+  "version": "0.0.1",
+  "description": "This is the core server for Andela Teams",
+  "main": "index.js",
+  "repository": "https://github.com/andela-stuff/andela-teams-core",
+  "author": "Franklin Chieze <chieze.franklin@gmail.com>",
+  "license": "MIT"
+}

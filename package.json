@@ -4,9 +4,14 @@
   "description": "This is the core server for Andela Teams",
   "main": "index.js",
   "scripts": {
+    "start": "node ./src/server",
     "test": ""
   },
   "repository": "https://github.com/andela-stuff/andela-teams-core",
   "author": "Franklin Chieze <chieze.franklin@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "source-map-support": "^0.5.0",
+    "webpack": "^3.10.0"
+  }
 }

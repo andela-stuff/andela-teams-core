@@ -4,7 +4,7 @@
   "description": "This is the core server for Andela Teams",
   "main": "index.js",
   "scripts": {
-    "start": "node ./build/server",
+    "start": "node ./src/server",
     "test": ""
   },
   "repository": "https://github.com/andela-stuff/andela-teams-core",

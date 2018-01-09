@@ -1,1 +1,2 @@
-console.log('hello world again!')
+let testing = 'testing';
+testing += ' again';

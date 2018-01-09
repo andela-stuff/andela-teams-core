@@ -9,6 +9,7 @@
     "start": "node ./src/server",
     "test": ""
   },
+  "pre-commit": ["eslint"],
   "repository": "https://github.com/andela-stuff/andela-teams-core",
   "author": "Franklin Chieze <chieze.franklin@gmail.com>",
   "license": "MIT",
@@ -19,6 +20,7 @@
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
+    "pre-commit": "^1.2.2",
     "source-map-support": "^0.5.0"
   }
 }

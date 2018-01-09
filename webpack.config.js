@@ -1,14 +1,12 @@
-var fs = require('fs');
-var path = require('path');
-var webpack = require('webpack')
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
 
-var nodeModules = {};
+const nodeModules = {};
 fs.readdirSync('node_modules')
-  .filter(function(x) {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach(function(mod) {
-    nodeModules[mod] = 'commonjs ' + mod;
+  .filter(x => ['.bin'].indexOf(x) === -1)
+  .forEach((mod) => {
+    nodeModules[mod] = `commonjs ${mod}`;
   });
 
 module.exports = {
@@ -16,12 +14,30 @@ module.exports = {
   externals: nodeModules,
   devtool: 'sourcemap',
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'server.js'
   },
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      }
+    ]
+  },
   plugins: [
-    new webpack.BannerPlugin({ banner: 'require("source-map-support").install();', raw: true, entryOnly: false })
+    new webpack.BannerPlugin({
+      banner: 'require("source-map-support").install();',
+      raw: true,
+      entryOnly: false
+    })
   ],
+  stats: {
+    colors: true
+  },
   target: 'node',
   watch: true
-}
+};

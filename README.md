@@ -3,6 +3,7 @@
 This is the core server side for __Andela Teams__.
 
 [![Build Status](https://travis-ci.org/andela-stuff/andela-teams-core.svg?branch=master)](https://travis-ci.org/andela-stuff/andela-teams-core)
+[![Hound CI](https://camo.githubusercontent.com/23ee7a697b291798079e258bbc25434c4fac4f8b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50726f7465637465645f62792d486f756e642d6138373364312e737667)](https://houndci.com)
 
 Adela Teams seeks to automate some of the routine actions taken by __simulations learning facilitators__ at Andela.
 

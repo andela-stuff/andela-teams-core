@@ -4,14 +4,23 @@
   "description": "This is the core server for Andela Teams",
   "main": "index.js",
   "scripts": {
+    "eslint": "./node_modules/.bin/eslint src",
+    "eslint-fix": "./node_modules/.bin/eslint --fix src",
     "start": "node ./src/server",
     "test": ""
   },
+  "pre-commit": ["eslint"],
   "repository": "https://github.com/andela-stuff/andela-teams-core",
   "author": "Franklin Chieze <chieze.franklin@gmail.com>",
   "license": "MIT",
-  "devDependencies": {
-    "source-map-support": "^0.5.0",
+  "dependencies": {
     "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "pre-commit": "^1.2.2",
+    "source-map-support": "^0.5.0"
   }
 }

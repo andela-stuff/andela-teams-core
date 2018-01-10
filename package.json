@@ -12,7 +12,7 @@
     "build:server": "./node_modules/.bin/babel -d ./build ./src -s --copy-files",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm run build:server",
     "remove-build": "node_modules/.bin/rimraf ./build",
     "start": "node ./build/server",
     "test": ""

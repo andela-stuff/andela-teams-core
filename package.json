@@ -4,9 +4,11 @@
   "description": "This is the core server for Andela Teams",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
-    "start": "node ./src/server",
+    "heroku-postbuild": "npm run build",
+    "start": "node ./build/server",
     "test": ""
   },
   "pre-commit": [

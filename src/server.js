@@ -7,7 +7,7 @@ import webpack from 'webpack';
 dotenv.config();
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World Again!');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);

@@ -1,13 +1,13 @@
-let testing = 'testing';
-testing += ' again';
+import dotenv from 'dotenv';
+import express from 'express';
+import logger from 'morgan';
+import path from 'path';
+import webpack from 'webpack';
 
-/**
- * Test function.
- *
- * @returns {number} the sum of a and b
- */
-function a() {
-  return testing;
-}
+dotenv.config();
+const app = express();
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 
-a();
+app.listen(process.env.PORT);

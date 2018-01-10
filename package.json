@@ -8,8 +8,6 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "build": "webpack",
-    "build-and-start": "npm run build && npm start",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
     "start": "node ./src/server",

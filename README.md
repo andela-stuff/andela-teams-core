@@ -5,8 +5,9 @@ This is the core server side for __Andela Teams__.
 [![Build Status](https://travis-ci.org/andela-stuff/andela-teams-core.svg?branch=master)](https://travis-ci.org/andela-stuff/andela-teams-core)
 [![Hound CI](https://camo.githubusercontent.com/23ee7a697b291798079e258bbc25434c4fac4f8b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50726f7465637465645f62792d486f756e642d6138373364312e737667)](https://houndci.com)
 [![CircleCI](https://circleci.com/gh/andela-stuff/andela-teams-core.svg?style=svg)](https://circleci.com/gh/andela-stuff/andela-teams-core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Adela Teams seeks to automate some of the routine actions taken by __simulations learning facilitators__ at Andela.
+Andela Teams seeks to automate some of the routine actions taken by __simulations learning facilitators__ at Andela.
 
 Here is a useful scenario. When a new cohort (class) begins simulations (*sims*) at Andela, the cohort is broken into teams, and each team is assigned to a learning facilitator. The learning facilitator then creates a few Slack channels, a Github repo, and a Pivotal Tracker board. For each of these, the facilitator has to add every member of the team to the channel/repo/board. This is obviously a task that should be automated, especially considering that even the names of the channels/repo/board are always in a particular format. Andela Teams seeks to automate these and many more routine tasks perform by facilitators.
 

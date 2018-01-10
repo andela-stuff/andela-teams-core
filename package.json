@@ -8,11 +8,11 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "build": "npm run remove-build && npm run build:server",
+    "build": "npm run build:server",
     "build:server": "./node_modules/.bin/babel -d ./build ./src -s --copy-files",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
-    "heroku-postbuild": "npm run build:server",
+    "heroku-postbuild": "npm run build",
     "remove-build": "node_modules/.bin/rimraf ./build",
     "start": "node ./build/server",
     "test": ""

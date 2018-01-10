@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "This is the core server for Andela Teams",
   "main": "index.js",
+  "engines": {
+    "node": "9.3.0",
+    "npm": "5.6.0"
+  },
   "scripts": {
     "build": "webpack",
     "build-and-start": "npm run build && npm start",

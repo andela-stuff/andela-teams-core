@@ -38,6 +38,5 @@ module.exports = {
   stats: {
     colors: true
   },
-  target: 'node',
-  watch: true
+  target: 'node'
 };

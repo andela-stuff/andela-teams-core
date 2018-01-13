@@ -19,7 +19,7 @@
     "remove-build": "./node_modules/.bin/rimraf ./build",
     "start": "NODE_ENV=production node ./build/server",
     "start:dev": "NODE_ENV=development node ./build/server",
-    "test": ""
+    "test": "./node_modules/mocha/bin/_mocha 'test/**/*.js' --compilers js:babel-core/register --timeout 10000"
   },
   "pre-commit": [
     "eslint"
@@ -33,10 +33,14 @@
     "babel-loader": "^7.1.2",
     "babel-preset-es2015": "^6.24.1",
     "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
+    "mocha": "^4.1.0",
     "morgan": "^1.9.0",
     "rimraf": "^2.6.2",
+    "sinon": "^4.1.5",
     "webpack": "^3.10.0"
   },
   "devDependencies": {

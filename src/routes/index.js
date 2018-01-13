@@ -1,4 +1,5 @@
 import teamsController from '../controllers/teams';
+import usersController from '../controllers/users';
 
 export default (app) => {
   app.get('/v1/teams', teamsController.getTeams);
@@ -22,9 +23,9 @@ export default (app) => {
     teamsController.deleteMembershipById
   );
 
-  app.get('/v1/users', teamsController.getTeams);
-  app.get('/v1/users/:userId', teamsController.getTeams);
-  app.post('/v1/users', teamsController.getTeams);
-  app.put('/v1/users/:userId', teamsController.getTeams);
-  app.delete('/v1/users/:userId', teamsController.getTeams);
+  app.get('/v1/users', usersController.getUsers);
+  app.get('/v1/users/:userId', usersController.getUserById);
+  app.post('/v1/users', usersController.createUser);
+  app.put('/v1/users/:userId', usersController.updateUserById);
+  app.delete('/v1/users/:userId', usersController.deleteUserById);
 };

@@ -13,6 +13,7 @@
     "build:server": "./node_modules/.bin/babel -d ./build ./src -s --copy-files",
     "build-and-start": "npm run build && npm start",
     "build-and-start:dev": "npm run build && npm run start:dev",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
     "heroku-postbuild": "npm run build",
@@ -45,6 +46,7 @@
     "webpack": "^3.10.0"
   },
   "devDependencies": {
+    "coveralls": "^3.0.0",
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",

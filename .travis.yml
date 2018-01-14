@@ -8,3 +8,6 @@ env:
   global:
     - export NODE_ENV=test
 email: false
+after_success: 
+    - npm run coveralls
+    - npm run codecov

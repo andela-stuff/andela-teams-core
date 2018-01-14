@@ -13,13 +13,16 @@
     "build:server": "./node_modules/.bin/babel -d ./build ./src -s --copy-files",
     "build-and-start": "npm run build && npm start",
     "build-and-start:dev": "npm run build && npm run start:dev",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
     "heroku-postbuild": "npm run build",
     "remove-build": "./node_modules/.bin/rimraf ./build",
     "start": "NODE_ENV=production node ./build/server",
     "start:dev": "NODE_ENV=development node ./build/server",
-    "test": "npm run build && ./node_modules/mocha/bin/_mocha 'test/**/*.js' --compilers js:babel-core/register --timeout 10000 --exit"
+    "test": "npm run build && NODE_ENV=test nyc --reporter=html --reporter=text ./node_modules/mocha/bin/_mocha 'test/**/*.js' --compilers js:babel-core/register --timeout 10000 --exit",
+    "test:dev": "npm run build && ./node_modules/mocha/bin/_mocha 'test/**/*.js' --compilers js:babel-core/register --timeout 10000 --exit"
   },
   "pre-commit": [
     "eslint"
@@ -44,9 +47,12 @@
     "webpack": "^3.10.0"
   },
   "devDependencies": {
+    "codecov": "^3.0.0",
+    "coveralls": "^3.0.0",
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.7.0",
+    "nyc": "^11.4.1",
     "pre-commit": "^1.2.2",
     "source-map-support": "^0.5.0"
   }

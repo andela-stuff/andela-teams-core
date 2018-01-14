@@ -40,6 +40,11 @@ Uses ESLINT which was configured to use Airbnb-base rules for style checking
 
 ## Testing
 
+The app uses `Mocha`, `Chai` and `Chai-Http` for testing.
+* Ensure you run `yarn` (or `npm install`) to install necessary packages.
+* Run `npm test` to run tests and display code coverage results.
+* Run `npm test:dev` to just run tests.
+
 ## API Docs
 
 ## Contributing

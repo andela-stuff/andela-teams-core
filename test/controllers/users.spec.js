@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
-import app from '../../build/server';
+import server from '../../build/server';
 
 const should = chai.should();
 const { expect } = chai;
@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 describe('UsersController', () => {
   describe('GET: /v1/users', (done) => {
     it('should respond with an array', (done) => {
-      chai.request(app)
+      chai.request(server)
         .get('/v1/users')
         .end((err, res) => {
           res.should.have.status(200);
@@ -23,7 +23,7 @@ describe('UsersController', () => {
 
   describe('GET: /v1/users/:userId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .get('/v1/users/1')
         .end((err, res) => {
           res.should.have.status(200);
@@ -37,7 +37,7 @@ describe('UsersController', () => {
 
   describe('DELETE: /v1/users/:userId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .delete('/v1/users/1')
         .end((err, res) => {
           res.should.have.status(200);
@@ -51,7 +51,7 @@ describe('UsersController', () => {
 
   describe('POST: /v1/users/:userId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .post('/v1/users')
         .send({})
         .end((err, res) => {
@@ -66,7 +66,7 @@ describe('UsersController', () => {
 
   describe('PUT: /v1/users/:userId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .put('/v1/users/1')
         .end((err, res) => {
           res.should.have.status(200);

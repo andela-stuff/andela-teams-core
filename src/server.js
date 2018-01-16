@@ -17,7 +17,7 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 const swaggerDefinition = {
   info: {
     title: 'Andela Teams API',
-    version: '1.0.0',
+    version: '1.0',
     description: 'Andela Teams seeks to automate some of the routine actions' +
     ' taken by simulations learning facilitators at Andela.'
   },

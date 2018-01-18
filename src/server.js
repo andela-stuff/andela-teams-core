@@ -40,6 +40,8 @@ app.use(logger('dev'));
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// Serves directory with url as static files
+app.use('/docs/', express.static(path.join(__dirname, '../api-docs/')));
 // Set response content type
 app.use((req, res, next) => {
   res.header('Content-Type', 'application/json');

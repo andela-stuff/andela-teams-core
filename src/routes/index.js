@@ -2,6 +2,17 @@ import teamsController from '../controllers/teams';
 import usersController from '../controllers/users';
 
 export default (app) => {
+  /**
+ * @swagger
+ * /v1/teams:
+ *   get:
+ *     description: Get all teams
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Success!
+ */
   app.get('/v1/teams', teamsController.getTeams);
   app.get('/v1/teams/:teamId', teamsController.getTeamById);
   app.post('/v1/teams', teamsController.createTeam);

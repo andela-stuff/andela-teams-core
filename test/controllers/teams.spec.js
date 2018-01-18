@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
-import app from '../../build/server';
+import server from '../../build/server';
 
 const should = chai.should();
 const { expect } = chai;
@@ -10,7 +10,7 @@ chai.use(chaiHttp);
 describe('TeamsController', () => {
   describe('GET: /v1/teams', (done) => {
     it('should respond with an array', (done) => {
-      chai.request(app)
+      chai.request(server)
         .get('/v1/teams')
         .end((err, res) => {
           res.should.have.status(200);
@@ -23,7 +23,7 @@ describe('TeamsController', () => {
 
   describe('GET: /v1/teams/:teamId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .get('/v1/teams/1')
         .end((err, res) => {
           res.should.have.status(200);
@@ -37,7 +37,7 @@ describe('TeamsController', () => {
 
   describe('DELETE: /v1/teams/:teamId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .delete('/v1/teams/1')
         .end((err, res) => {
           res.should.have.status(200);
@@ -51,7 +51,7 @@ describe('TeamsController', () => {
 
   describe('POST: /v1/teams/:teamId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .post('/v1/teams')
         .send({})
         .end((err, res) => {
@@ -66,7 +66,7 @@ describe('TeamsController', () => {
 
   describe('PUT: /v1/teams/:teamId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .put('/v1/teams/1')
         .end((err, res) => {
           res.should.have.status(200);
@@ -80,7 +80,7 @@ describe('TeamsController', () => {
 
   describe('GET: /v1/teams/:teamId/members', (done) => {
     it('should respond with an array', (done) => {
-      chai.request(app)
+      chai.request(server)
         .get('/v1/teams/1/members')
         .end((err, res) => {
           res.should.have.status(200);
@@ -93,7 +93,7 @@ describe('TeamsController', () => {
 
   describe('GET: /v1/teams/:teamId/members/:memberId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .get('/v1/teams/1/members/1')
         .end((err, res) => {
           res.should.have.status(200);
@@ -112,7 +112,7 @@ describe('TeamsController', () => {
 
   describe('DELETE: /v1/teams/:teamId/members/:memberId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .delete('/v1/teams/1/members/1')
         .end((err, res) => {
           res.should.have.status(200);
@@ -131,7 +131,7 @@ describe('TeamsController', () => {
 
   describe('POST: /v1/teams/:teamId/members', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .post('/v1/teams/1/members')
         .send({})
         .end((err, res) => {
@@ -151,7 +151,7 @@ describe('TeamsController', () => {
 
   describe('PUT: /v1/teams/:teamId/members/:memberId', (done) => {
     it('should respond with an object', (done) => {
-      chai.request(app)
+      chai.request(server)
         .put('/v1/teams/1/members/1')
         .end((err, res) => {
           res.should.have.status(200);

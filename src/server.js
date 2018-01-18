@@ -41,7 +41,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // Serves directory with url as static files
-app.use('/docs/', express.static(path.join(__dirname, '../api-docs/')));
+app.use(express.static(path.join(__dirname, '../api-docs/')));
 // Set response content type
 app.use((req, res, next) => {
   res.header('Content-Type', 'application/json');
@@ -49,7 +49,7 @@ app.use((req, res, next) => {
 });
 
 // serves swagger
-app.get('/', (req, res) => {
+app.get('/api-doc.json', (req, res) => {
   res.send(swaggerSpec);
 });
 

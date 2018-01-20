@@ -1,7 +1,7 @@
 /**
- *  @fileOverview Application's entry point
+ * @fileOverview Application's entry point
  *
- *  @author Franklin Chieze
+ * @author Franklin Chieze
  *
  * @requires NPM:body-parser
  * @requires NPM:dotenv

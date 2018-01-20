@@ -60,7 +60,6 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin');
   res.header('Access-Control-Allow-Methods', 'DELETE, GET, POST, PUT');
-  res.header('Content-Type', 'application/json');
   next();
 });
 
@@ -70,6 +69,12 @@ app.use(express.static(path.join(__dirname, '../api-docs/')));
 // serves swagger
 app.get('/api-doc.json', (req, res) => {
   res.send(swaggerSpec);
+});
+
+// set content type
+app.use((req, res, next) => {
+  res.header('Content-Type', 'application/json');
+  next();
 });
 
 routes(app);

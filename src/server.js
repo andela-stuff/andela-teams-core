@@ -1,10 +1,23 @@
+/**
+ *  @fileOverview Application's entry point
+ *
+ *  @author Franklin Chieze
+ *
+ * @requires NPM:body-parser
+ * @requires NPM:dotenv
+ * @requires NPM:express
+ * @requires NPM:morgan
+ * @requires NPM:path
+ * @requires NPM:swagger-jsdoc
+ * @requires ./routes
+ */
+
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
-import webpack from 'webpack';
 
 import routes from './routes';
 

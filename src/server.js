@@ -1,10 +1,23 @@
+/**
+ * @fileOverview Application's entry point
+ *
+ * @author Franklin Chieze
+ *
+ * @requires NPM:body-parser
+ * @requires NPM:dotenv
+ * @requires NPM:express
+ * @requires NPM:morgan
+ * @requires NPM:path
+ * @requires NPM:swagger-jsdoc
+ * @requires ./routes
+ */
+
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
-import webpack from 'webpack';
 
 import routes from './routes';
 
@@ -37,16 +50,22 @@ app.set('port', port);
 
 // Log requests to the console.
 app.use(logger('dev'));
+
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// Serves directory with url as static files
-app.use(express.static(path.join(__dirname, '../api-docs/')));
-// Set response content type
+
+// set important headers
 app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin');
+  res.header('Access-Control-Allow-Methods', 'DELETE, GET, POST, PUT');
   res.header('Content-Type', 'application/json');
   next();
 });
+
+// Serves directory with url as static files
+app.use(express.static(path.join(__dirname, '../api-docs/')));
 
 // serves swagger
 app.get('/api-doc.json', (req, res) => {

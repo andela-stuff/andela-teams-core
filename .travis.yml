@@ -1,13 +1,18 @@
-language: node_js
-node_js:
-  - "8"
-install:
-  - npm install
-script: npm test
+after_success: 
+  - npm run coveralls
+  - npm run codecov
+before_script:
+  - psql -c 'drop database if exists andela_teams_test;' -U postgres
+  - psql -c 'create database andela_teams_test;' -U postgres
+email: false
 env:
   global:
     - export NODE_ENV=test
-email: false
-after_success: 
-    - npm run coveralls
-    - npm run codecov
+install:
+  - npm install
+language: node_js
+node_js:
+  - "8"
+script: npm test
+services:
+  - postgresql

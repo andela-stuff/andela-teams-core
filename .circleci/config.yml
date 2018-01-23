@@ -8,6 +8,20 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:7.10
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: andela_teams_user1
+          PG_PASSWD: andela_teams_user1_password
+          NODE_ENV: test
+          DATABASE_DEV_URL: postgres://andela_teams_user1:andela_teams_user1_password@localhost/andela_teams_test
+          DATABASE_TEST_URL: postgres://andela_teams_user1:andela_teams_user1_password@localhost/andela_teams_test
+          DATABASE_URL: postgres://andela_teams_user1:andela_teams_user1_password@localhost/andela_teams_test
+
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          POSTGRES_DB: andela_teams_test
+          POSTGRES_PASSWORD: andela_teams_user1_password
+          POSTGRES_USER: andela_teams_user1
       
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -22,16 +36,23 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          # - v1-dependencies-{{ checksum "package.json" }}
+          - repo-yarn-{{ checksum "yarn.lock" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          # - v1-dependencies-
+          - repo-yarn-
 
       - run: yarn install
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            # - node_modules
+            - ~/.yarn-cache
+          # key: v1-dependencies-{{ checksum "package.json" }}
+          key: repo-yarn-{{ checksum "yarn.lock" }}
+
+      # Wait for Postgres connection to open.
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
         
       # run tests!
       - run: npm test

@@ -4,6 +4,7 @@ after_success:
 before_script:
   - psql -c 'drop database if exists andela_teams_test;' -U postgres
   - psql -c 'create database andela_teams_test;' -U postgres
+  - psql -c "CREATE USER andela_teams_user1 WITH PASSWORD 'andela_teams_user1_password';" -U postgres
 email: false
 env:
   global:

@@ -1,3 +1,5 @@
+import models from '../models';
+
 export default {
   /**
    * @method createUser

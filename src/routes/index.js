@@ -1,3 +1,12 @@
+/**
+ * @fileOverview Application's routes
+ *
+ * @author Franklin Chieze
+ *
+ * @requires ../controllers/teams
+ * @requires ../controllers/users
+ */
+
 import teamsController from '../controllers/teams';
 import usersController from '../controllers/users';
 

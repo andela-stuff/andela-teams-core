@@ -14,7 +14,7 @@ export default (app) => {
 /**
  * @swagger
  * definitions:
- *   NewUser:
+ *   Team:
  *     type: object
  *     required:
  *       - username
@@ -35,6 +35,7 @@ export default (app) => {
  *           type: integer
  *           format: int64
  */
+
 /**
  * @swagger
  * /v1/teams:

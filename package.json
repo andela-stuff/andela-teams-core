@@ -15,6 +15,7 @@
     "build-and-start:dev": "npm run build && npm run start:dev",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "db:migrate": "sequelize db:migrate",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
     "heroku-postbuild": "npm run build",

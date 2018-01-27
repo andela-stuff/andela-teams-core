@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Membership.associate = (models) => {
+    Membership.belongsTo(models.User, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE'
+    });
     Membership.belongsTo(models.Team, {
       foreignKey: 'teamId',
       onDelete: 'CASCADE'

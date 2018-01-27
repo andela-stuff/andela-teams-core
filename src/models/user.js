@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
+    User.hasMany(models.Membership, {
+      foreignKey: 'userId',
+      as: 'memberships'
+    });
     User.hasMany(models.Team, {
       foreignKey: 'userId',
       as: 'teams'
@@ -22,4 +26,4 @@ module.exports = (sequelize, DataTypes) => {
 
   return User;
 };
-// relationship between user and team the user created; between user and membership
+// relationship between user and membership

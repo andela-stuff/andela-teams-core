@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Membership = sequelize.define('Membership', {
     role: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
+      type: DataTypes.ENUM,
+      values: [
+        'admin', 'disabled', 'facilitator', 'fellow', 'member', 'po', 'ttl'
+      ],
+      defaultValue: 'member'
     },
     teamId: {
       type: DataTypes.INTEGER,

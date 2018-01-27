@@ -8,7 +8,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       role: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values: [
+          'admin', 'disabled', 'facilitator', 'fellow', 'member', 'po', 'ttl'
+        ],
+        defaultValue: 'member'
       },
       teamId: {
         type: Sequelize.INTEGER,

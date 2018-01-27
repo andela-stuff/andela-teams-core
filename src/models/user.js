@@ -12,5 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     }
   });
+
+  User.associate = (models) => {
+    User.hasMany(models.Team, {
+      foreignKey: 'userId',
+      as: 'teams'
+    });
+  };
+
   return User;
 };
+// relationship between user and team the user created; between user and membership

@@ -13,10 +13,18 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: 'There is no description for this team'
     },
-    userId: DataTypes.INTEGER
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      onDelete: 'CASCADE'
+    }
   });
 
   Team.associate = (models) => {
+    Team.belongsTo(models.User, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE'
+    });
     Team.hasMany(models.Membership, {
       foreignKey: 'teamId',
       as: 'memberships'

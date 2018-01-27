@@ -1,19 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
   const Membership = sequelize.define('Membership', {
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    teamId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     role: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true
       }
+    },
+    teamId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      onDelete: 'CASCADE'
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      onDelete: 'CASCADE'
     }
   });
 

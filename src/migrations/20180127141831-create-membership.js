@@ -7,14 +7,20 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.INTEGER
-      },
-      teamId: {
-        type: Sequelize.INTEGER
-      },
       role: {
         type: Sequelize.STRING
+      },
+      teamId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Teams',
+          key: 'id',
+          as: 'teamId',
+        },
+      },
+      userId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

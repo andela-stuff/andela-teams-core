@@ -49,7 +49,7 @@ export default (app) => {
  */
   app.get('/v1/teams', teamsController.getTeams);
   app.get('/v1/teams/:teamId', teamsController.getTeamById);
-  app.post('/v1/teams', teamsController.createTeam);
+  app.post('/v1/teams', teamsController.create);
   app.put('/v1/teams/:teamId', teamsController.updateTeamById);
   app.delete('/v1/teams/:teamId', teamsController.deleteTeamById);
 

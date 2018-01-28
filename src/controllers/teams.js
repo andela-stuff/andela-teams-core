@@ -1,17 +1,38 @@
+/**
+ * @fileOverview Teams Controller
+ *
+ * @author Franklin Chieze
+ *
+ * @requires ../models
+ */
+
 import models from '../models';
+
+const { Team } = models;
 
 export default {
   /**
-   * @method createTeam
+   * @method create
    * @desc This method creates a new team
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
-  createTeam(req, res) {
-    return res.status(200).send({
-      data: { name: 'team1' }
-    });
+  create(req, res) {
+    const teamObject = {
+      name: 'TestTeam1',
+      description: 'Just a test team'
+    };
+    return Team.create(teamObject)
+      .then(team => res.status(201).send({
+        message: 'Book created',
+        team
+      }))
+      .catch(err => res.status(500).send({
+        message: 'Oops... Book not created. Try again.',
+        err
+      }));
   },
   /**
    * @method deleteTeamById

@@ -17,23 +17,28 @@ export default (app) => {
  *   Team:
  *     type: object
  *     required:
- *       - username
- *       - password
+ *       - name
+ *       - userId
  *     properties:
- *       username:
+ *       name:
  *         type: string
- *       password:
+ *       description:
  *         type: string
- *         format: password
+ *       userId:
+ *         type: integer
+ *         format: int64
  *   User:
- *     allOf:
- *       - $ref: '#/definitions/NewUser'
+ *     type: Object
  *       - required:
- *         - id
+ *         - email
+ *         - firstName
  *       - properties:
- *         id:
- *           type: integer
- *           format: int64
+ *         email:
+ *           type: string
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
  */
 
 /**

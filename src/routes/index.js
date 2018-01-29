@@ -73,9 +73,26 @@ export default (app) => {
     teamsController.deleteMembershipById
   );
 
-  app.get('/v1/users', usersController.getUsers);
+  /**
+   * @swagger
+   * /v1/users:
+   *   get:
+   *     description: Returns an array of users
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: users
+   *         schema:
+   *           type: array
+   *           items:
+   *             $ref: '#/definitions/User'
+   */
+  app.get('/v1/users', usersController.get);
   app.get('/v1/users/:userId', usersController.getUserById);
   app.post('/v1/users', usersController.createUser);
   app.put('/v1/users/:userId', usersController.updateUserById);
   app.delete('/v1/users/:userId', usersController.deleteUserById);
 };
+
+// response object: {errors, data, meta}

@@ -14,6 +14,7 @@ export default {
   /**
    * @method create
    * @desc This method creates a new team
+   *
    * @param { object} req request
    * @param { object} res response
    *
@@ -37,8 +38,10 @@ export default {
   /**
    * @method deleteTeamById
    * @desc This method deletes the team with the specified team ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   deleteTeamById(req, res) {
@@ -49,8 +52,10 @@ export default {
   /**
    * @method getTeamById
    * @desc This method get the team with the specified team ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   getTeamById(req, res) {
@@ -61,8 +66,10 @@ export default {
   /**
    * @method getTeams
    * @desc This method gets an array of teams
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   getTeams(req, res) {
@@ -73,8 +80,10 @@ export default {
   /**
    * @method updateTeamById
    * @desc This method updates the team with the specified team ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   updateTeamById(req, res) {
@@ -87,8 +96,10 @@ export default {
    * @method createMembership
    * @desc This method creates a new membership
    * in the team with the specified team ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   createMembership(req, res) {
@@ -100,8 +111,10 @@ export default {
    * @method deleteMembershipById
    * @desc This method deletes the membership with the specified member ID
    * from the team with the specified team ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   deleteMembershipById(req, res) {
@@ -113,8 +126,10 @@ export default {
    * @method getMembershipById
    * @desc This method gets the team membership with the specified member ID
    * from the team with the specified team ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   getMembershipById(req, res) {
@@ -126,8 +141,10 @@ export default {
    * @method getMemberships
    * @desc This method gets an array of all memberships
    * from the team with the specified team ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   getMemberships(req, res) {

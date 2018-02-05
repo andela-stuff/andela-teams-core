@@ -4,8 +4,10 @@ export default {
   /**
    * @method createUser
    * @desc This method creates a new user
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   createUser(req, res) {
@@ -16,8 +18,10 @@ export default {
   /**
    * @method deleteUserById
    * @desc This method deletes the user with the specified user ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   deleteUserById(req, res) {
@@ -28,8 +32,10 @@ export default {
   /**
    * @method getUserById
    * @desc This method get the user with the specified user ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   getUserById(req, res) {
@@ -40,6 +46,7 @@ export default {
   /**
    * @method get
    * @desc This method gets an array of users
+   *
    * @param { object} req request
    * @param { object} res response
    *
@@ -53,8 +60,10 @@ export default {
   /**
    * @method updateUserById
    * @desc This method updates the user with the specified user ID
+   *
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
   updateUserById(req, res) {

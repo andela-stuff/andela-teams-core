@@ -94,6 +94,3 @@ export default (app) => {
   app.put('/v1/users/:userId', usersController.updateUserById);
   app.delete('/v1/users/:userId', usersController.deleteUserById);
 };
-
-// response object: {errors, data, meta}
-// move api-docs to /public

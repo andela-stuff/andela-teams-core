@@ -1,11 +1,11 @@
 /**
- * @fileOverview A class to represent a server response
+ * @fileOverview A class to represent a server response's body
  *
  * @author Franklin Chieze
  */
 
 /**
- * A class to represent a server response
+ * A class to represent a server response's body
  * @class
  *
  * @constructor
@@ -14,7 +14,7 @@
  * @property {array} errors the response errors
  * @property {any} meta the response meta
  */
-class Response {
+class ResponseBody {
   /**
    * constructor
    */
@@ -25,4 +25,4 @@ class Response {
   }
 }
 
-export default Response;
+export default ResponseBody;

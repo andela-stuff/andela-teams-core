@@ -14,6 +14,15 @@ export default (app) => {
 /**
  * @swagger
  * definitions:
+ *   ResponseBody:
+ *     type: object
+ *     properties:
+ *       data:
+ *         type: object
+ *       errors:
+ *         type: array
+ *       meta:
+ *         type: object
  *   Team:
  *     type: object
  *     required:
@@ -77,16 +86,16 @@ export default (app) => {
    * @swagger
    * /v1/users:
    *   get:
-   *     description: Returns an array of users
+   *     description: Returns a response body containing an array of users
    *     produces:
    *      - application/json
    *     responses:
    *       200:
    *         description: users
    *         schema:
-   *           type: array
+   *           type: object
    *           items:
-   *             $ref: '#/definitions/User'
+   *             $ref: '#/definitions/ResponseBody'
    */
   app.get('/v1/users', usersController.get);
   app.get('/v1/users/:userId', usersController.getUserById);

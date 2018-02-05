@@ -96,3 +96,4 @@ export default (app) => {
 };
 
 // response object: {errors, data, meta}
+// move api-docs to /public

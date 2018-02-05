@@ -38,13 +38,14 @@ export default {
     });
   },
   /**
-   * @method getUsers
+   * @method get
    * @desc This method gets an array of users
    * @param { object} req request
    * @param { object} res response
+   *
    * @returns { object } response
    */
-  getUsers(req, res) {
+  get(req, res) {
     return res.status(200).send({
       data: [{ name: 'user1' }, { name: 'user2' }]
     });

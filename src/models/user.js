@@ -1,3 +1,9 @@
+/**
+ * @fileOverview user model
+ *
+ * @author Franklin Chieze
+ */
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     email: {
@@ -34,4 +40,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return User;
 };
-// relationship between user and membership

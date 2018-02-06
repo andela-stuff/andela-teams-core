@@ -20,6 +20,7 @@ import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
 
 import routes from './routes';
+import { pagination } from './middleware';
 
 dotenv.config();
 
@@ -76,6 +77,9 @@ app.use((req, res, next) => {
   res.header('Content-Type', 'application/json');
   next();
 });
+
+// set pagination middleware
+app.use(pagination);
 
 routes(app);
 

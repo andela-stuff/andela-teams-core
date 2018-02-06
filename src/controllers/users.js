@@ -1,3 +1,13 @@
+/**
+ * @fileOverview Users controller
+ *
+ * @author Franklin Chieze
+ *
+ * @requires ../helpers
+ * @requires ../models
+ */
+
+import helpers from '../helpers';
 import models from '../models';
 
 export default {
@@ -5,8 +15,8 @@ export default {
    * @method createUser
    * @desc This method creates a new user
    *
-   * @param { object} req request
-   * @param { object} res response
+   * @param { object } req request
+   * @param { object } res response
    *
    * @returns { object } response
    */
@@ -19,8 +29,8 @@ export default {
    * @method deleteUserById
    * @desc This method deletes the user with the specified user ID
    *
-   * @param { object} req request
-   * @param { object} res response
+   * @param { object } req request
+   * @param { object } res response
    *
    * @returns { object } response
    */
@@ -33,8 +43,8 @@ export default {
    * @method getUserById
    * @desc This method get the user with the specified user ID
    *
-   * @param { object} req request
-   * @param { object} res response
+   * @param { object } req request
+   * @param { object } res response
    *
    * @returns { object } response
    */
@@ -47,22 +57,20 @@ export default {
    * @method get
    * @desc This method gets an array of users
    *
-   * @param { object} req request
-   * @param { object} res response
+   * @param { object } req request
+   * @param { object } res response
    *
    * @returns { object } response
    */
   get(req, res) {
-    return res.status(200).send({
-      data: [{ name: 'user1' }, { name: 'user2' }]
-    });
+    return helpers.sendResponse(req, res);
   },
   /**
    * @method updateUserById
    * @desc This method updates the user with the specified user ID
    *
-   * @param { object} req request
-   * @param { object} res response
+   * @param { object } req request
+   * @param { object } res response
    *
    * @returns { object } response
    */

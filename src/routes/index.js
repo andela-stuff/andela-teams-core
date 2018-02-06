@@ -3,10 +3,12 @@
  *
  * @author Franklin Chieze
  *
+ * @requires ../middleware
  * @requires ../controllers/teams
  * @requires ../controllers/users
  */
 
+import { pagination } from '../middleware';
 import teamsController from '../controllers/teams';
 import usersController from '../controllers/users';
 
@@ -61,13 +63,17 @@ export default (app) => {
  *       200:
  *         description: Success!
  */
-  app.get('/v1/teams', teamsController.getTeams);
+  app.get('/v1/teams', pagination, teamsController.getTeams);
   app.get('/v1/teams/:teamId', teamsController.getTeamById);
   app.post('/v1/teams', teamsController.create);
   app.put('/v1/teams/:teamId', teamsController.updateTeamById);
   app.delete('/v1/teams/:teamId', teamsController.deleteTeamById);
 
-  app.get('/v1/teams/:teamId/members', teamsController.getMemberships);
+  app.get(
+    '/v1/teams/:teamId/members',
+    pagination,
+    teamsController.getMemberships
+  );
   app.get(
     '/v1/teams/:teamId/members/:memberId',
     teamsController.getMembershipById
@@ -86,7 +92,7 @@ export default (app) => {
    * @swagger
    * /v1/users:
    *   get:
-   *     description: Returns a response body containing an array of users
+   *     description: Endpoint to get an array of existing users
    *     produces:
    *      - application/json
    *     responses:
@@ -97,9 +103,24 @@ export default (app) => {
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-  app.get('/v1/users', usersController.get);
+  app.get('/v1/users', pagination, usersController.get);
   app.get('/v1/users/:userId', usersController.getUserById);
-  app.post('/v1/users', usersController.createUser);
+  /**
+   * @swagger
+   * /v1/users:
+   *   post:
+   *     description: Endpoint to create a new user
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: users
+   *         schema:
+   *           type: object
+   *           items:
+   *             $ref: '#/definitions/ResponseBody'
+   */
+  app.post('/v1/users', usersController.create);
   app.put('/v1/users/:userId', usersController.updateUserById);
   app.delete('/v1/users/:userId', usersController.deleteUserById);
 };

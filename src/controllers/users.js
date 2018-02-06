@@ -12,7 +12,7 @@ import models from '../models';
 
 export default {
   /**
-   * @method createUser
+   * @method create
    * @desc This method creates a new user
    *
    * @param { object } req request
@@ -20,7 +20,8 @@ export default {
    *
    * @returns { object } response
    */
-  createUser(req, res) {
+  async create(req, res) {
+    const createdUser = await models.User.create({});
     return res.status(200).send({
       data: { name: 'user1' }
     });

@@ -15,7 +15,7 @@
  */
 export default (req, res, next) => {
   req.meta = req.meta || {};
-  req.meta.pagination = req.meta.pagination || { page: 1 };
+  req.meta.pagination = req.meta.pagination || { page: 1, };
 
   const { page } = req.query;
 

@@ -5,12 +5,12 @@
  *
  * @requires ../middleware
  * @requires ../controllers/teams
- * @requires ../controllers/users
+ * @requires ./users
  */
 
 import { pagination } from '../middleware';
 import teamsController from '../controllers/teams';
-import usersController from '../controllers/users';
+import usersRoutes from './users';
 
 export default (app) => {
 /**
@@ -88,39 +88,5 @@ export default (app) => {
     teamsController.deleteMembershipById
   );
 
-  /**
-   * @swagger
-   * /v1/users:
-   *   get:
-   *     description: Endpoint to get an array of existing users
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   *         schema:
-   *           type: object
-   *           items:
-   *             $ref: '#/definitions/ResponseBody'
-   */
-  app.get('/v1/users', pagination, usersController.get);
-  app.get('/v1/users/:userId', usersController.getUserById);
-  /**
-   * @swagger
-   * /v1/users:
-   *   post:
-   *     description: Endpoint to create a new user
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   *         schema:
-   *           type: object
-   *           items:
-   *             $ref: '#/definitions/ResponseBody'
-   */
-  app.post('/v1/users', usersController.create);
-  app.put('/v1/users/:userId', usersController.updateUserById);
-  app.delete('/v1/users/:userId', usersController.deleteUserById);
+  app.use('/v1/users', usersRoutes);
 };

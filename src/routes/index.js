@@ -3,16 +3,17 @@
  *
  * @author Franklin Chieze
  *
+ * @requires ./auth
+ * @requires ./users
  * @requires ../middleware
  * @requires ../controllers/teams
- * @requires ./users
  */
 
+import authRoutes from './auth';
+import usersRoutes from './users';
 import { pagination } from '../middleware';
 import teamsController from '../controllers/teams';
-import usersRoutes from './users';
 
-export default (app) => {
 /**
  * @swagger
  * definitions:
@@ -52,17 +53,20 @@ export default (app) => {
  *           type: string
  */
 
-/**
- * @swagger
- * /v1/teams:
- *   get:
- *     description: Get all teams
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: Success!
- */
+export default (app) => {
+  app.use('/v1/auth', authRoutes);
+
+  /**
+  * @swagger
+  * /v1/teams:
+  *   get:
+  *     description: Get all teams
+  *     produces:
+  *       - application/json
+  *     responses:
+  *       200:
+  *         description: Success!
+  */
   app.get('/v1/teams', pagination, teamsController.getTeams);
   app.get('/v1/teams/:teamId', teamsController.getTeamById);
   app.post('/v1/teams', teamsController.create);

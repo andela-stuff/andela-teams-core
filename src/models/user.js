@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    firstName: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true
       }
     },
-    lastName: {
+    password: {
       type: DataTypes.STRING,
       allowNull: true
     }

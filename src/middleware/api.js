@@ -15,13 +15,13 @@
  * @returns { object } next
  */
 export default (req, res, next) => {
-  res.sendSuccess = (data, meta, status = 200) =>
+  res.sendSuccess = (data, status = 200, meta = {}) =>
     res.status(status).json({
       data,
       meta
     });
 
-  res.sendFailure = (errors, meta, status = 200) =>
+  res.sendFailure = (errors, status = 200, meta = {}) =>
     res.status(status).json({
       errors,
       meta

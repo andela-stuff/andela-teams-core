@@ -4,14 +4,17 @@
  * @author Franklin Chieze
  *
  * @requires express
- * @requires ../controllers/users
+ * @requires ../controllers/Auth
  */
 
 import { Router } from 'express';
 
-import usersController from '../controllers/users';
+import Auth from '../controllers/Auth';
 
+const authController = new Auth();
 const routes = new Router();
+
+// add index.js to controllers; add middlware to validate sign in and signup
 
 /**
    * @swagger
@@ -28,7 +31,7 @@ const routes = new Router();
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.post('/signin', usersController.get);
+routes.post('/signin', authController.signin);
 /**
    * @swagger
    * /v1/users:
@@ -44,6 +47,6 @@ routes.post('/signin', usersController.get);
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.post('/signup', usersController.create);
+routes.post('/signup', authController.signup);
 
 export default routes;

@@ -1,3 +1,13 @@
+/**
+ * @fileOverview Auth controller tests
+ *
+ * @author Franklin Chieze
+ *
+ * @requires NPM:chai
+ * @requires NPM:chai-http
+ * @requires ../../build/server
+ */
+
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 

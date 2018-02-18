@@ -6,6 +6,7 @@
  * @requires NPM:bcrypt
  * @requires NPM:jsonwebtoken
  * @requires ../config
+ * @requires ../helpers
  * @requires ../models
  */
 

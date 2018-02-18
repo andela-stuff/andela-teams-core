@@ -3,16 +3,17 @@
  *
  * @author Franklin Chieze
  *
- * @requires express
+ * @requires NPM:express
+ * @requires ../controllers/Users
  * @requires ../middleware
- * @requires ../controllers/users
  */
 
 import { Router } from 'express';
 
+import Users from '../controllers/Users';
 import { pagination } from '../middleware';
-import usersController from '../controllers/users';
 
+const usersController = new Users();
 const routes = new Router();
 
 /**
@@ -30,25 +31,9 @@ const routes = new Router();
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.get('/', pagination, usersController.get);
-routes.get('/:userId', usersController.getUserById);
-/**
-   * @swagger
-   * /v1/users:
-   *   post:
-   *     description: Endpoint to create a new user
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   *         schema:
-   *           type: object
-   *           items:
-   *             $ref: '#/definitions/ResponseBody'
-   */
-routes.post('/', usersController.create);
-routes.put('/:userId', usersController.updateUserById);
-routes.delete('/:userId', usersController.deleteUserById);
+routes.get('/', usersController.get);
+routes.get('/:userId', usersController.getById);
+routes.put('/:userId', usersController.updateById);
+routes.delete('/:userId', usersController.deleteById);
 
 export default routes;

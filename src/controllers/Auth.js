@@ -32,7 +32,7 @@ export default class Auth {
   async signin(req, res) {
     try {
       const user = await models.User.findOne({
-        where: { email: req.body.email }
+        where: { email: req.body.email },
       });
       if (user) {
         const isCorrectPassword =

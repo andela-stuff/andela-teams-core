@@ -83,6 +83,10 @@ app.use(middleware.api);
 
 routes(app);
 
+// 404 error handler
+app.use((req, res) =>
+  res.sendFailure([`The endpoint '${req.path}' could not be found.`], 404));
+
 app.listen(port);
 
 export default app;

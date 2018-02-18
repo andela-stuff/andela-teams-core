@@ -5,6 +5,7 @@
  *
  * @requires NPM:express
  * @requires ../controllers/Auth
+ * @requires ../middleware
  */
 
 import { Router } from 'express';

@@ -10,7 +10,7 @@
  */
 
 import authRoutes from './auth';
-// import usersRoutes from './users';
+import usersRoutes from './users';
 import { pagination } from '../middleware';
 import teamsController from '../controllers/teams';
 
@@ -56,6 +56,8 @@ import teamsController from '../controllers/teams';
 export default (app) => {
   app.use('/v1/auth', authRoutes);
 
+  app.use('/v1/users', usersRoutes);
+
   /**
   * @swagger
   * /v1/teams:
@@ -92,6 +94,4 @@ export default (app) => {
     teamsController.deleteMembershipById
   );
   */
-
-  // app.use('/v1/users', usersRoutes);
 };

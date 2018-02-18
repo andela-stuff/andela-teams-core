@@ -59,21 +59,6 @@ describe('UsersController', () => {
     });
   });
 
-  describe('POST: /v1/users/:userId', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .post('/v1/users')
-        .send({})
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
-          done();
-        });
-    });
-  });
-
   describe('PUT: /v1/users/:userId', (done) => {
     it('should respond with an object', (done) => {
       chai.request(server)

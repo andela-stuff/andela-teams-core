@@ -10,7 +10,7 @@
  */
 
 import authRoutes from './auth';
-import usersRoutes from './users';
+// import usersRoutes from './users';
 import { pagination } from '../middleware';
 import teamsController from '../controllers/teams';
 
@@ -56,41 +56,6 @@ import teamsController from '../controllers/teams';
 export default (app) => {
   app.use('/v1/auth', authRoutes);
 
-  /**
-  * @swagger
-  * /v1/teams:
-  *   get:
-  *     description: Get all teams
-  *     produces:
-  *       - application/json
-  *     responses:
-  *       200:
-  *         description: Success!
-  */
-  app.get('/v1/teams', pagination, teamsController.getTeams);
-  app.get('/v1/teams/:teamId', teamsController.getTeamById);
-  app.post('/v1/teams', teamsController.create);
-  app.put('/v1/teams/:teamId', teamsController.updateTeamById);
-  app.delete('/v1/teams/:teamId', teamsController.deleteTeamById);
 
-  app.get(
-    '/v1/teams/:teamId/members',
-    pagination,
-    teamsController.getMemberships
-  );
-  app.get(
-    '/v1/teams/:teamId/members/:memberId',
-    teamsController.getMembershipById
-  );
-  app.post('/v1/teams/:teamId/members', teamsController.createMembership);
-  app.put(
-    '/v1/teams/:teamId/members/:memberId',
-    teamsController.updateMembershipById
-  );
-  app.delete(
-    '/v1/teams/:teamId/members/:memberId',
-    teamsController.deleteMembershipById
-  );
-
-  app.use('/v1/users', usersRoutes);
+  // app.use('/v1/users', usersRoutes);
 };

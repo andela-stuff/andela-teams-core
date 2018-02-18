@@ -9,6 +9,7 @@
  * @requires NPM:morgan
  * @requires NPM:path
  * @requires NPM:swagger-jsdoc
+ * @requires ./middleware
  * @requires ./routes
  */
 
@@ -83,4 +84,5 @@ app.use(middleware.api);
 routes(app);
 
 app.listen(port);
+
 export default app;

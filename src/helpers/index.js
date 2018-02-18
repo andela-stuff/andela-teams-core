@@ -5,20 +5,21 @@
  */
 
 /**
- * @method sendResponse
- * @desc This method creates and sends a response object
+ * @method updateUserAttributes
+ * @desc Return updated user details
  *
- * @param { object } req the request object
- * @param { object } res the response object
- * @param { object } data the response payload
- * @param { object } errors the response errors
- * @param { object } meta the response meta
- * @param { object } status the response status (defaults to 200)
+ * @param { object } user the input user object
  *
- * @returns { object } response
+ * @returns { object } the output user object
  */
-function sendResponse(req, res, data, errors, meta, status = 200) {
-  return res.status(status).send({ data, errors, meta });
+function updateUserAttributes(user) {
+  user = user.get();
+  delete user.password;
+  return user;
 }
 
-export default {};
+export default {
+  Misc: {
+    updateUserAttributes
+  }
+};

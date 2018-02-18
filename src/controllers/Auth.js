@@ -3,8 +3,8 @@
  *
  * @author Franklin Chieze
  *
- * @requires bcrypt
- * @requires jsonwebtoken
+ * @requires NPM:bcrypt
+ * @requires NPM:jsonwebtoken
  * @requires ../config
  * @requires ../models
  */
@@ -13,6 +13,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import config from '../config';
+import helpers from '../helpers';
 import models from '../models';
 
 /**
@@ -37,7 +38,8 @@ export default class Auth {
         await bcrypt.compare(req.body.password, user.password);
         if (isCorrectPassword) {
           const userToken = jwt.sign({ email: user.email }, config.secret);
-          return res.sendSuccess({ user, userToken });
+          const updatedUser = helpers.Misc.updateUserAttributes(user);
+          return res.sendSuccess({ user: updatedUser, userToken });
         }
 
         throw new Error('The passwords did not match.');
@@ -69,7 +71,8 @@ export default class Auth {
     });
 
     const userToken = jwt.sign({ email: user.email }, config.secret);
+    const updatedUser = helpers.Misc.updateUserAttributes(user);
 
-    return res.sendSuccess({ user, userToken });
+    return res.sendSuccess({ user: updatedUser, userToken });
   }
 }

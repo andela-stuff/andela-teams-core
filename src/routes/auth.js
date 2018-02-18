@@ -3,7 +3,7 @@
  *
  * @author Franklin Chieze
  *
- * @requires express
+ * @requires NPM:express
  * @requires ../controllers/Auth
  */
 
@@ -14,7 +14,7 @@ import Auth from '../controllers/Auth';
 const authController = new Auth();
 const routes = new Router();
 
-// add index.js to controllers; add middlware to validate sign in and signup
+// add middlware to validate sign in and signup, forever
 
 /**
    * @swagger

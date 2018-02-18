@@ -14,6 +14,7 @@ This file list some of the important steps to be taken when performing common op
 * Create and export routes from a file in *routes*
 * Import the routes into *routes/index.js*, and expose them to the app
 * Run tests
+* Remember to add API doc to routes.
 
 #### Create Controllers
 
@@ -23,6 +24,13 @@ This file list some of the important steps to be taken when performing common op
 * Run tests.
 * Remember to add JsDoc to the controller file, and update the one in the test file.
 
-* Create/add middleware, run tests (when creating middleware, create tests for them too)
-* Add API documentation to routes
+#### Create/Add Middleware
+
+* Upgrade tests to reflect the expected realities from the actual implementation of the middleware to be introduced.
+* Create and export middle from *middleware/*
+* Import middleware into *middleware/index.js*, and export middleware from there.
+* Add middleware to endpoints.
+* Run tests.
+* Remember to add JsDoc to middleware.
+
 * *talk about creating and testing models*

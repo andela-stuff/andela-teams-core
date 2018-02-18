@@ -7,6 +7,7 @@ This file list some of the important steps to be taken when performing common op
 #### Create Tests
 
 * Create dummy tests for the endpoint so we can meet the requirements of test-driven development (TDD).
+* Add JsDoc to the test file.
 
 * Create routes, run tests
 * Create controllers, export controller from index.js, run tests

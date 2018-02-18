@@ -1,3 +1,15 @@
+/**
+ * @fileOverview Auth controller tests
+ *
+ * @author Franklin Chieze
+ *
+ * @requires NPM:bcrypt
+ * @requires NPM:chai
+ * @requires NPM:chai-http
+ * @requires ../../build/models
+ * @requires ../../build/server
+ */
+
 import bcrypt from 'bcrypt';
 import chai from 'chai';
 import chaiHttp from 'chai-http';

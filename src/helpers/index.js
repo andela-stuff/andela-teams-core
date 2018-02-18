@@ -21,6 +21,4 @@ function sendResponse(req, res, data, errors, meta, status = 200) {
   return res.status(status).send({ data, errors, meta });
 }
 
-export default {
-  sendResponse
-};
+export default {};

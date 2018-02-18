@@ -24,14 +24,14 @@ chai.use(chaiHttp);
 
 describe('AuthController', () => {
   beforeEach(async () => {
-    await models.User.destroy({ where: {}, truncate: true });
+    await models.User.destroy({ where: {} });
   });
   describe('POST: /v1/auth/signin', (done) => {
     beforeEach(async () => {
       models.User.create({
         name: mock.user1.name,
         email: mock.user1.email,
-        password: await bcrypt.hash(mock.password, 1)
+        password: await bcrypt.hash(mock.user1.password, 1)
       });
     });
     it('should return a user token on successful sign in', (done) => {

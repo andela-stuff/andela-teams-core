@@ -91,7 +91,7 @@ export default (app) => {
     '/v1/teams/:teamId/members/:memberId',
     teamsController.deleteMembershipById
   );
-  * */
+  */
 
   // app.use('/v1/users', usersRoutes);
 };

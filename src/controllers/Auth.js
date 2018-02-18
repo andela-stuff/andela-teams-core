@@ -24,10 +24,10 @@ import models from '../models';
 export default class Auth {
   /**
    * Sign in a user
-   * @param {obj} req express request object
-   * @param {obj} res express response object
+   * @param {object} req express request object
+   * @param {object} res express response object
    *
-   * @returns {json} json with user token
+   * @returns {object} response object
    */
   async signin(req, res) {
     try {
@@ -57,7 +57,7 @@ export default class Auth {
   * @param {object} req express request object
   * @param {object} res express response object
   *
-  * @returns {object} newly created user
+  * @returns {object} response object
   */
   async signup(req, res) {
     try {

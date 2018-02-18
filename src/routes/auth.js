@@ -10,6 +10,7 @@
 import { Router } from 'express';
 
 import Auth from '../controllers/Auth';
+import middleware from '../middleware';
 
 const authController = new Auth();
 const routes = new Router();
@@ -29,7 +30,11 @@ const routes = new Router();
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.post('/signin', authController.signin);
+routes.post(
+  '/signin',
+  middleware.validation.validateSigninUser,
+  authController.signin
+);
 /**
    * @swagger
    * /v1/auth/signup:
@@ -45,6 +50,10 @@ routes.post('/signin', authController.signin);
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.post('/signup', authController.signup);
+routes.post(
+  '/signup',
+  middleware.validation.validateSignupUser,
+  authController.signup
+);
 
 export default routes;

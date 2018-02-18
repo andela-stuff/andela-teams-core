@@ -45,11 +45,9 @@ export default class Auth {
         throw new Error('The passwords did not match.');
       }
 
-      throw new Error('No user was found.');
+      throw new Error('No user was found with the supplied credentials.');
     } catch (error) {
-      return res.sendFailure({
-        errors: 'These credentials do not match our records.'
-      });
+      return res.sendFailure([error.message]);
     }
   }
 
@@ -61,18 +59,29 @@ export default class Auth {
   * @returns {object} newly created user
   */
   async signup(req, res) {
-    const user = await models.User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: await bcrypt.hash(
-        req.body.password,
-        process.env.NODE_ENV === 'production' ? 10 : 1
-      )
-    });
+    try {
+      const existingUser = await models.User.findOne({
+        where: { email: req.body.email }
+      });
+      if (existingUser) {
+        throw new Error('User with the same email already exists.');
+      }
 
-    const userToken = jwt.sign({ email: user.email }, config.secret);
-    const updatedUser = helpers.Misc.updateUserAttributes(user);
+      const user = await models.User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: await bcrypt.hash(
+          req.body.password,
+          process.env.NODE_ENV === 'production' ? 10 : 1
+        )
+      });
 
-    return res.sendSuccess({ user: updatedUser, userToken });
+      const userToken = jwt.sign({ email: user.email }, config.secret);
+      const updatedUser = helpers.Misc.updateUserAttributes(user);
+
+      return res.sendSuccess({ user: updatedUser, userToken });
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 }

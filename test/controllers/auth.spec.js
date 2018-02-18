@@ -22,13 +22,20 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
+// should not register user without email
+// should not register user with name
+// should not register user without password
+// should not sign in user without email
+// should not signin user without password
+// should not sign in user with invalid credentials
+
 describe('AuthController', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
   });
   describe('POST: /v1/auth/signin', (done) => {
     beforeEach(async () => {
-      models.User.create({
+      await models.User.create({
         name: mock.user1.name,
         email: mock.user1.email,
         password: await bcrypt.hash(mock.user1.password, 1)
@@ -70,6 +77,30 @@ describe('AuthController', () => {
           res.body.data.user.should.not.have.property('password');
           res.body.data.should.have.property('userToken');
           expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+  });
+
+  describe('POST: /v1/auth/signup', (done) => {
+    beforeEach(async () => {
+      await models.User.create({
+        name: mock.user1.name,
+        email: mock.user1.email,
+        password: await bcrypt.hash(mock.user1.password, 1)
+      });
+    });
+    it('should not register a user with an existing email', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send(mock.user1)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('User with the same email already exists.');
+          expect(res.body.data).to.be.undefined;
           done();
         });
     });

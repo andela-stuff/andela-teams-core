@@ -159,6 +159,23 @@ describe('AuthController', () => {
           done();
         });
     });
+    it('should not register a user without password', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send({
+          email: mock.user1.email,
+          name: mock.user1.name
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The password field is required.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
   });
 
   describe('POST: /v1/auth/signup', (done) => {

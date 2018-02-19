@@ -5,13 +5,11 @@
  *
  * @requires ./auth
  * @requires ./users
- * @requires ../middleware
  * @requires ../controllers/teams
  */
 
 import authRoutes from './auth';
 import usersRoutes from './users';
-import { pagination } from '../middleware';
 import teamsController from '../controllers/teams';
 
 /**

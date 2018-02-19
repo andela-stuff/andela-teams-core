@@ -20,7 +20,7 @@ const routes = new Router();
    * @swagger
    * /v1/users:
    *   get:
-   *     description: Endpoint to get an array of existing users
+   *     description: Return an array of existing users
    *     produces:
    *      - application/json
    *     responses:

@@ -6,6 +6,7 @@
  * @requires NPM:bcrypt
  * @requires NPM:chai
  * @requires NPM:chai-http
+ * @requires ../mock
  * @requires ../../build/models
  * @requires ../../build/server
  */
@@ -99,11 +100,7 @@ describe('AuthController', () => {
 
   describe('POST: /v1/auth/signup', (done) => {
     beforeEach(async () => {
-      await models.User.create({
-        name: mock.user1.name,
-        email: mock.user1.email,
-        password: await bcrypt.hash(mock.user1.password, 1)
-      });
+      await models.User.create(mock.user1);
     });
     it('should not register a user with an existing email', (done) => {
       chai.request(server)

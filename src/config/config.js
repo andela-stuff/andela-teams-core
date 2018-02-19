@@ -24,5 +24,5 @@ module.exports = {
     url: process.env.DATABASE_URL,
     operatorsAliases: false,
   },
-  secret: process.env.SECRET,
+  SECRET: process.env.SECRET,
 };

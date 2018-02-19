@@ -9,6 +9,7 @@
  * @requires NPM:morgan
  * @requires NPM:path
  * @requires NPM:swagger-jsdoc
+ * @requires ./middleware
  * @requires ./routes
  */
 
@@ -19,6 +20,7 @@ import logger from 'morgan';
 import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
 
+import middleware from './middleware';
 import routes from './routes';
 
 dotenv.config();
@@ -77,7 +79,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(middleware.api);
+
 routes(app);
 
+// 404 error handler
+app.use((req, res) =>
+  res.sendFailure([`The endpoint '${req.path}' could not be found.`], 404));
+
 app.listen(port);
+
 export default app;

@@ -8,9 +8,11 @@
 
 import models from '../models';
 
-const { Team } = models;
-
-export default {
+/**
+* Controls endpoints for teams
+* @class Teams
+*/
+export default class Teams {
   /**
    * @method create
    * @desc This method creates a new team
@@ -20,23 +22,14 @@ export default {
    *
    * @returns { object } response
    */
-  create(req, res) {
-    const teamObject = {
-      name: 'TestTeam1',
-      description: 'Just a test team'
-    };
-    return Team.create(teamObject)
-      .then(team => res.status(201).send({
-        message: 'Book created',
-        team
-      }))
-      .catch(err => res.status(500).send({
-        message: 'Oops... Book not created. Try again.',
-        err
-      }));
-  },
+  async create(req, res) {
+    return res.status(200).send({
+      data: { name: 'team1' }
+    });
+  }
+
   /**
-   * @method deleteTeamById
+   * @method deleteById
    * @desc This method deletes the team with the specified team ID
    *
    * @param { object} req request
@@ -44,13 +37,14 @@ export default {
    *
    * @returns { object } response
    */
-  deleteTeamById(req, res) {
+  async deleteById(req, res) {
     return res.status(200).send({
       data: { name: 'team1' }
     });
-  },
+  }
+
   /**
-   * @method getTeamById
+   * @method getById
    * @desc This method get the team with the specified team ID
    *
    * @param { object} req request
@@ -58,13 +52,14 @@ export default {
    *
    * @returns { object } response
    */
-  getTeamById(req, res) {
+  async getById(req, res) {
     return res.status(200).send({
       data: { name: 'team1' }
     });
-  },
+  }
+
   /**
-   * @method getTeams
+   * @method get
    * @desc This method gets an array of teams
    *
    * @param { object} req request
@@ -72,13 +67,14 @@ export default {
    *
    * @returns { object } response
    */
-  getTeams(req, res) {
+  async get(req, res) {
     return res.status(200).send({
       data: [{ name: 'team1' }, { name: 'team2' }]
     });
-  },
+  }
+
   /**
-   * @method updateTeamById
+   * @method updateById
    * @desc This method updates the team with the specified team ID
    *
    * @param { object} req request
@@ -86,11 +82,11 @@ export default {
    *
    * @returns { object } response
    */
-  updateTeamById(req, res) {
+  async updateById(req, res) {
     return res.status(200).send({
       data: { name: 'team1' }
     });
-  },
+  }
 
   /**
    * @method createMembership
@@ -102,11 +98,12 @@ export default {
    *
    * @returns { object } response
    */
-  createMembership(req, res) {
+  async createMembership(req, res) {
     return res.status(200).send({
       data: { teamId: 1, userId: 1, role: 'LF' }
     });
-  },
+  }
+
   /**
    * @method deleteMembershipById
    * @desc This method deletes the membership with the specified member ID
@@ -117,11 +114,12 @@ export default {
    *
    * @returns { object } response
    */
-  deleteMembershipById(req, res) {
+  async deleteMembershipById(req, res) {
     return res.status(200).send({
       data: { teamId: 1, userId: 1, role: 'LF' }
     });
-  },
+  }
+
   /**
    * @method getMembershipById
    * @desc This method gets the team membership with the specified member ID
@@ -132,11 +130,12 @@ export default {
    *
    * @returns { object } response
    */
-  getMembershipById(req, res) {
+  async getMembershipById(req, res) {
     return res.status(200).send({
       data: { teamId: 1, userId: 1, role: 'LF' }
     });
-  },
+  }
+
   /**
    * @method getMemberships
    * @desc This method gets an array of all memberships
@@ -147,14 +146,15 @@ export default {
    *
    * @returns { object } response
    */
-  getMemberships(req, res) {
+  async getMemberships(req, res) {
     return res.status(200).send({
       data: [
         { teamId: 1, userId: 1, role: 'LF' },
         { teamId: 2, userId: 2, role: 'PO' }
       ]
     });
-  },
+  }
+
   /**
    * @method updateMembershipById
    * @desc This method updates the membership with the specified member ID
@@ -163,9 +163,9 @@ export default {
    * @param { object} res response
    * @returns { object } response
    */
-  updateMembershipById(req, res) {
+  async updateMembershipById(req, res) {
     return res.status(200).send({
       data: { teamId: 1, userId: 1, role: 'LF' }
     });
   }
-};
+}

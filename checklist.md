@@ -9,13 +9,6 @@ This file list some of the important steps to be taken when performing common op
 * Create dummy tests for the endpoint so we can meet the requirements of test-driven development (TDD).
 * Remember to add JsDoc to the test file.
 
-#### Create Routes
-
-* Create and export routes from a file in *routes*
-* Import the routes into *routes/index.js*, and expose them to the app
-* Run tests
-* Remember to add API doc to routes.
-
 #### Create Controllers
 
 * Upgrade tests to reflect the expected realities from the actual implementation of the endpoints.
@@ -23,6 +16,13 @@ This file list some of the important steps to be taken when performing common op
 * Import the controller into *controllers/index.js*, and export it from there.
 * Run tests.
 * Remember to add JsDoc to the controller file, and update the one in the test file.
+
+#### Create Routes
+
+* Create and export routes from a file in *routes*
+* Import the routes into *routes/index.js*, and expose them to the app
+* Run tests
+* Remember to add API doc to routes.
 
 #### Create/Add Helpers and Middleware
 

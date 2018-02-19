@@ -17,7 +17,10 @@ import mock from '../mock';
 import models from '../../build/models';
 import server from '../../build/server';
 
-// test pagination
+// test limit
+// test offset
+// test next
+// test previous
 
 const should = chai.should();
 const { expect } = chai;

@@ -26,7 +26,6 @@ chai.use(chaiHttp);
 // should not register user without email
 // should not register user with name
 // should not register user without password
-// should not signin user without password
 // should not sign in user with invalid credentials
 
 describe('AuthController', () => {

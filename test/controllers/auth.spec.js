@@ -26,7 +26,8 @@ chai.use(chaiHttp);
 // should not register user without email
 // should not register user with name
 // should not register user without password
-// should not sign in user with invalid credentials
+// reg with valid email
+// sign up with valid email
 
 describe('AuthController', () => {
   beforeEach(async () => {
@@ -122,6 +123,22 @@ describe('AuthController', () => {
           res.body.data.user.should.not.have.property('password');
           res.body.data.should.have.property('userToken');
           expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user without email', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send({
+          password: mock.user1.password
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email field is required.');
+          expect(res.body.data).to.be.undefined;
           done();
         });
     });

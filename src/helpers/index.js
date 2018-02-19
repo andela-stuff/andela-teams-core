@@ -2,6 +2,9 @@
  * @fileOverview helper functions
  *
  * @author Franklin Chieze
+ *
+ * @requires NODE:querystring
+ * @requires NODE:url
  */
 
 import querystring from 'querystring';

@@ -24,9 +24,9 @@ This file list some of the important steps to be taken when performing common op
 * Run tests.
 * Remember to add JsDoc to the controller file, and update the one in the test file.
 
-#### Create/Add Middleware
+#### Create/Add Helpers and Middleware
 
-* Upgrade tests to reflect the expected realities from the actual implementation of the middleware to be introduced.
+* Upgrade tests to reflect the expected realities from the actual implementation of the helpers and middleware to be introduced.
 * Create and export middle from *middleware/*
 * Import middleware into *middleware/index.js*, and export middleware from there.
 * Add middleware to endpoints.

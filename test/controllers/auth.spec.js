@@ -23,9 +23,6 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
-// reg with valid email
-// sign up with valid email
-
 describe('AuthController', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
@@ -68,6 +65,48 @@ describe('AuthController', () => {
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
             .to.include('The email field is required.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not sign in user with malformed email', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user1WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not sign in user with malformed email [2]', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user2WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not sign in user with malformed email [3]', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user3WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
           expect(res.body.data).to.be.undefined;
           done();
         });

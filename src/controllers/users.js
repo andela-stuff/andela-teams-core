@@ -1,64 +1,98 @@
+/**
+ * @fileOverview Users controller
+ *
+ * @author Franklin Chieze
+ *
+ * @requires ../helpers
+ * @requires ../models
+ */
+
+import helpers from '../helpers';
 import models from '../models';
 
-export default {
+/**
+* Users controller class
+* @class Users
+*/
+export default class Users {
   /**
-   * @method createUser
-   * @desc This method creates a new user
-   * @param { object} req request
-   * @param { object} res response
-   * @returns { object } response
-   */
-  createUser(req, res) {
-    return res.status(200).send({
-      data: { name: 'user1' }
-    });
-  },
-  /**
-   * @method deleteUserById
+   * @method deleteById
    * @desc This method deletes the user with the specified user ID
-   * @param { object} req request
-   * @param { object} res response
+   *
+   * @param { object } req request
+   * @param { object } res response
+   *
    * @returns { object } response
    */
-  deleteUserById(req, res) {
-    return res.status(200).send({
-      data: { name: 'user1' }
-    });
-  },
-  /**
-   * @method getUserById
-   * @desc This method get the user with the specified user ID
-   * @param { object} req request
-   * @param { object} res response
-   * @returns { object } response
-   */
-  getUserById(req, res) {
-    return res.status(200).send({
-      data: { name: 'user1' }
-    });
-  },
-  /**
-   * @method getUsers
-   * @desc This method gets an array of users
-   * @param { object} req request
-   * @param { object} res response
-   * @returns { object } response
-   */
-  getUsers(req, res) {
-    return res.status(200).send({
-      data: [{ name: 'user1' }, { name: 'user2' }]
-    });
-  },
-  /**
-   * @method updateUserById
-   * @desc This method updates the user with the specified user ID
-   * @param { object} req request
-   * @param { object} res response
-   * @returns { object } response
-   */
-  updateUserById(req, res) {
+  async deleteById(req, res) {
     return res.status(200).send({
       data: { name: 'user1' }
     });
   }
-};
+
+  /**
+   * @method getById
+   * @desc This method get the user with the specified user ID
+   *
+   * @param { object } req request
+   * @param { object } res response
+   *
+   * @returns { object } response
+   */
+  async getById(req, res) {
+    return res.status(200).send({
+      data: { name: 'user1' }
+    });
+  }
+
+  /**
+   * @method get
+   * @desc This method gets an array of users
+   *
+   * @param { object } req request
+   * @param { object } res response
+   *
+   * @returns { object } response
+   */
+  async get(req, res) {
+    try {
+      const limit = req.query.limit ? Number(req.query.limit) || 20 : 20;
+      const offset = req.query.offset ? Number(req.query.offset) || 0 : 0;
+
+      const dbResult = await models.User.findAndCountAll();
+      const users = await models.User.findAll({
+        attributes: { exclude: ['password'] },
+        limit,
+        offset
+      });
+      if (users) {
+        const pagination = helpers.Misc.generatePaginationMeta(
+          req.fullUrl,
+          dbResult,
+          limit,
+          offset
+        );
+        return res.sendSuccess({ users }, 200, { pagination });
+      }
+
+      throw new Error('Could not retrieve users from the database.');
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
+
+  /**
+   * @method updateById
+   * @desc This method updates the user with the specified user ID
+   *
+   * @param { object } req request
+   * @param { object } res response
+   *
+   * @returns { object } response
+   */
+  async updateById(req, res) {
+    return res.status(200).send({
+      data: { name: 'user1' }
+    });
+  }
+}

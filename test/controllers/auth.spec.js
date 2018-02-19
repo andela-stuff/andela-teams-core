@@ -23,7 +23,6 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
-// should not register user without email
 // should not register user with name
 // should not register user without password
 // reg with valid email
@@ -130,6 +129,7 @@ describe('AuthController', () => {
       chai.request(server)
         .post('/v1/auth/signup')
         .send({
+          name: mock.user1.name,
           password: mock.user1.password
         })
         .end((err, res) => {
@@ -138,6 +138,23 @@ describe('AuthController', () => {
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
             .to.include('The email field is required.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user without name', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send({
+          email: mock.user1.email,
+          password: mock.user1.password
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The name field is required.');
           expect(res.body.data).to.be.undefined;
           done();
         });

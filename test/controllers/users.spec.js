@@ -17,6 +17,8 @@ import mock from '../mock';
 import models from '../../build/models';
 import server from '../../build/server';
 
+// test pagination
+
 const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);

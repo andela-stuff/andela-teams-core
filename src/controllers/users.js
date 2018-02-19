@@ -56,11 +56,23 @@ export default class Users {
    */
   async get(req, res) {
     try {
+      const limit = req.query.limit ? Number(req.query.limit) || 20 : 20;
+      const offset = req.query.offset ? Number(req.query.offset) || 0 : 0;
+
+      const dbResult = await models.User.findAndCountAll();
       const users = await models.User.findAll({
-        attributes: { exclude: ['password'] }
+        attributes: { exclude: ['password'] },
+        limit,
+        offset
       });
       if (users) {
-        return res.sendSuccess({ users });
+        const pagination = helpers.Misc.generatePaginationMeta(
+          req.fullUrlWithoutSearch,
+          dbResult,
+          limit,
+          offset
+        );
+        return res.sendSuccess({ users }, 200, { pagination });
       }
 
       throw new Error('Could not retrieve users from the database.');

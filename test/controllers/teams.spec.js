@@ -1,6 +1,20 @@
+/**
+ * @fileOverview Teams controller tests
+ *
+ * @author Franklin Chieze
+ *
+ * @requires NPM:chai
+ * @requires NPM:chai-http
+ * @requires ../mock
+ * @requires ../../build/models
+ * @requires ../../build/server
+ */
+
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
+import mock from '../mock';
+import models from '../../build/models';
 import server from '../../build/server';
 
 const should = chai.should();

@@ -2,13 +2,23 @@ import fs from 'fs';
 import path from 'path';
 import Sequelize from 'sequelize';
 
-import configuration from '../configs/config';
+import configuration from '../config/config';
 
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || 'development';
 const config = configuration[env];
 const db = {};
-const sequelize = new Sequelize(config.url, config);
+let sequelize;
+if (config.url) {
+  sequelize = new Sequelize(config.url);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
 
 fs
   .readdirSync(__dirname)

@@ -1,66 +1,60 @@
-import teamsController from '../controllers/teams';
-import usersController from '../controllers/users';
+/**
+ * @fileOverview Application's routes
+ *
+ * @author Franklin Chieze
+ *
+ * @requires ./auth
+ * @requires ./users
+ * @requires ../controllers/teams
+ */
 
-export default (app) => {
+import authRoutes from './auth';
+import teamsRoutes from './teams';
+import usersRoutes from './users';
+
 /**
  * @swagger
  * definitions:
- *   NewUser:
+ *   ResponseBody:
+ *     type: object
+ *     properties:
+ *       data:
+ *         type: object
+ *       errors:
+ *         type: array
+ *       meta:
+ *         type: object
+ *   Team:
  *     type: object
  *     required:
- *       - username
- *       - password
+ *       - name
+ *       - userId
  *     properties:
- *       username:
+ *       name:
  *         type: string
- *       password:
+ *       description:
  *         type: string
- *         format: password
+ *       userId:
+ *         type: integer
+ *         format: int64
  *   User:
- *     allOf:
- *       - $ref: '#/definitions/NewUser'
+ *     type: Object
  *       - required:
- *         - id
+ *         - email
+ *         - firstName
  *       - properties:
- *         id:
- *           type: integer
- *           format: int64
+ *         email:
+ *           type: string
+ *         firstName:
+ *           type: string
+ *         lastName:
+ *           type: string
  */
-/**
- * @swagger
- * /v1/teams:
- *   get:
- *     description: Get all teams
- *     produces:
- *       - application/json
- *     responses:
- *       200:
- *         description: Success!
- */
-  app.get('/v1/teams', teamsController.getTeams);
-  app.get('/v1/teams/:teamId', teamsController.getTeamById);
-  app.post('/v1/teams', teamsController.createTeam);
-  app.put('/v1/teams/:teamId', teamsController.updateTeamById);
-  app.delete('/v1/teams/:teamId', teamsController.deleteTeamById);
 
-  app.get('/v1/teams/:teamId/members', teamsController.getMemberships);
-  app.get(
-    '/v1/teams/:teamId/members/:memberId',
-    teamsController.getMembershipById
-  );
-  app.post('/v1/teams/:teamId/members', teamsController.createMembership);
-  app.put(
-    '/v1/teams/:teamId/members/:memberId',
-    teamsController.updateMembershipById
-  );
-  app.delete(
-    '/v1/teams/:teamId/members/:memberId',
-    teamsController.deleteMembershipById
-  );
+export default (app) => {
+  app.use('/v1/auth', authRoutes);
 
-  app.get('/v1/users', usersController.getUsers);
-  app.get('/v1/users/:userId', usersController.getUserById);
-  app.post('/v1/users', usersController.createUser);
-  app.put('/v1/users/:userId', usersController.updateUserById);
-  app.delete('/v1/users/:userId', usersController.deleteUserById);
+  app.use('/v1/teams', teamsRoutes);
+
+  app.use('/v1/users', usersRoutes);
 };

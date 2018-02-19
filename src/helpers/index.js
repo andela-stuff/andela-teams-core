@@ -4,6 +4,9 @@
  * @author Franklin Chieze
  */
 
+import querystring from 'querystring';
+import url from 'url';
+
 /**
  * @method generatePaginationMeta
  * @desc Return pagination meta
@@ -19,6 +22,11 @@
 function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
   limit = Number(limit) || 20;
   offset = Number(offset) || 0;
+
+  const urlObject = url.parse(endpoint);
+  const endpointWithoutSearch =
+  `${urlObject.protocol}//${urlObject.host}${urlObject.pathname}`;
+  const query = querystring.parse(urlObject.query || '');
 
   // limit cannot be less than 1
   if (limit < 1) {
@@ -37,12 +45,16 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
   // calculate next
   const nextOffset = offset + limit;
   if (nextOffset < dbResult.count) {
-    paginationMeta.next = `${endpoint}?limit=${limit}&offset=${nextOffset}`;
+    query.offset = nextOffset;
+    paginationMeta.next =
+    `${endpointWithoutSearch}?${querystring.stringify(query)}`;
   }
   // calculate previous
   const prevOffset = offset - limit;
   if (prevOffset > -1) {
-    paginationMeta.previous = `${endpoint}?limit=${limit}&offset=${prevOffset}`;
+    query.offset = prevOffset;
+    paginationMeta.previous =
+    `${endpointWithoutSearch}?${querystring.stringify(query)}`;
   }
 
   return paginationMeta;

@@ -67,7 +67,7 @@ export default class Users {
       });
       if (users) {
         const pagination = helpers.Misc.generatePaginationMeta(
-          req.fullUrlWithoutSearch,
+          req.fullUrl,
           dbResult,
           limit,
           offset

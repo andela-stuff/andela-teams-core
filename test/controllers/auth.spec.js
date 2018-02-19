@@ -90,6 +90,20 @@ describe('AuthController', () => {
           done();
         });
     });
+    it('should not sign in user with invalid credentials', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user0)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('No user was found with the supplied credentials.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
   });
 
   describe('POST: /v1/auth/signup', (done) => {

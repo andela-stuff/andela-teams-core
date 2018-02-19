@@ -43,9 +43,7 @@ jobs:
           # - v1-dependencies-
           - repo-yarn-
 
-      - run: 
-        - yarn install
-        - yarn global add sequelize-cli
+      - run: yarn install
 
       - save_cache:
           paths:

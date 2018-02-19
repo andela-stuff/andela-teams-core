@@ -16,6 +16,7 @@ jobs:
           DATABASE_DEV_URL: postgres://andela_teams_user1:andela_teams_user1_password@localhost/andela_teams_test
           DATABASE_TEST_URL: postgres://andela_teams_user1:andela_teams_user1_password@localhost/andela_teams_test
           DATABASE_URL: postgres://andela_teams_user1:andela_teams_user1_password@localhost/andela_teams_test
+          SECRET: secret
 
       - image: circleci/postgres:9.6.2-alpine
         environment:
@@ -43,8 +44,8 @@ jobs:
           - repo-yarn-
 
       - run: 
-        yarn install
-        yarn global add sequelize
+        - yarn install
+        - yarn global add sequelize
 
       - save_cache:
           paths:

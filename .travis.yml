@@ -11,7 +11,7 @@ env:
     - export NODE_ENV=test
 install:
   - npm install
-  - npm install -g sequelize
+  - npm install -g sequelize-cli
 language: node_js
 node_js:
   - "8"

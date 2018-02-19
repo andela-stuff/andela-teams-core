@@ -45,7 +45,7 @@ jobs:
 
       - run: 
         - yarn install
-        - yarn global add sequelize
+        - yarn global add sequelize-cli
 
       - save_cache:
           paths:

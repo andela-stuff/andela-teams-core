@@ -59,6 +59,7 @@
     "webpack": "^3.10.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "codecov": "^3.0.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.9.0",

@@ -23,9 +23,9 @@ import server from '../../build/server';
 
 // test limit
 // test offset
+// test page
 // test next
 // test previous
-// test for 'malformed jwt'
 
 const should = chai.should();
 const { expect } = chai;
@@ -89,6 +89,20 @@ describe('UsersController', () => {
           res.body.data.should.have.property('users');
           expect(res.body.data.users).to.be.an('Array').that.is.not.empty;
           expect(res.body.data.users.length).to.equal(5);
+          expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it('should return pagination metadata', (done) => {
+      chai.request(server)
+        .get('/v1/users')
+        .set('x-teams-user-token', mock.user1.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('meta');
+          expect(res.body.meta).to.be.an('Object');
+          res.body.meta.should.have.property('pagination');
+          expect(res.body.meta.pagination).to.be.an('Object');
           expect(res.body.errors).to.be.undefined;
           done();
         });

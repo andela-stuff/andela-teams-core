@@ -6,7 +6,7 @@
 
 /**
  * @desc This middleware adds new methods for sending responses to the
- * response object
+ * response object (and full URL info to the request object)
  *
  * @param { object } req request
  * @param { object } res response

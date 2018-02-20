@@ -27,14 +27,18 @@ export default class Auth {
   * @returns {json} json with user token
   */
   async authenticateUser(req, res, next) {
-    const userToken = req.headers['x-teams-user-token'];
-
     try {
+      const userToken = req.headers['x-teams-user-token'];
+      if (!userToken) {
+        throw new Error('Request has no user token header.');
+      }
+
       const userData = jwt.verify(userToken, config.SECRET);
       const user = await models.User.findOne({
         where: { email: userData.email },
         attributes: { exclude: ['password'] }
       });
+
       if (user) {
         req.authUser = user.get();
         req.authUserObj = user;

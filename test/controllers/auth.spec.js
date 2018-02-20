@@ -27,6 +27,7 @@ describe('AuthController', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
   });
+
   describe('POST: /v1/auth/signin', (done) => {
     beforeEach(async () => {
       await models.User.create({

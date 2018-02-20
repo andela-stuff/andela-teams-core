@@ -11,10 +11,12 @@
 import { Router } from 'express';
 
 import Users from '../controllers/Users';
-import { pagination } from '../middleware';
+import middleware from '../middleware';
 
 const usersController = new Users();
 const routes = new Router();
+
+routes.use(middleware.auth.authenticateUser);
 
 /**
    * @swagger

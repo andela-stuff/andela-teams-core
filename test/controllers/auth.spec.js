@@ -23,15 +23,11 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
-// should not register user without email
-// should not register user with name
-// should not register user without password
-// should not sign in user with invalid credentials
-
 describe('AuthController', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
   });
+
   describe('POST: /v1/auth/signin', (done) => {
     beforeEach(async () => {
       await models.User.create({
@@ -74,6 +70,48 @@ describe('AuthController', () => {
           done();
         });
     });
+    it('should not sign in user with malformed email', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user1WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not sign in user with malformed email [2]', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user2WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not sign in user with malformed email [3]', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user3WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
     it('should not sign in user without password', (done) => {
       chai.request(server)
         .post('/v1/auth/signin')
@@ -86,6 +124,20 @@ describe('AuthController', () => {
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
             .to.include('The password field is required.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not sign in user with invalid credentials', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signin')
+        .send(mock.user0)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('No user was found with the supplied credentials.');
           expect(res.body.data).to.be.undefined;
           done();
         });
@@ -108,6 +160,99 @@ describe('AuthController', () => {
           res.body.data.user.should.not.have.property('password');
           res.body.data.should.have.property('userToken');
           expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user without email', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send({
+          name: mock.user1.name,
+          password: mock.user1.password
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email field is required.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user with malformed email', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send(mock.user1WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user with malformed email [2]', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send(mock.user2WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user with malformed email [3]', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send(mock.user3WithMalformedEmail)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The email format is invalid.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user without name', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send({
+          email: mock.user1.email,
+          password: mock.user1.password
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The name field is required.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not register a user without password', (done) => {
+      chai.request(server)
+        .post('/v1/auth/signup')
+        .send({
+          email: mock.user1.email,
+          name: mock.user1.name
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The password field is required.');
+          expect(res.body.data).to.be.undefined;
           done();
         });
     });

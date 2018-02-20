@@ -16,6 +16,8 @@ import middleware from '../middleware';
 const teamsController = new Teams();
 const routes = new Router();
 
+routes.use(middleware.auth.authenticateUser);
+
 routes.get('/', teamsController.get);
 routes.get('/:teamId', teamsController.getById);
 routes.post('/', teamsController.create);

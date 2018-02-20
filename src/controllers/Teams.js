@@ -23,9 +23,24 @@ export default class Teams {
    * @returns { object } response
    */
   async create(req, res) {
-    return res.status(200).send({
-      data: { name: 'team1' }
-    });
+    try {
+      const existingTeam = await models.Team.findOne({
+        where: { name: req.body.name }
+      });
+      if (existingTeam) {
+        throw new Error('Team with the same name already exists.');
+      }
+
+      const team = await models.Team.create({
+        name: req.body.name,
+        description: req.body.description,
+        userId: req.authUser.id
+      });
+
+      return res.sendSuccess({ team });
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 
   /**

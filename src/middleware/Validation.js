@@ -9,11 +9,11 @@
 import Validator from 'validatorjs';
 
 const signinUserRules = {
-  email: 'required|string',
+  email: 'required|email',
   password: 'required|string'
 };
 const signupUserRules = {
-  email: 'required|string',
+  email: 'required|email',
   name: 'required|string',
   password: 'required|string'
 };

@@ -22,10 +22,16 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('TeamsController', () => {
+  beforeEach(async () => {
+    await models.Team.destroy({ where: {} });
+    await models.User.create(mock.user1);
+  });
+
   describe('GET: /v1/teams', (done) => {
     it('should respond with an array', (done) => {
       chai.request(server)
         .get('/v1/teams')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -39,6 +45,7 @@ describe('TeamsController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .get('/v1/teams/1')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -53,6 +60,7 @@ describe('TeamsController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .delete('/v1/teams/1')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -68,6 +76,7 @@ describe('TeamsController', () => {
       chai.request(server)
         .post('/v1/teams')
         .send({})
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -82,6 +91,7 @@ describe('TeamsController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .put('/v1/teams/1')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -96,6 +106,7 @@ describe('TeamsController', () => {
     it('should respond with an array', (done) => {
       chai.request(server)
         .get('/v1/teams/1/members')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -109,6 +120,7 @@ describe('TeamsController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .get('/v1/teams/1/members/1')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -128,6 +140,7 @@ describe('TeamsController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .delete('/v1/teams/1/members/1')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -148,6 +161,7 @@ describe('TeamsController', () => {
       chai.request(server)
         .post('/v1/teams/1/members')
         .send({})
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -167,6 +181,7 @@ describe('TeamsController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .put('/v1/teams/1/members/1')
+        .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');

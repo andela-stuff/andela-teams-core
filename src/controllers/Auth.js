@@ -38,7 +38,7 @@ export default class Auth {
         const isCorrectPassword =
         await bcrypt.compare(req.body.password, user.password);
         if (isCorrectPassword) {
-          const userToken = jwt.sign({ email: user.email }, config.secret);
+          const userToken = jwt.sign({ email: user.email }, config.SECRET);
           const updatedUser = helpers.Misc.updateUserAttributes(user);
           return res.sendSuccess({ user: updatedUser, userToken });
         }
@@ -77,7 +77,7 @@ export default class Auth {
         )
       });
 
-      const userToken = jwt.sign({ email: user.email }, config.secret);
+      const userToken = jwt.sign({ email: user.email }, config.SECRET);
       const updatedUser = helpers.Misc.updateUserAttributes(user);
 
       return res.sendSuccess({ user: updatedUser, userToken });

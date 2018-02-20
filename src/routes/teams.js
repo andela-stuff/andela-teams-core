@@ -20,6 +20,21 @@ routes.use(middleware.auth.authenticateUser);
 
 routes.get('/', teamsController.get);
 routes.get('/:teamId', teamsController.getById);
+/**
+   * @swagger
+   * /v1/teams:
+   *   post:
+   *     description: Creates a new team
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: teams
+   *         schema:
+   *           type: object
+   *           items:
+   *             $ref: '#/definitions/ResponseBody'
+   */
 routes.post('/', teamsController.create);
 routes.put('/:teamId', teamsController.updateById);
 routes.delete('/:teamId', teamsController.deleteById);

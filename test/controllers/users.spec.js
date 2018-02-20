@@ -5,15 +5,19 @@
  *
  * @requires NPM:chai
  * @requires NPM:chai-http
+ * @requires NPM:jsonwebtoken
  * @requires ../mock
+ * @requires ../../build/config
  * @requires ../../build/models
  * @requires ../../build/server
  */
 
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import jwt from 'jsonwebtoken';
 
 import mock from '../mock';
+import config from '../../build/config';
 import models from '../../build/models';
 import server from '../../build/server';
 
@@ -31,6 +35,7 @@ describe('UsersController', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
     await models.User.create(mock.user1);
+    mock.user1.token = jwt.sign({ email: mock.user1.email }, config.SECRET);
   });
 
   describe('GET: /v1/users', (done) => {

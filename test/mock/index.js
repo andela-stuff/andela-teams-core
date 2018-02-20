@@ -7,8 +7,7 @@ export default {
   user1: {
     name: 'user1',
     email: 'user1@email.com',
-    password: 'password',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGVtYWlsLmNvbSIsImlhdCI6MTUxOTA4MzE1MH0.ejoEUH0owekHdfqNwN5gRYqlhNX-twZt_4r2LoEVIKI'
+    password: 'password'
   },
   user2: {
     name: 'user2',

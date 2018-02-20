@@ -21,6 +21,11 @@ import config from '../../build/config';
 import models from '../../build/models';
 import server from '../../build/server';
 
+// test default description
+// test supplied description
+// test no name
+// test existing name
+
 const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -77,17 +82,22 @@ describe('TeamsController', () => {
     });
   });
 
-  describe('POST: /v1/teams/:teamId', (done) => {
-    it('should respond with an object', (done) => {
+  describe('POST: /v1/teams/', (done) => {
+    it('should create a new team', (done) => {
       chai.request(server)
         .post('/v1/teams')
-        .send({})
+        .send(mock.team1)
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
           expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
+          res.body.data.should.have.property('team');
+          expect(res.body.data.team.id).to.not.be.undefined;
+          expect(res.body.data.team.name).to.equal(mock.team1.name);
+          expect(res.body.data.team.description)
+            .to.equal(mock.team1.description);
+          expect(res.body.errors).to.be.undefined;
           done();
         });
     });

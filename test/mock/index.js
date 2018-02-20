@@ -1,4 +1,27 @@
 export default {
+  team1: {
+    name: 'team1',
+    description: 'description of team1'
+  },
+  team2: {
+    name: 'team2',
+    description: 'description of team2'
+  },
+  team3: {
+    name: 'team3',
+    description: 'description of team3'
+  },
+  team4: {
+    name: 'team4',
+    description: 'description of team4'
+  },
+  team5: {
+    name: 'team5',
+    description: 'description of team5'
+  },
+  team1WithoutDescription: {
+    name: 'team1'
+  },
   user0: {
     name: 'user0',
     email: 'user0@email.com',

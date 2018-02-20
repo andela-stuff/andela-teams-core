@@ -22,6 +22,12 @@ export default {
   team1WithoutDescription: {
     name: 'team1'
   },
+  team2WithoutDescription: {
+    name: 'team2'
+  },
+  team1WithoutName: {
+    description: 'description of team1'
+  },
   user0: {
     name: 'user0',
     email: 'user0@email.com',
@@ -66,5 +72,17 @@ export default {
     name: 'user1',
     email: 'user@email.',
     password: 'password'
+  },
+  user1WithoutEmail: {
+    name: 'user1',
+    password: 'password'
+  },
+  user1WithoutName: {
+    email: 'user@email.com',
+    password: 'password'
+  },
+  user1WithoutPassword: {
+    name: 'user1',
+    email: 'user1@email.com'
   }
 };

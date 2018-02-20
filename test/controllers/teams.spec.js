@@ -21,11 +21,6 @@ import config from '../../build/config';
 import models from '../../build/models';
 import server from '../../build/server';
 
-// test default description
-// test supplied description
-// test no name
-// test existing name
-
 const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
@@ -83,6 +78,21 @@ describe('TeamsController', () => {
   });
 
   describe('POST: /v1/teams/', (done) => {
+    it('should not create a team without a name', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1WithoutName)
+        .set('x-teams-user-token', mock.user1.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('The name field is required.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
     it('should create a new team', (done) => {
       chai.request(server)
         .post('/v1/teams')
@@ -98,6 +108,47 @@ describe('TeamsController', () => {
           expect(res.body.data.team.description)
             .to.equal(mock.team1.description);
           expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it('should create a new team with default description', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team2WithoutDescription)
+        .set('x-teams-user-token', mock.user1.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('team');
+          expect(res.body.data.team.id).to.not.be.undefined;
+          expect(res.body.data.team.name)
+            .to.equal(mock.team2WithoutDescription.name);
+          expect(res.body.data.team.description)
+            .to.equal('There is no description for this team');
+          expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+  });
+
+  describe('POST: /v1/auth/signup', (done) => {
+    beforeEach(async () => {
+      const user2 = await models.User.create(mock.user2);
+      await models.Team.create({ ...mock.team1, userId: user2.id });
+    });
+    it('should not create a team with an existing name', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user1.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('Team with the same name already exists.');
+          expect(res.body.data).to.be.undefined;
           done();
         });
     });

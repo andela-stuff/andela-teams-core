@@ -28,6 +28,7 @@ chai.use(chaiHttp);
 describe('TeamsController', () => {
   beforeEach(async () => {
     await models.Team.destroy({ where: {} });
+    await models.User.destroy({ where: {} });
     await models.User.create(mock.user1);
     mock.user1.token = jwt.sign({ email: mock.user1.email }, config.SECRET);
   });

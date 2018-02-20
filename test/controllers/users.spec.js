@@ -95,26 +95,6 @@ describe('UsersController', () => {
     });
   });
 
-  describe('GET: /v1/users', (done) => {
-    beforeEach(async () => {
-      await models.User.create(mock.user1);
-    });
-    it('should return a non-empty array of existing users', (done) => {
-      chai.request(server)
-        .get('/v1/users')
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('users');
-          expect(res.body.data.users).to.be.an('Array').that.is.not.empty;
-          expect(res.body.errors).to.be.undefined;
-          done();
-        });
-    });
-  });
-
   describe('GET: /v1/users/:userId', (done) => {
     it('should respond with an object', (done) => {
       chai.request(server)

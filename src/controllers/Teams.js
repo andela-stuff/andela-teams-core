@@ -42,7 +42,14 @@ export default class Teams {
       });
 
       // Slack integration
-      slackIntegration.channel.create(team.name, team.description, 'topic');
+      // get response, put it in returned json, create integrations
+      slackIntegration.channel.create(
+        team.name,
+        {
+          private: false,
+          purpose: team.description
+        }
+      );
 
       return res.sendSuccess({ team });
     } catch (error) {

@@ -4,6 +4,7 @@
  * @author Franklin Chieze
  *
  * @requires NPM:axios
+ * @requires ../config
  */
 
 import axios from 'axios';
@@ -39,11 +40,16 @@ class Channel {
             validate: true
           }
         });
-      console.log(createChannelResponse);
       // set channel's purpose
       // set channel's topic
+
+      return createChannelResponse.data;
     } catch (error) {
-      console.log(error);
+      return {
+        ok: false,
+        error: 'uncaught_exception',
+        detail: error.message
+      };
     }
   }
 }

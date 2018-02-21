@@ -4,6 +4,8 @@
  * @author Franklin Chieze
  *
  * @requires ./Auth
+ * @requires ./Teams
+ * @requires ./Users
  */
 
 import Auth from './Auth';

@@ -25,4 +25,5 @@ module.exports = {
     operatorsAliases: false,
   },
   SECRET: process.env.SECRET,
+  SLACK_APP_TOKEN: process.env.SLACK_APP_TOKEN,
 };

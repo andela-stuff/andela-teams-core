@@ -3,10 +3,14 @@
  *
  * @author Franklin Chieze
  *
+ * @requires ../integrations
  * @requires ../models
  */
 
+import Slack from '../integrations/Slack';
 import models from '../models';
+
+const slackIntegration = new Slack();
 
 /**
 * Controls endpoints for teams
@@ -36,6 +40,9 @@ export default class Teams {
         description: req.body.description,
         userId: req.authUser.id
       });
+
+      // Slack integration
+      slackIntegration.channel.create(team.name, team.description, 'topic');
 
       return res.sendSuccess({ team });
     } catch (error) {

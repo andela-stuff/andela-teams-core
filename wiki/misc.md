@@ -9,3 +9,10 @@ If you rename a file by simply changing its case, git may fail to recognize this
 There are many ways to solve this issue, including renaming the file to something really different (not just of a different case), commiting the change, then renaming the file again to what you really want, and commiting again.
 
 For more info see https://stackoverflow.com/questions/10523849/changing-capitalization-of-filenames-in-git.
+
+One of my favourite answers is:
+* Move all files outside of the directory to lets say the Desktop.
+* Do a `git add . -A` to remove all files.
+* Rename all files on the Desktop to the proper capitalization.
+* Move all the files back to the original directory.
+* Do a `git add .` git should see that the files are renamed.

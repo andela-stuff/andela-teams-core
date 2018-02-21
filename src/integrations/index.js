@@ -6,9 +6,8 @@
  * @requires ./Slack
  */
 
-import slack from './slack';
-console.log(slack);
+import Slack from './Slack';
 
 export default {
-  slack
+  Slack
 };

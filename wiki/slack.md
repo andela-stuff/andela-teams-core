@@ -15,16 +15,29 @@ headers: {
 ## Resources
 
 These are some relevant resources to look at:
+
 * [Slack API](https://api.slack.com/)
+
 -----
+
 * [Slack API Tutorials](https://api.slack.com/tutorials)
+
 * [Building a Slack Bot with Node.js and Chuck Norris Super Powers](https://scotch.io/tutorials/building-a-slack-bot-with-node-js-and-chuck-norris-super-powers)
+
 * [Create a custom Slack slash command with Node.js and Express](https://scotch.io/tutorials/create-a-custom-slack-slash-command-with-nodejs-and-express)
+
 * [Building a Slack Bot with Modern Node.js Workflows](https://scotch.io/tutorials/building-a-slack-bot-with-modern-nodejs-workflows)
+
 -----
+
 * [Slack Web API](https://api.slack.com/web)
+
 * [Slack Web API Methods](https://api.slack.com/methods)
+
 * [Build Slack Apps Here](https://api.slack.com/apps)
+
 * [Create a Channel](https://api.slack.com/methods/channels.create)
+
 * [Set a Channel's Purpose](https://api.slack.com/methods/channels.setPurpose)
+
 * [Set a Channel's Topic](https://api.slack.com/methods/channels.setTopic)

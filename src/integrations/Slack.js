@@ -37,54 +37,60 @@ class Channel {
     try {
       const result = {}; // the result to be returned
 
+      let { channels } = userWebClient; // public channels
+      let customBotChannels = customBotWebClient.channels; // public channels
+
       if (configuration.private) {
-        //
-      } else {
-        // create channel
-        const createChannelResponse = await userWebClient.channels.create(name);
-        result.createdChannel = createChannelResponse;
+        channels = userWebClient.groups; // private channels
+        customBotChannels = customBotWebClient.groups; // private channels
+      }
+      // create channel
+      const createChannelResponse = await channels.create(name);
+      result.created = createChannelResponse;
 
-        if (createChannelResponse.ok) {
-          // invite bot to channel
-          const inviteBotResponse =
-          await userWebClient.channels.invite(
-              createChannelResponse.channel.id,
-              config.SLACK_BOT_ID
+      if (createChannelResponse.ok) {
+        // invite bot to channel
+        const channel =
+        createChannelResponse.channel // public channel
+        || createChannelResponse.group; // private channel
+        const inviteBotResponse =
+        await channels.invite(
+            channel.id,
+            config.SLACK_BOT_ID
+          );
+        result.invitedBot = inviteBotResponse;
+        // invite custom bot to channel
+        const inviteCustomBotResponse =
+        await channels.invite(
+            channel.id,
+            config.SLACK_CUSTOM_BOT_ID
+          );
+        result.invitedCustomBot = inviteCustomBotResponse;
+        // set channel's purpose
+        if (configuration.purpose && inviteCustomBotResponse.ok) {
+          const setPurposeResponse =
+          await customBotChannels.setPurpose(
+              channel.id,
+              configuration.purpose
             );
-          result.invitedBot = inviteBotResponse;
-          // invite custom bot to channel
-          const inviteCustomBotResponse =
-          await userWebClient.channels.invite(
-              createChannelResponse.channel.id,
-              config.SLACK_CUSTOM_BOT_ID
-            );
-          result.invitedCustomBot = inviteCustomBotResponse;
-          // set channel's purpose
-          if (configuration.purpose && inviteCustomBotResponse.ok) {
-            const setPurposeResponse =
-            await customBotWebClient.channels.setPurpose(
-                createChannelResponse.channel.id,
-                configuration.purpose
-              );
-            result.setPurpose = setPurposeResponse;
-          }
+          result.setPurpose = setPurposeResponse;
+        }
 
-          // set channel's topic
-          if (configuration.topic && inviteCustomBotResponse.ok) {
-            const setTopicResponse =
-            await customBotWebClient.channels.setTopic(
-                createChannelResponse.channel.id,
-                configuration.topic
-              );
-            result.setTopic = setTopicResponse;
-          }
+        // set channel's topic
+        if (configuration.topic && inviteCustomBotResponse.ok) {
+          const setTopicResponse =
+          await customBotChannels.setTopic(
+              channel.id,
+              configuration.topic
+            );
+          result.setTopic = setTopicResponse;
         }
       }
 
       return result;
     } catch (error) {
       return {
-        createdChannel: {
+        created: {
           ok: false,
           error: 'uncaught_exception',
           detail: error.message

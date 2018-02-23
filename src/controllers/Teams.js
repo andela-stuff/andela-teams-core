@@ -47,7 +47,7 @@ export default class Teams {
       await slackIntegration.channel.create(
           team.name,
           {
-            private: false,
+            private: true,
             purpose: team.description,
             topic: 'This is a test topic'
           }

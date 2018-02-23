@@ -60,8 +60,10 @@ These are some relevant resources to look at:
 
 * [Build Slack Apps Here](https://api.slack.com/apps)
 
-* [Create a Channel](https://api.slack.com/methods/channels.create)
+* [Create a Public Channel](https://api.slack.com/methods/channels.create)
 
 * [Set a Channel's Purpose](https://api.slack.com/methods/channels.setPurpose)
 
 * [Set a Channel's Topic](https://api.slack.com/methods/channels.setTopic)
+
+* [Create a Private Channel](https://api.slack.com/methods/groups.create)

@@ -23,7 +23,7 @@ Workflow:
 
 To integrate with Slack we create a [Slack app](https://api.slack.com/slack-apps). Our Slack app will be given the permissions we require. Our Slack app also adds a bot agent to enable it interact with users in a more conversational manner. Our Slack app will need to be installed in the Slack workspace we wish to interact with. A token will be generated which is to be included in the `Authorization` header of every request we make to the slack API. This token is stored in the environment variable `SLACK_APP_TOKEN` or the config variable `SLACK_APP_TOKEN`, and can be used as shown below:
 
-----
+-----
 
 
 ```javascript

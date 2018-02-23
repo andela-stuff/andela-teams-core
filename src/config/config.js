@@ -25,4 +25,9 @@ module.exports = {
     operatorsAliases: false,
   },
   SECRET: process.env.SECRET,
+  SLACK_BOT_ID: process.env.SLACK_BOT_ID,
+  SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN,
+  SLACK_CUSTOM_BOT_ID: process.env.SLACK_CUSTOM_BOT_ID,
+  SLACK_CUSTOM_BOT_TOKEN: process.env.SLACK_CUSTOM_BOT_TOKEN,
+  SLACK_USER_TOKEN: process.env.SLACK_USER_TOKEN,
 };

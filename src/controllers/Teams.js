@@ -3,10 +3,14 @@
  *
  * @author Franklin Chieze
  *
+ * @requires ../integrations
  * @requires ../models
  */
 
+import Slack from '../integrations/Slack';
 import models from '../models';
+
+const slackIntegration = new Slack();
 
 /**
 * Controls endpoints for teams
@@ -23,9 +27,41 @@ export default class Teams {
    * @returns { object } response
    */
   async create(req, res) {
-    return res.status(200).send({
-      data: { name: 'team1' }
-    });
+    try {
+      const existingTeam = await models.Team.findOne({
+        where: { name: req.body.name }
+      });
+      if (existingTeam) {
+        throw new Error('Team with the same name already exists.');
+      }
+
+      const team = await models.Team.create({
+        name: req.body.name,
+        description: req.body.description,
+        userId: req.authUser.id
+      });
+
+      // Slack integration
+      // get response, put it in returned json, create integrations
+      const slackResponse =
+      await slackIntegration.channel.create(
+          team.name,
+          {
+            private: true,
+            purpose: team.description,
+            topic: 'This is a test topic'
+          }
+        );
+
+      return res.sendSuccess({
+        team,
+        integrations: {
+          slack: slackResponse
+        }
+      });
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 
   /**

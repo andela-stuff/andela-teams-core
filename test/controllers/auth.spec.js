@@ -57,9 +57,7 @@ describe('AuthController', () => {
     it('should not sign in user without email', (done) => {
       chai.request(server)
         .post('/v1/auth/signin')
-        .send({
-          password: mock.user1.password
-        })
+        .send(mock.user1WithoutEmail)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('errors');
@@ -115,9 +113,7 @@ describe('AuthController', () => {
     it('should not sign in user without password', (done) => {
       chai.request(server)
         .post('/v1/auth/signin')
-        .send({
-          email: mock.user1.email
-        })
+        .send(mock.user1WithoutPassword)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('errors');
@@ -166,10 +162,7 @@ describe('AuthController', () => {
     it('should not register a user without email', (done) => {
       chai.request(server)
         .post('/v1/auth/signup')
-        .send({
-          name: mock.user1.name,
-          password: mock.user1.password
-        })
+        .send(mock.user1WithoutEmail)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('errors');
@@ -225,10 +218,7 @@ describe('AuthController', () => {
     it('should not register a user without name', (done) => {
       chai.request(server)
         .post('/v1/auth/signup')
-        .send({
-          email: mock.user1.email,
-          password: mock.user1.password
-        })
+        .send(mock.user1WithoutName)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('errors');
@@ -242,10 +232,7 @@ describe('AuthController', () => {
     it('should not register a user without password', (done) => {
       chai.request(server)
         .post('/v1/auth/signup')
-        .send({
-          email: mock.user1.email,
-          name: mock.user1.name
-        })
+        .send(mock.user1WithoutPassword)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('errors');

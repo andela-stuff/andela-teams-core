@@ -56,8 +56,7 @@ export default class Users {
    */
   async get(req, res) {
     try {
-      const limit = req.query.limit ? Number(req.query.limit) || 20 : 20;
-      const offset = req.query.offset ? Number(req.query.offset) || 0 : 0;
+      const { limit, offset } = req.meta.pagination;
 
       const dbResult = await models.User.findAndCountAll();
       const users = await models.User.findAll({

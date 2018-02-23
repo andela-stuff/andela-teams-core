@@ -17,6 +17,10 @@ const signupUserRules = {
   name: 'required|string',
   password: 'required|string'
 };
+const teamRules = {
+  name: 'required|string',
+  description: 'string'
+};
 
 /**
 * Middleware for validations
@@ -29,7 +33,7 @@ export default class Validation {
   * @param {object} res express response object
   * @param {object} next the next middleware or controller
   *
-  * @returns {json} json with user token
+  * @returns {any} the next middleware or controller
   */
   async validateSigninUser(req, res, next) {
     const validation = new Validator(req.body, signinUserRules);
@@ -46,7 +50,7 @@ export default class Validation {
   * @param {object} res express response object
   * @param {object} next the next middleware or controller
   *
-  * @returns {json} json with user token
+  * @returns {any} the next middleware or controller
   */
   async validateSignupUser(req, res, next) {
     const validation = new Validator(req.body, signupUserRules);
@@ -54,6 +58,23 @@ export default class Validation {
       ...validation.errors.get('email'),
       ...validation.errors.get('name'),
       ...validation.errors.get('password')
+    ]));
+    validation.passes(() => next());
+  }
+
+  /**
+  * Validate team data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async validateTeam(req, res, next) {
+    const validation = new Validator(req.body, teamRules);
+    validation.fails(() => res.sendFailure([
+      ...validation.errors.get('name'),
+      ...validation.errors.get('description')
     ]));
     validation.passes(() => next());
   }

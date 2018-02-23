@@ -2,13 +2,37 @@
 
 This file briefly explains how this project integrates with [Slack](https://slack.com/).
 
-To integrate with Slack we create a [Slack app](https://api.slack.com/slack-apps). Our Slack app will be given the permissions we require. Our Slack app will need to be installed in the Slack workspace we wish to interact with. A token will be generated which is to be included in the `Authorization` header of every request we make to the slack API. This token is stored in the environment variable `SLACK_APP_TOKEN` or the config variable `SLACK_APP_TOKEN`, and can be used as shown below:
+There are 2 main ways to integrate with Slack: Slack Apps and Custom Integrations.
+
+Slack App is the recommended way to integrate with Slack. *talk about this*
+With respect to this project we get 2 tokens from Slack Apps: *user token* and *bot token*
+user token is used to create channels
+bot token is used to send messages with advanced formatting and fancy buttons
+
+Custom integration... //https://api.slack.com/custom-integrations
+//the section "Listen for and respond to messages with a bot user" shows how to create custom bot user
+// we call it Andela Teams Admin (@andela-teams-admin)
+// copy the member ID is env var: `SLACK_CUSTOM_BOT_ID`
+The token gotten here is used to set a channel's purpose and topic
+
+Workflow:
+* use the user token to create a channel
+* use the user token to invite the bots (both of them)
+* use the custom bot token to set channel's purpose and topic
+* use the modern bot token when posting fancing messages
+
+To integrate with Slack we create a [Slack app](https://api.slack.com/slack-apps). Our Slack app will be given the permissions we require. Our Slack app also adds a bot agent to enable it interact with users in a more conversational manner. Our Slack app will need to be installed in the Slack workspace we wish to interact with. A token will be generated which is to be included in the `Authorization` header of every request we make to the slack API. This token is stored in the environment variable `SLACK_APP_TOKEN` or the config variable `SLACK_APP_TOKEN`, and can be used as shown below:
+
+----
+
 
 ```javascript
 headers: {
     Authorization: `Bearer ${config.SLACK_APP_TOKEN}`
 }
 ```
+
+To make requests to the Slack API a little easier, and to reduce the number of Slack-related tests we have to do, we will be using the [Node Slack SDK](https://github.com/slackapi/node-slack-sdk).
 
 ## Making the Slack App Distributable
 

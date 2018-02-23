@@ -43,15 +43,22 @@ export default class Teams {
 
       // Slack integration
       // get response, put it in returned json, create integrations
-      slackIntegration.channel.create(
-        team.name,
-        {
-          private: false,
-          purpose: team.description
-        }
-      );
+      const slackResponse =
+      await slackIntegration.channel.create(
+          team.name,
+          {
+            private: false,
+            purpose: team.description,
+            topic: 'This is a test topic'
+          }
+        );
 
-      return res.sendSuccess({ team });
+      return res.sendSuccess({
+        team,
+        integrations: {
+          slack: slackResponse
+        }
+      });
     } catch (error) {
       return res.sendFailure([error.message]);
     }

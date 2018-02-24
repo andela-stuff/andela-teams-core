@@ -39,6 +39,8 @@ This project uses [Mocha](https://mochajs.org/), [Chai](http://chaijs.com/) and 
 
 ## API Docs
 
+The API docs can be found [here](https://andela-teams-core.herokuapp.com/).
+
 ## Contributing
 
 To see how to go about contributing to this project checkout [contributing](contributing.md).

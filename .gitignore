@@ -20,3 +20,6 @@ roboto*
 # testing
 .nyc_output
 coverage
+
+# personal stuff
+private.md

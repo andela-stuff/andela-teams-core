@@ -12,6 +12,8 @@
 
 Active committers and contributors are invited. If you think you can help, we'd love to have you!
 
+The Pivotal Tracker board for this project can be found [here](https://www.pivotaltracker.com/n/projects/2138610).
+
 ## Bugs and Issues
 
 Please report by creating an Issue for feature and support requests. Well structured, detailed bug reports are hugely valuable for the project.

@@ -22,36 +22,30 @@ This server contains (or should contain) endpoints that perform various actions 
 
 ## Technology Stack
 
-#### Server:
-```
-Back end implementation is built on NODE, using EXPRESS as the server and SEQUELIZE
-as the ORM for communicating with the POSTGRES DB.
-```
+To see the technology stack utilized by this project checkout [Technology Stack](https://github.com/andela-stuff/andela-teams-core/wiki/Technology-Stack).
 
-#### Authentication and Code Base Organization:
-```
-Written in ES6 and uses BABEL for transpiling down to ES5 and JWT for authentication.
-```
+## Third Party Integrations
 
-#### Style Checking and Best Practices:
-```
-Uses ESLINT which was configured to use Airbnb-base rules for style checking
-```
+To see how this project integrates with third party APIs checkout [Third Party Integrations](https://github.com/andela-stuff/andela-teams-core/wiki/Third-Party-Integrations).
 
 ## Usage
 
 ## Testing
 
-The app uses `Mocha`, `Chai` and `Chai-Http` for testing.
+This project uses [Mocha](https://mochajs.org/), [Chai](http://chaijs.com/) and [Chai-Http](http://chaijs.com/plugins/chai-http/) for testing.
 * Ensure you run `yarn` (or `npm install`) to install necessary packages.
 * Run `npm test` to run tests and display code coverage results.
 * Run `npm test:dev` to just run tests.
 
 ## API Docs
 
+The API docs can be found [here](https://andela-teams-core.herokuapp.com/).
+
 ## Contributing
 
-To see how to go about contributing to this project check the [contributing](contributing.md) file.
+To see how to go about contributing to this project checkout [contributing](contributing.md).
+
+The Pivotal Tracker board for this project can be found [here](https://www.pivotaltracker.com/n/projects/2138610).
 
 ## Credits
 

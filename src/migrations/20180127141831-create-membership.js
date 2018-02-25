@@ -3,9 +3,10 @@ module.exports = {
     queryInterface.createTable('Memberships', {
       id: {
         allowNull: false,
-        autoIncrement: true,
+        // autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4
       },
       role: {
         type: Sequelize.ENUM,
@@ -15,7 +16,7 @@ module.exports = {
         defaultValue: 'member'
       },
       teamId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
           model: 'Teams',
@@ -24,7 +25,7 @@ module.exports = {
         },
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',

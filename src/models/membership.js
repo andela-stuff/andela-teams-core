@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Membership = sequelize.define('Membership', {
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4
+    },
     role: {
       type: DataTypes.ENUM,
       values: [
@@ -10,12 +16,22 @@ module.exports = (sequelize, DataTypes) => {
     teamId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Teams',
+        key: 'id',
+        as: 'teamId',
+      },
     },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      onDelete: 'CASCADE'
+      onDelete: 'CASCADE',
+      references: {
+        model: 'Users',
+        key: 'id',
+        as: 'userId',
+      },
     }
   });
 

@@ -37,6 +37,10 @@ export default (req, res, next) => {
     }
     offset = (page - 1) * limit;
   }
+  // offset cannot be less than 0
+  if (offset < 0) {
+    offset = 0;
+  }
 
   req.meta.pagination = { ...req.meta.pagination, limit, offset };
 

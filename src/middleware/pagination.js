@@ -17,7 +17,11 @@ export default (req, res, next) => {
   req.meta = req.meta || {};
   req.meta.pagination = req.meta.pagination || {};
 
-  const limit = req.query.limit ? Number(req.query.limit) || 20 : 20;
+  let limit = req.query.limit ? Number(req.query.limit) || 20 : 20;
+  // limit cannot be less than 1
+  if (limit < 1) {
+    limit = 1;
+  }
 
   // there are 2 ways to specify offset
   // 1: by directly specifying offset

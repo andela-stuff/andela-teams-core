@@ -26,15 +26,19 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
   limit = Number(limit) || 20;
   offset = Number(offset) || 0;
 
-  const urlObject = url.parse(endpoint);
-  const endpointWithoutSearch =
-  `${urlObject.protocol}//${urlObject.host}${urlObject.pathname}`;
-  const query = querystring.parse(urlObject.query || '');
-
   // limit cannot be less than 1
   if (limit < 1) {
     limit = 1;
   }
+  // offset cannot be less than 0
+  if (offset < 0) {
+    offset = 0;
+  }
+
+  const urlObject = url.parse(endpoint);
+  const endpointWithoutSearch =
+  `${urlObject.protocol}//${urlObject.host}${urlObject.pathname}`;
+  const query = querystring.parse(urlObject.query || '');
 
   const paginationMeta = {
     limit,

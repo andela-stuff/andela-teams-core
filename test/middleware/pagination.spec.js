@@ -569,9 +569,9 @@ describe('UsersController', () => {
           done();
         });
     });
-    it('should return pagination metadata (limit: 2, offset: 2)', (done) => {
+    it('should return pagination metadata (limit: 5, offset: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&offset=2')
+        .get('/v1/users?limit=5&offset=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -579,23 +579,23 @@ describe('UsersController', () => {
           expect(res.body.meta).to.be.an('Object');
           res.body.meta.should.have.property('pagination');
           expect(res.body.meta.pagination).to.be.an('Object');
-          expect(res.body.meta.pagination.limit).to.equal(2);
+          expect(res.body.meta.pagination.limit).to.equal(5);
           expect(res.body.meta.pagination.offset).to.equal(2);
-          expect(res.body.meta.pagination.page).to.equal(2);
-          expect(res.body.meta.pagination.pages).to.equal(3);
+          expect(res.body.meta.pagination.page).to.equal(1);
+          expect(res.body.meta.pagination.pages).to.equal(1);
           expect(res.body.meta.pagination.pageSize)
             .to.equal(res.body.meta.pagination.limit);
           expect(res.body.meta.pagination.total).to.equal(5);
-          expect(res.body.meta.pagination.next).to.not.be.undefined;
-          expect(res.body.meta.pagination.previous).to.not.be.undefined;
-          expect(res.body.data.users).to.be.an('Array').that.has.length(2);
+          expect(res.body.meta.pagination.next).to.be.undefined;
+          expect(res.body.meta.pagination.previous).to.be.undefined;
+          expect(res.body.data.users).to.be.an('Array').that.has.length(3);
           expect(res.body.errors).to.be.undefined;
           done();
         });
     });
-    it('should return pagination metadata (limit: 2, offset: 5)', (done) => {
+    it('should return pagination metadata (limit: 5, offset: 5)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&offset=5')
+        .get('/v1/users?limit=5&offset=5')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -603,10 +603,10 @@ describe('UsersController', () => {
           expect(res.body.meta).to.be.an('Object');
           res.body.meta.should.have.property('pagination');
           expect(res.body.meta.pagination).to.be.an('Object');
-          expect(res.body.meta.pagination.limit).to.equal(2);
+          expect(res.body.meta.pagination.limit).to.equal(5);
           expect(res.body.meta.pagination.offset).to.equal(5);
-          expect(res.body.meta.pagination.page).to.equal(3);
-          expect(res.body.meta.pagination.pages).to.equal(3);
+          expect(res.body.meta.pagination.page).to.equal(2);
+          expect(res.body.meta.pagination.pages).to.equal(1);
           expect(res.body.meta.pagination.pageSize)
             .to.equal(res.body.meta.pagination.limit);
           expect(res.body.meta.pagination.total).to.equal(5);
@@ -617,9 +617,9 @@ describe('UsersController', () => {
           done();
         });
     });
-    it('should return pagination metadata (limit: 2, page: 1)', (done) => {
+    it('should return pagination metadata (limit: 5, page: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&page=1')
+        .get('/v1/users?limit=5&page=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -627,71 +627,23 @@ describe('UsersController', () => {
           expect(res.body.meta).to.be.an('Object');
           res.body.meta.should.have.property('pagination');
           expect(res.body.meta.pagination).to.be.an('Object');
-          expect(res.body.meta.pagination.limit).to.equal(2);
+          expect(res.body.meta.pagination.limit).to.equal(5);
           expect(res.body.meta.pagination.offset).to.equal(0);
           expect(res.body.meta.pagination.page).to.equal(1);
-          expect(res.body.meta.pagination.pages).to.equal(3);
-          expect(res.body.meta.pagination.pageSize)
-            .to.equal(res.body.meta.pagination.limit);
-          expect(res.body.meta.pagination.total).to.equal(5);
-          expect(res.body.meta.pagination.next).to.not.be.undefined;
-          expect(res.body.meta.pagination.previous).to.be.undefined;
-          expect(res.body.data.users).to.be.an('Array').that.has.length(2);
-          expect(res.body.errors).to.be.undefined;
-          done();
-        });
-    });
-    it('should return pagination metadata (limit: 2, page: 2)', (done) => {
-      chai.request(server)
-        .get('/v1/users?limit=2&page=2')
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('meta');
-          expect(res.body.meta).to.be.an('Object');
-          res.body.meta.should.have.property('pagination');
-          expect(res.body.meta.pagination).to.be.an('Object');
-          expect(res.body.meta.pagination.limit).to.equal(2);
-          expect(res.body.meta.pagination.offset).to.equal(2);
-          expect(res.body.meta.pagination.page).to.equal(2);
-          expect(res.body.meta.pagination.pages).to.equal(3);
-          expect(res.body.meta.pagination.pageSize)
-            .to.equal(res.body.meta.pagination.limit);
-          expect(res.body.meta.pagination.total).to.equal(5);
-          expect(res.body.meta.pagination.next).to.not.be.undefined;
-          expect(res.body.meta.pagination.previous).to.not.be.undefined;
-          expect(res.body.data.users).to.be.an('Array').that.has.length(2);
-          expect(res.body.errors).to.be.undefined;
-          done();
-        });
-    });
-    it('should return pagination metadata (limit: 2, page: 3)', (done) => {
-      chai.request(server)
-        .get('/v1/users?limit=2&page=3')
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('meta');
-          expect(res.body.meta).to.be.an('Object');
-          res.body.meta.should.have.property('pagination');
-          expect(res.body.meta.pagination).to.be.an('Object');
-          expect(res.body.meta.pagination.limit).to.equal(2);
-          expect(res.body.meta.pagination.offset).to.equal(4);
-          expect(res.body.meta.pagination.page).to.equal(3);
-          expect(res.body.meta.pagination.pages).to.equal(3);
+          expect(res.body.meta.pagination.pages).to.equal(1);
           expect(res.body.meta.pagination.pageSize)
             .to.equal(res.body.meta.pagination.limit);
           expect(res.body.meta.pagination.total).to.equal(5);
           expect(res.body.meta.pagination.next).to.be.undefined;
-          expect(res.body.meta.pagination.previous).to.not.be.undefined;
-          expect(res.body.data.users).to.be.an('Array').that.has.length(1);
+          expect(res.body.meta.pagination.previous).to.be.undefined;
+          expect(res.body.data.users).to.be.an('Array').that.has.length(5);
           expect(res.body.errors).to.be.undefined;
           done();
         });
     });
-    it('should return pagination metadata (limit: 2, page: 5)', (done) => {
+    it('should return pagination metadata (limit: 5, page: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&page=5')
+        .get('/v1/users?limit=5&page=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -699,10 +651,10 @@ describe('UsersController', () => {
           expect(res.body.meta).to.be.an('Object');
           res.body.meta.should.have.property('pagination');
           expect(res.body.meta.pagination).to.be.an('Object');
-          expect(res.body.meta.pagination.limit).to.equal(2);
-          expect(res.body.meta.pagination.offset).to.equal(8);
-          expect(res.body.meta.pagination.page).to.equal(5);
-          expect(res.body.meta.pagination.pages).to.equal(3);
+          expect(res.body.meta.pagination.limit).to.equal(5);
+          expect(res.body.meta.pagination.offset).to.equal(5);
+          expect(res.body.meta.pagination.page).to.equal(2);
+          expect(res.body.meta.pagination.pages).to.equal(1);
           expect(res.body.meta.pagination.pageSize)
             .to.equal(res.body.meta.pagination.limit);
           expect(res.body.meta.pagination.total).to.equal(5);

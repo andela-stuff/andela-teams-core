@@ -2,6 +2,7 @@
 
 This is the core server side for [Andela Teams](https://andela-teams.herokuapp.com).
 
+[![Andela](https://andela-badge.herokuapp.com/)](https://andela.com)
 [![Build Status](https://travis-ci.org/andela-stuff/andela-teams-core.svg?branch=master)](https://travis-ci.org/andela-stuff/andela-teams-core)
 [![CircleCI](https://circleci.com/gh/andela-stuff/andela-teams-core.svg?style=svg)](https://circleci.com/gh/andela-stuff/andela-teams-core)
 [![Coverage Status](https://coveralls.io/repos/github/andela-stuff/andela-teams-core/badge.svg?branch=master)](https://coveralls.io/github/andela-stuff/andela-teams-core?branch=master)

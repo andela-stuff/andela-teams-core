@@ -1,18 +1,19 @@
 # andela-teams-core
 
-This is the core server side for __Andela Teams__.
+This is the core server side for [Andela Teams](https://andela-teams.herokuapp.com).
 
-[![Heroku](https://heroku-badge.herokuapp.com/?app=andela-teams-core)](https://andela-teams-core.herokuapp.com)
+[![Andela](https://andela-badge.herokuapp.com/)](https://andela.com)
 [![Build Status](https://travis-ci.org/andela-stuff/andela-teams-core.svg?branch=master)](https://travis-ci.org/andela-stuff/andela-teams-core)
-[![Hound CI](https://camo.githubusercontent.com/23ee7a697b291798079e258bbc25434c4fac4f8b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50726f7465637465645f62792d486f756e642d6138373364312e737667)](https://houndci.com)
 [![CircleCI](https://circleci.com/gh/andela-stuff/andela-teams-core.svg?style=svg)](https://circleci.com/gh/andela-stuff/andela-teams-core)
 [![Coverage Status](https://coveralls.io/repos/github/andela-stuff/andela-teams-core/badge.svg?branch=master)](https://coveralls.io/github/andela-stuff/andela-teams-core?branch=master)
 [![codecov](https://codecov.io/gh/andela-stuff/andela-teams-core/branch/master/graph/badge.svg)](https://codecov.io/gh/andela-stuff/andela-teams-core)
+[![Hound CI](https://camo.githubusercontent.com/23ee7a697b291798079e258bbc25434c4fac4f8b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50726f7465637465645f62792d486f756e642d6138373364312e737667)](https://houndci.com)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=andela-teams-core)](https://andela-teams-core.herokuapp.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Andela Teams seeks to automate some of the routine actions taken by __simulations learning facilitators__ at Andela.
 
-Here is a useful scenario. When a new cohort (class) begins simulations (*sims*) at Andela, the cohort is broken into teams, and each team is assigned to a learning facilitator. The learning facilitator then creates a few Slack channels, a Github repo, and a Pivotal Tracker board. For each of these, the facilitator has to add every member of the team to the channel/repo/board. This is obviously a task that should be automated, especially considering that even the names of the channels/repo/board are always in a particular format. Andela Teams seeks to automate these and many more routine tasks perform by facilitators.
+Here is a useful scenario. When a new cohort (class) begins simulations (*sims*) at Andela, the cohort is broken into teams, and each team is assigned to a learning facilitator. The learning facilitator then creates a few Slack channels, a Github repo, and a Pivotal Tracker board. For each of these, the facilitator has to add every member of the team to the channel/repo/board. This is obviously a task that should be automated, especially considering that even the names of the channels/repo/board are always in a particular format. Andela Teams seeks to automate these and many more routine tasks performed by facilitators.
 
 This server contains (or should contain) endpoints that perform various actions like:
 * view, create, edit, delete teams

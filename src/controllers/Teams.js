@@ -32,7 +32,7 @@ export default class Teams {
         where: { name: req.body.name }
       });
       if (existingTeam) {
-        throw new Error('Team with the same name already exists. ');
+        throw new Error('Team with the same name already exists.');
       }
 
       const team = await models.Team.create({

@@ -9,13 +9,18 @@
 import Validator from 'validatorjs';
 
 const signinUserRules = {
+  displayName: 'required|string',
   email: 'required|email',
-  password: 'required|string'
+  googleId: 'required|numeric',
+  photo: 'string',
 };
 const signupUserRules = {
+  displayName: 'required|string',
   email: 'required|email',
-  name: 'required|string',
-  password: 'required|string'
+  githubUsername: 'required|string',
+  googleId: 'required|numeric',
+  photo: 'string',
+  slackId: 'required|numeric',
 };
 const teamRules = {
   name: 'required|string',
@@ -38,8 +43,10 @@ export default class Validation {
   async validateSigninUser(req, res, next) {
     const validation = new Validator(req.body, signinUserRules);
     validation.fails(() => res.sendFailure([
+      ...validation.errors.get('displayName'),
       ...validation.errors.get('email'),
-      ...validation.errors.get('password')
+      ...validation.errors.get('googleId'),
+      ...validation.errors.get('photo'),
     ]));
     validation.passes(() => next());
   }
@@ -55,9 +62,12 @@ export default class Validation {
   async validateSignupUser(req, res, next) {
     const validation = new Validator(req.body, signupUserRules);
     validation.fails(() => res.sendFailure([
+      ...validation.errors.get('displayName'),
       ...validation.errors.get('email'),
-      ...validation.errors.get('name'),
-      ...validation.errors.get('password')
+      ...validation.errors.get('githubUsername'),
+      ...validation.errors.get('googleId'),
+      ...validation.errors.get('photo'),
+      ...validation.errors.get('slackId'),
     ]));
     validation.passes(() => next());
   }

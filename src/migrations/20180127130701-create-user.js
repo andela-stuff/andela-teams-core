@@ -32,7 +32,7 @@ module.exports = {
         }
       },
       googleId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         unique: true,
         validate: {
@@ -44,7 +44,7 @@ module.exports = {
         allowNull: true,
       },
       slackId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         unique: true,
         validate: {

@@ -35,15 +35,14 @@ export default class Auth {
         where: { email: req.body.email },
       });
       if (user) {
-        const isCorrectPassword =
-        await bcrypt.compare(req.body.password, user.password);
-        if (isCorrectPassword) {
-          const userToken = jwt.sign({ email: user.email }, config.SECRET);
-          const updatedUser = helpers.Misc.updateUserAttributes(user);
-          return res.sendSuccess({ user: updatedUser, userToken });
-        }
-
-        throw new Error('The passwords did not match.');
+        // during sign in we can update the displayName and photo of the user
+        req.body.displayName = req.body.displayName || user.displayName;
+        req.body.photo = req.body.photo || user.photo;
+        let updatedUser =
+        await user.update(req.body, { fileds: ['displayName', 'photo'] });
+        const userToken = jwt.sign({ email: user.email }, config.SECRET);
+        updatedUser = helpers.Misc.updateUserAttributes(updatedUser);
+        return res.sendSuccess({ user: updatedUser, userToken });
       }
 
       throw new Error('No user was found with the supplied credentials.');
@@ -68,14 +67,18 @@ export default class Auth {
         throw new Error('User with the same email already exists.');
       }
 
-      const user = await models.User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: await bcrypt.hash(
-          req.body.password,
-          process.env.NODE_ENV === 'production' ? 10 : 1
-        )
-      });
+      if (!req.body.email.toLowerCase().endsWith('@andela.com')) {
+        throw new Error('Email address must be @andela.com');
+      }
+
+      const user = await models.User.create(
+        req.body,
+        {
+          fileds:
+          ['displayName', 'email', 'githubUsername', 'googleId', 'photo',
+            'slackId']
+        }
+      );
 
       const userToken = jwt.sign({ email: user.email }, config.SECRET);
       const updatedUser = helpers.Misc.updateUserAttributes(user);

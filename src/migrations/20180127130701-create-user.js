@@ -8,6 +8,13 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
+      displayName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -16,16 +23,30 @@ module.exports = {
           notEmpty: true
         }
       },
-      name: {
+      githubUsername: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
         validate: {
           notEmpty: true
         }
       },
-      password: {
+      googleId: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
+        validate: {
+          notEmpty: true
+        }
+      },
+      photo: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      slackId: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
         validate: {
           notEmpty: true
         }

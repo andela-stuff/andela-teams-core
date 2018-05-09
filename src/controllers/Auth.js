@@ -69,7 +69,7 @@ export default class Auth {
       }
 
       if (!req.body.email.toLowerCase().endsWith('@andela.com')) {
-        throw new Error('Email address must be @andela.com');
+        throw new Error('Email address must be @andela.com.');
       }
 
       const user = await models.User.create(

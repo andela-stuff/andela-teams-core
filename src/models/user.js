@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     googleId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     slackId: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {

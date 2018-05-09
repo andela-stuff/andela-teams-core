@@ -38,7 +38,7 @@ export default class Teams {
       const team = await models.Team.create({
         name: req.body.name,
         description: req.body.description,
-        userId: req.authUser.id
+        userId: req.user.id
       });
 
       // Slack integration

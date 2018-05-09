@@ -12,6 +12,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
+    displayName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -20,20 +27,34 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    name: {
+    githubUsername: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: true
       }
     },
-    password: {
-      type: DataTypes.STRING,
+    googleId: {
+      type: DataTypes.BIGINT,
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: true
       }
-    }
+    },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    slackId: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true
+      }
+    },
   });
 
   User.associate = (models) => {

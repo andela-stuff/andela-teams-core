@@ -77,7 +77,6 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
  */
 function updateUserAttributes(user) {
   user = user.get();
-  delete user.password;
   return user;
 }
 

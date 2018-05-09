@@ -60,7 +60,6 @@ export default class Users {
 
       const dbResult = await models.User.findAndCountAll();
       const users = await models.User.findAll({
-        attributes: { exclude: ['password'] },
         limit,
         offset
       });

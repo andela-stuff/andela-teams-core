@@ -35,13 +35,12 @@ export default class Auth {
 
       const userData = jwt.verify(userToken, config.SECRET);
       const user = await models.User.findOne({
-        where: { email: userData.email },
-        attributes: { exclude: ['password'] }
+        where: { email: userData.email }
       });
 
       if (user) {
-        req.authUser = user.get();
-        req.authUserObj = user;
+        req.user = user.get();
+        req.userObj = user;
         return next();
       }
 

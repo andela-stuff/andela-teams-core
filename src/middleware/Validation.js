@@ -31,7 +31,6 @@ const createTeamRules = {
 };
 const createTeamMemberRules = {
   role: 'string',
-  teamId: 'required|string',
   userId: 'required|string',
 };
 
@@ -112,7 +111,6 @@ export default class Validation {
     const validation = new Validator(req.body, createTeamMemberRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('role'),
-      ...validation.errors.get('teamId'),
       ...validation.errors.get('userId'),
     ]));
     validation.passes(() => next());

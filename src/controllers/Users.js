@@ -89,6 +89,7 @@ export default class Users {
    * @returns { object } response
    */
   async updateById(req, res) {
+    // it should be possible to also update the user's role here, right?
     return res.status(200).send({
       data: { name: 'user1' }
     });

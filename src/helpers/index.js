@@ -49,6 +49,9 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
     total: dbResult.count // total number of items
   };
 
+  // current endpoint
+  paginationMeta.current = endpoint;
+
   // calculate next
   const nextOffset = offset + limit;
   if (nextOffset < dbResult.count) {

@@ -18,7 +18,22 @@ const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
 
-routes.get('/', teamsController.get);
+/**
+   * @swagger
+   * /v1/teams:
+   *   get:
+   *     description: Return an array of existing teams
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: teams
+   *         schema:
+   *           type: object
+   *           items:
+   *             $ref: '#/definitions/ResponseBody'
+   */
+routes.get('/', middleware.pagination, teamsController.get);
 routes.get('/:teamId', teamsController.getById);
 /**
    * @swagger

@@ -4,10 +4,12 @@
  * @author Franklin Chieze
  *
  * @requires ../integrations
+ * @requires ../helpers
  * @requires ../models
  */
 
 import Slack from '../integrations/Slack';
+import helpers from '../helpers';
 import models from '../models';
 
 const slackIntegration = new Slack();
@@ -106,9 +108,28 @@ export default class Teams {
    * @returns { object } response
    */
   async get(req, res) {
-    return res.status(200).send({
-      data: [{ name: 'team1' }, { name: 'team2' }]
-    });
+    try {
+      const { limit, offset } = req.meta.pagination;
+
+      const dbResult = await models.Team.findAndCountAll();
+      const teams = await models.Team.findAll({
+        limit,
+        offset
+      });
+      if (teams) {
+        const pagination = helpers.Misc.generatePaginationMeta(
+          req.fullUrl,
+          dbResult,
+          limit,
+          offset
+        );
+        return res.sendSuccess({ teams }, 200, { pagination });
+      }
+
+      throw new Error('Could not retrieve teams from the database.');
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 
   /**

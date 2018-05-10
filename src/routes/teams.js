@@ -35,7 +35,7 @@ routes.get('/:teamId', teamsController.getById);
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.post('/', middleware.validation.validateTeam, teamsController.create);
+routes.post('/', middleware.validation.validateCreateTeam, teamsController.create);
 routes.put('/:teamId', teamsController.updateById);
 routes.delete('/:teamId', teamsController.deleteById);
 

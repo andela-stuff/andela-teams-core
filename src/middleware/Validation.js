@@ -22,9 +22,12 @@ const signupUserRules = {
   photo: 'string',
   slackId: 'required|numeric',
 };
-const teamRules = {
+const createTeamRules = {
   name: 'required|string',
-  description: 'string'
+  description: 'string',
+  photo: 'string',
+  privacy: 'boolean',
+  progress: 'numeric'
 };
 
 /**
@@ -80,11 +83,14 @@ export default class Validation {
   *
   * @returns {any} the next middleware or controller
   */
-  async validateTeam(req, res, next) {
-    const validation = new Validator(req.body, teamRules);
+  async validateCreateTeam(req, res, next) {
+    const validation = new Validator(req.body, createTeamRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('name'),
-      ...validation.errors.get('description')
+      ...validation.errors.get('description'),
+      ...validation.errors.get('photo'),
+      ...validation.errors.get('privacy'),
+      ...validation.errors.get('progress'),
     ]));
     validation.passes(() => next());
   }

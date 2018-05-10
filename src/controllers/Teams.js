@@ -36,12 +36,13 @@ export default class Teams {
       }
 
       const team = await models.Team.create({
-        name: req.body.name,
-        description: req.body.description,
+        ...req.body,
         userId: req.user.id
       });
 
-      // Slack integration
+      return res.sendSuccess({ team });
+
+      /* // Slack integration
       // get response, put it in returned json, create integrations
       const slackResponse =
       await slackIntegration.channel.create(
@@ -59,6 +60,7 @@ export default class Teams {
           slack: slackResponse
         }
       });
+      */
     } catch (error) {
       return res.sendFailure([error.message]);
     }

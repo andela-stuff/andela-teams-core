@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    privacy: {
+    private: {
       type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: false

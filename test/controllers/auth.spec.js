@@ -17,8 +17,6 @@ import mock from '../mock';
 import models from '../../build/models';
 import server from '../../build/server';
 
-// should not register without slackId, githubUsername
-
 const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);

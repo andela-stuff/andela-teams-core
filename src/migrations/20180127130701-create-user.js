@@ -43,6 +43,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      role: {
+        type: Sequelize.ENUM,
+        values: [
+          'admin', 'disabled', 'member'
+        ],
+        defaultValue: 'member'
+      },
       slackId: {
         type: Sequelize.STRING,
         allowNull: false,

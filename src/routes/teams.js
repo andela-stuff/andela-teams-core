@@ -1,5 +1,5 @@
 /**
- * @fileOverview auth routes
+ * @fileOverview teams routes
  *
  * @author Franklin Chieze
  *
@@ -53,14 +53,5 @@ routes.get('/:teamId', teamsController.getById);
 routes.post('/', middleware.validation.validateCreateTeam, teamsController.create);
 routes.put('/:teamId', teamsController.updateById);
 routes.delete('/:teamId', teamsController.deleteById);
-
-routes.get('/:teamId/members', teamsController.getMemberships);
-routes.get('/:teamId/members/:memberId', teamsController.getMembershipById);
-routes.post('/:teamId/members', teamsController.createMembership);
-routes.put('/:teamId/members/:memberId', teamsController.updateMembershipById);
-routes.delete(
-  '/:teamId/members/:memberId',
-  teamsController.deleteMembershipById
-);
 
 export default routes;

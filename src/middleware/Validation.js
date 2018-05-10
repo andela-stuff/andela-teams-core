@@ -29,6 +29,11 @@ const createTeamRules = {
   privacy: 'boolean',
   progress: 'numeric'
 };
+const createTeamMemberRules = {
+  role: 'string',
+  teamId: 'required|string',
+  userId: 'required|string',
+};
 
 /**
 * Middleware for validations
@@ -91,6 +96,24 @@ export default class Validation {
       ...validation.errors.get('photo'),
       ...validation.errors.get('privacy'),
       ...validation.errors.get('progress'),
+    ]));
+    validation.passes(() => next());
+  }
+
+  /**
+  * Validate team member data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async validateCreateTeamMember(req, res, next) {
+    const validation = new Validator(req.body, createTeamMemberRules);
+    validation.fails(() => res.sendFailure([
+      ...validation.errors.get('role'),
+      ...validation.errors.get('teamId'),
+      ...validation.errors.get('userId'),
     ]));
     validation.passes(() => next());
   }

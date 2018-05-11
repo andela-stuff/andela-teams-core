@@ -42,6 +42,14 @@ export default class Teams {
         userId: req.user.id
       });
 
+      // the user that creates a team should be
+      // auto added to the team as 'lead'
+      const admin = await models.Membership.create({
+        role: 'lead',
+        teamId: team.id,
+        userId: req.user.id
+      });
+
       return res.sendSuccess({ team });
 
       /* // Slack integration

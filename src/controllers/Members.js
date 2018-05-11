@@ -27,15 +27,17 @@ export default class Members {
    */
   async create(req, res) {
     try {
-      const existingMember = await models.Team.findOne({
-        where: { teamId: req.body.teamId, userId: req.body.userId }
+      const existingMember = await models.Membership.findOne({
+        where: { teamId: req.params.teamId, userId: req.params.userId }
       });
       if (existingMember) {
         throw new Error('This user already exists in this team.');
       }
 
       const member = await models.Membership.create({
-        ...req.body
+        ...req.body,
+        teamId: req.params.teamId,
+        userId: req.params.userId
       });
 
       return res.sendSuccess({ member });

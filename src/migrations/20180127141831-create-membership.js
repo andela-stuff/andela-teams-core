@@ -11,7 +11,7 @@ module.exports = {
       role: {
         type: Sequelize.ENUM,
         values: [
-          'admin', 'disabled', 'facilitator', 'fellow', 'member', 'po', 'ttl'
+          'disabled', 'developer', 'lead', 'member'
         ],
         defaultValue: 'member'
       },

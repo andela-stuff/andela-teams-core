@@ -36,8 +36,9 @@ routes.use(middleware.auth.authenticateUser);
    *             $ref: '#/definitions/ResponseBody'
    */
 routes.post(
-  '/:teamId/members',
+  '/:teamId/members/:userId',
   middleware.confirmation.confirmTeamById,
+  middleware.confirmation.confirmUserById,
   middleware.validation.validateCreateTeamMember,
   membersController.create
 );

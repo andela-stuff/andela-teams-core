@@ -21,6 +21,20 @@ module.exports = {
         allowNull: true,
         defaultValue: 'There is no description for this team'
       },
+      photo: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      private: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+      },
+      progress: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
       userId: {
         type: Sequelize.UUID,
         allowNull: false,

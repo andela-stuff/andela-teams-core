@@ -61,24 +61,24 @@ export default class Confirmation {
 
   /**
   * Confirm that the currently authenticated user
-  * is an admin of the team with the specified ID in the req params
+  * is a team lead of the team with the specified ID in the req params
   * @param {object} req express request object
   * @param {object} res express response object
   * @param {object} next the next middleware or controller
   *
   * @returns {any} the next middleware or controller
   */
-  async confirmUserIsAdminInTeamById(req, res, next) {
+  async confirmUserIsLeadInTeamById(req, res, next) {
     try {
       const existingAdmin = await models.Membership.findOne({
         where: {
           teamId: req.params.teamId,
           userId: req.user.id,
-          role: 'admin'
+          role: 'lead'
         }
       });
       if (!existingAdmin) {
-        throw new Error('This user in not an admin in this team.');
+        throw new Error('This user in not a team lead in this team.');
       }
 
       next();

@@ -39,6 +39,7 @@ routes.post(
   '/:teamId/members/:userId',
   middleware.confirmation.confirmTeamById,
   middleware.confirmation.confirmUserById,
+  middleware.confirmation.confirmUserIsLeadInTeamById,
   middleware.validation.validateCreateTeamMember,
   membersController.create
 );

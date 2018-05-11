@@ -14,6 +14,26 @@ import models from '../models';
 */
 export default class Confirmation {
   /**
+  * Confirm that the currently authenticated user is an admin
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async confirmCurrentUserIsAdmin(req, res, next) {
+    try {
+      if (req.user.role !== 'admin') {
+        throw new Error('This user in not an admin.');
+      }
+
+      next();
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
+
+  /**
   * Confirm that a team with the specified ID in the req params exists
   * @param {object} req express request object
   * @param {object} res express response object

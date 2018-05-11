@@ -50,7 +50,9 @@ export default class Teams {
         userId: req.user.id
       });
 
-      return res.sendSuccess({ team });
+      const updatedTeam = await helpers.Misc.updateTeamAttributes(team, req);
+
+      return res.sendSuccess({ team: updatedTeam });
 
       /* // Slack integration
       // get response, put it in returned json, create integrations
@@ -131,7 +133,19 @@ export default class Teams {
           limit,
           offset
         );
-        return res.sendSuccess({ teams }, 200, { pagination });
+
+        const updatedTeams = [];
+        // using await in loop as shown below
+        // https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const team of teams) {
+          // eslint-disable-next-line no-await-in-loop
+          const t = await helpers.Misc.updateTeamAttributes(team, req);
+          updatedTeams.push(t);
+        }
+
+        return res.sendSuccess({ teams: updatedTeams }, 200, { pagination });
       }
 
       throw new Error('Could not retrieve teams from the database.');

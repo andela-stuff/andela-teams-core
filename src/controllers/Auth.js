@@ -72,14 +72,13 @@ export default class Auth {
         throw new Error('Email address must be @andela.com.');
       }
 
-      const user = await models.User.create(
-        req.body,
-        {
-          fileds:
-          ['displayName', 'email', 'githubUsername', 'googleId', 'photo',
-            'slackId']
-        }
-      );
+      // first user added to the DB has to be an admin
+      const dbResult = await models.User.findAndCountAll();
+      if (dbResult.count === 0) {
+        req.body.role = 'admin';
+      }
+
+      const user = await models.User.create(req.body);
 
       const userToken = jwt.sign({ email: user.email }, config.SECRET);
       const updatedUser = helpers.Misc.updateUserAttributes(user);

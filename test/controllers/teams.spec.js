@@ -60,7 +60,7 @@ describe('TeamsController', () => {
         });
     });
   });
-
+/*
   describe('GET: /v1/teams/:teamId', (done) => {
     it('should respond with an object', (done) => {
       chai.request(server)
@@ -182,4 +182,5 @@ describe('TeamsController', () => {
         });
     });
   });
+*/
 });

@@ -44,7 +44,7 @@ export default class Teams {
 
       // the user that creates a team should be
       // auto added to the team as 'lead'
-      const admin = await models.Membership.create({
+      const lead = await models.Membership.create({
         role: 'lead',
         teamId: team.id,
         userId: req.user.id

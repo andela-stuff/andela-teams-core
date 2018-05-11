@@ -67,5 +67,16 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Users')
+  down: (queryInterface, Sequelize) => {
+    const result = queryInterface.dropTable('Users');
+
+    // // manually drop "enum_Users_role" since Sequelize does not
+    // // drop when dropping "Users"
+    // queryInterface.sequelize.query('DROP TYPE "enum_Users_role";');
+    // the above line tends to lead to some sequelize deadlock error
+    // since I don't need it yet (I haven't altered the "role" ever)
+    // I have commented it out
+
+    return result;
+  }
 };

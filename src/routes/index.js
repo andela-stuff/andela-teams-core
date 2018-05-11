@@ -4,12 +4,14 @@
  * @author Franklin Chieze
  *
  * @requires ./auth
+ * @requires ./members
+ * @requires ./teams
  * @requires ./users
- * @requires ../controllers/teams
  */
 
 import authRoutes from './auth';
 import teamsRoutes from './teams';
+import teamMembersRoutes from './members';
 import usersRoutes from './users';
 
 /**
@@ -55,6 +57,8 @@ export default (app) => {
   app.use('/v1/auth', authRoutes);
 
   app.use('/v1/teams', teamsRoutes);
+
+  app.use('/v1/teams', teamMembersRoutes);
 
   app.use('/v1/users', usersRoutes);
 };

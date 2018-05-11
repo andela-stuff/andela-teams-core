@@ -4,10 +4,12 @@
  * @author Franklin Chieze
  *
  * @requires ../integrations
+ * @requires ../helpers
  * @requires ../models
  */
 
 import Slack from '../integrations/Slack';
+import helpers from '../helpers';
 import models from '../models';
 
 const slackIntegration = new Slack();
@@ -36,12 +38,23 @@ export default class Teams {
       }
 
       const team = await models.Team.create({
-        name: req.body.name,
-        description: req.body.description,
+        ...req.body,
         userId: req.user.id
       });
 
-      // Slack integration
+      // the user that creates a team should be
+      // auto added to the team as 'lead'
+      const lead = await models.Membership.create({
+        role: 'lead',
+        teamId: team.id,
+        userId: req.user.id
+      });
+
+      const updatedTeam = await helpers.Misc.updateTeamAttributes(team, req);
+
+      return res.sendSuccess({ team: updatedTeam });
+
+      /* // Slack integration
       // get response, put it in returned json, create integrations
       const slackResponse =
       await slackIntegration.channel.create(
@@ -59,6 +72,7 @@ export default class Teams {
           slack: slackResponse
         }
       });
+      */
     } catch (error) {
       return res.sendFailure([error.message]);
     }
@@ -104,9 +118,40 @@ export default class Teams {
    * @returns { object } response
    */
   async get(req, res) {
-    return res.status(200).send({
-      data: [{ name: 'team1' }, { name: 'team2' }]
-    });
+    try {
+      const { limit, offset } = req.meta.pagination;
+
+      const dbResult = await models.Team.findAndCountAll();
+      const teams = await models.Team.findAll({
+        limit,
+        offset
+      });
+      if (teams) {
+        const pagination = helpers.Misc.generatePaginationMeta(
+          req.fullUrl,
+          dbResult,
+          limit,
+          offset
+        );
+
+        const updatedTeams = [];
+        // using await in loop as shown below
+        // https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const team of teams) {
+          // eslint-disable-next-line no-await-in-loop
+          const t = await helpers.Misc.updateTeamAttributes(team, req);
+          updatedTeams.push(t);
+        }
+
+        return res.sendSuccess({ teams: updatedTeams }, 200, { pagination });
+      }
+
+      throw new Error('Could not retrieve teams from the database.');
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 
   /**
@@ -121,87 +166,6 @@ export default class Teams {
   async updateById(req, res) {
     return res.status(200).send({
       data: { name: 'team1' }
-    });
-  }
-
-  /**
-   * @method createMembership
-   * @desc This method creates a new membership
-   * in the team with the specified team ID
-   *
-   * @param { object} req request
-   * @param { object} res response
-   *
-   * @returns { object } response
-   */
-  async createMembership(req, res) {
-    return res.status(200).send({
-      data: { teamId: 1, userId: 1, role: 'LF' }
-    });
-  }
-
-  /**
-   * @method deleteMembershipById
-   * @desc This method deletes the membership with the specified member ID
-   * from the team with the specified team ID
-   *
-   * @param { object} req request
-   * @param { object} res response
-   *
-   * @returns { object } response
-   */
-  async deleteMembershipById(req, res) {
-    return res.status(200).send({
-      data: { teamId: 1, userId: 1, role: 'LF' }
-    });
-  }
-
-  /**
-   * @method getMembershipById
-   * @desc This method gets the team membership with the specified member ID
-   * from the team with the specified team ID
-   *
-   * @param { object} req request
-   * @param { object} res response
-   *
-   * @returns { object } response
-   */
-  async getMembershipById(req, res) {
-    return res.status(200).send({
-      data: { teamId: 1, userId: 1, role: 'LF' }
-    });
-  }
-
-  /**
-   * @method getMemberships
-   * @desc This method gets an array of all memberships
-   * from the team with the specified team ID
-   *
-   * @param { object} req request
-   * @param { object} res response
-   *
-   * @returns { object } response
-   */
-  async getMemberships(req, res) {
-    return res.status(200).send({
-      data: [
-        { teamId: 1, userId: 1, role: 'LF' },
-        { teamId: 2, userId: 2, role: 'PO' }
-      ]
-    });
-  }
-
-  /**
-   * @method updateMembershipById
-   * @desc This method updates the membership with the specified member ID
-   * in the team with the specified team ID
-   * @param { object} req request
-   * @param { object} res response
-   * @returns { object } response
-   */
-  async updateMembershipById(req, res) {
-    return res.status(200).send({
-      data: { teamId: 1, userId: 1, role: 'LF' }
     });
   }
 }

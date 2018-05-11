@@ -1,5 +1,5 @@
 /**
- * @fileOverview auth routes
+ * @fileOverview teams routes
  *
  * @author Franklin Chieze
  *
@@ -18,7 +18,22 @@ const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
 
-routes.get('/', teamsController.get);
+/**
+   * @swagger
+   * /v1/teams:
+   *   get:
+   *     description: Return an array of existing teams
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: teams
+   *         schema:
+   *           type: object
+   *           items:
+   *             $ref: '#/definitions/ResponseBody'
+   */
+routes.get('/', middleware.pagination, teamsController.get);
 routes.get('/:teamId', teamsController.getById);
 /**
    * @swagger
@@ -35,17 +50,13 @@ routes.get('/:teamId', teamsController.getById);
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.post('/', middleware.validation.validateTeam, teamsController.create);
+routes.post(
+  '/',
+  middleware.confirmation.confirmCurrentUserIsAdmin,
+  middleware.validation.validateCreateTeam,
+  teamsController.create
+);
 routes.put('/:teamId', teamsController.updateById);
 routes.delete('/:teamId', teamsController.deleteById);
-
-routes.get('/:teamId/members', teamsController.getMemberships);
-routes.get('/:teamId/members/:memberId', teamsController.getMembershipById);
-routes.post('/:teamId/members', teamsController.createMembership);
-routes.put('/:teamId/members/:memberId', teamsController.updateMembershipById);
-routes.delete(
-  '/:teamId/members/:memberId',
-  teamsController.deleteMembershipById
-);
 
 export default routes;

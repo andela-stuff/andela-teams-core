@@ -5,10 +5,13 @@
  *
  * @requires NODE:querystring
  * @requires NODE:url
+ * @requires ../models
  */
 
 import querystring from 'querystring';
 import url from 'url';
+
+import models from '../models';
 
 /**
  * @method generatePaginationMeta
@@ -49,6 +52,9 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
     total: dbResult.count // total number of items
   };
 
+  // current endpoint
+  paginationMeta.current = endpoint;
+
   // calculate next
   const nextOffset = offset + limit;
   if (nextOffset < dbResult.count) {
@@ -68,6 +74,32 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
 }
 
 /**
+ * @method updateTeamAttributes
+ * @desc Return updated team details
+ *
+ * @param { object } team the input team object
+ * @param { object } req the request object
+ *
+ * @returns { object } the output team object
+ */
+async function updateTeamAttributes(team, req) {
+  team = team.get();
+
+  const dbResult = await models.Membership.findAndCountAll({
+    where: { teamId: team.id }
+  });
+
+  team.members = dbResult.count;
+
+  const urlObject = url.parse(req.fullUrl);
+  const endpointWithoutSearch =
+  `${urlObject.protocol}//${urlObject.host}${urlObject.pathname}`;
+  team.membersUrl = `${endpointWithoutSearch}/${team.id}/members`;
+
+  return team;
+}
+
+/**
  * @method updateUserAttributes
  * @desc Return updated user details
  *
@@ -83,6 +115,7 @@ function updateUserAttributes(user) {
 export default {
   Misc: {
     generatePaginationMeta,
+    updateTeamAttributes,
     updateUserAttributes
   }
 };

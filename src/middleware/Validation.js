@@ -22,9 +22,15 @@ const signupUserRules = {
   photo: 'string',
   slackId: 'required|numeric',
 };
-const teamRules = {
+const createTeamRules = {
   name: 'required|string',
-  description: 'string'
+  description: 'string',
+  photo: 'string',
+  privacy: 'boolean',
+  progress: 'numeric'
+};
+const createTeamMemberRules = {
+  role: 'string',
 };
 
 /**
@@ -80,11 +86,30 @@ export default class Validation {
   *
   * @returns {any} the next middleware or controller
   */
-  async validateTeam(req, res, next) {
-    const validation = new Validator(req.body, teamRules);
+  async validateCreateTeam(req, res, next) {
+    const validation = new Validator(req.body, createTeamRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('name'),
-      ...validation.errors.get('description')
+      ...validation.errors.get('description'),
+      ...validation.errors.get('photo'),
+      ...validation.errors.get('privacy'),
+      ...validation.errors.get('progress'),
+    ]));
+    validation.passes(() => next());
+  }
+
+  /**
+  * Validate team member data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async validateCreateTeamMember(req, res, next) {
+    const validation = new Validator(req.body, createTeamMemberRules);
+    validation.fails(() => res.sendFailure([
+      ...validation.errors.get('role'),
     ]));
     validation.passes(() => next());
   }

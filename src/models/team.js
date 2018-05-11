@@ -19,6 +19,20 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: 'There is no description for this team'
     },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    private: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
+    progress: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

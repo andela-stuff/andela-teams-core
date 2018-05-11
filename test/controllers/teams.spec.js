@@ -11,7 +11,7 @@
  * @requires ../../build/models
  * @requires ../../build/server
  */
-/*
+
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
@@ -25,23 +25,37 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
+let user1 = {};
+
 describe('TeamsController', () => {
   beforeEach(async () => {
     await models.Team.destroy({ where: {} });
     await models.User.destroy({ where: {} });
-    await models.User.create(mock.user1);
+    user1 = await models.User.create(mock.user1);
     mock.user1.token = jwt.sign({ email: mock.user1.email }, config.SECRET);
+    user1.token = mock.user1.token;
   });
 
   describe('GET: /v1/teams', (done) => {
-    it('should respond with an array', (done) => {
+    beforeEach(async () => {
+      await models.Team.create({ ...mock.team1, userId: user1.id });
+      await models.Team.create({ ...mock.team2, userId: user1.id });
+      await models.Team.create({ ...mock.team3, userId: user1.id });
+      await models.Team.create({ ...mock.team4, userId: user1.id });
+      await models.Team.create({ ...mock.team5, userId: user1.id });
+    });
+    it('should return an array of existing teams', (done) => {
       chai.request(server)
         .get('/v1/teams')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Array');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('teams');
+          expect(res.body.data.teams).to.be.an('Array').that.is.not.empty;
+          expect(res.body.data.teams.length).to.equal(5);
+          expect(res.body.errors).to.be.undefined;
           done();
         });
     });
@@ -168,100 +182,4 @@ describe('TeamsController', () => {
         });
     });
   });
-
-  describe('GET: /v1/teams/:teamId/members', (done) => {
-    it('should respond with an array', (done) => {
-      chai.request(server)
-        .get('/v1/teams/1/members')
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Array');
-          done();
-        });
-    });
-  });
-
-  describe('GET: /v1/teams/:teamId/members/:memberId', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .get('/v1/teams/1/members/1')
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('teamId');
-          expect(res.body.data.teamId).to.be.a('Number');
-          res.body.data.should.have.property('userId');
-          expect(res.body.data.userId).to.be.a('Number');
-          res.body.data.should.have.property('role');
-          expect(res.body.data.role).to.be.a('String');
-          done();
-        });
-    });
-  });
-
-  describe('DELETE: /v1/teams/:teamId/members/:memberId', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .delete('/v1/teams/1/members/1')
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('teamId');
-          expect(res.body.data.teamId).to.be.a('Number');
-          res.body.data.should.have.property('userId');
-          expect(res.body.data.userId).to.be.a('Number');
-          res.body.data.should.have.property('role');
-          expect(res.body.data.role).to.be.a('String');
-          done();
-        });
-    });
-  });
-
-  describe('POST: /v1/teams/:teamId/members', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .post('/v1/teams/1/members')
-        .send({})
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('teamId');
-          expect(res.body.data.teamId).to.be.a('Number');
-          res.body.data.should.have.property('userId');
-          expect(res.body.data.userId).to.be.a('Number');
-          res.body.data.should.have.property('role');
-          expect(res.body.data.role).to.be.a('String');
-          done();
-        });
-    });
-  });
-
-  describe('PUT: /v1/teams/:teamId/members/:memberId', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .put('/v1/teams/1/members/1')
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('teamId');
-          expect(res.body.data.teamId).to.be.a('Number');
-          res.body.data.should.have.property('userId');
-          expect(res.body.data.userId).to.be.a('Number');
-          res.body.data.should.have.property('role');
-          expect(res.body.data.role).to.be.a('String');
-          done();
-        });
-    });
-  });
 });
-*/

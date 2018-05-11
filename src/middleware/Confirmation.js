@@ -24,7 +24,7 @@ export default class Confirmation {
   async confirmCurrentUserIsAdmin(req, res, next) {
     try {
       if (req.user.role !== 'admin') {
-        throw new Error('This user in not an admin.');
+        throw new Error('This user is not an admin.');
       }
 
       next();

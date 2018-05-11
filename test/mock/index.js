@@ -1,23 +1,28 @@
 export default {
   team1: {
     name: 'team1',
-    description: 'description of team1'
+    description: 'description of team1',
+    photo: 'https://www.myphotos.com/1',
   },
   team2: {
     name: 'team2',
-    description: 'description of team2'
+    description: 'description of team2',
+    photo: 'https://www.myphotos.com/2',
   },
   team3: {
     name: 'team3',
-    description: 'description of team3'
+    description: 'description of team3',
+    photo: 'https://www.myphotos.com/3',
   },
   team4: {
     name: 'team4',
-    description: 'description of team4'
+    description: 'description of team4',
+    photo: 'https://www.myphotos.com/4',
   },
   team5: {
     name: 'team5',
-    description: 'description of team5'
+    description: 'description of team5',
+    photo: 'https://www.myphotos.com/5',
   },
   team1WithoutDescription: {
     name: 'team1'

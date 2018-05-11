@@ -85,11 +85,17 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
 async function updateTeamAttributes(team, req) {
   team = team.get();
 
-  const dbResult = await models.Membership.findAndCountAll({
+  const memberships = await models.Membership.findAndCountAll({
     where: { teamId: team.id }
   });
 
-  team.members = dbResult.count;
+  const membershipsThatContainYou =
+  memberships.rows.filter(member => (member.userId === req.user.id));
+  team.containsYou = membershipsThatContainYou.length > 0;
+
+  team.createdByYou = (team.userId === req.user.id);
+
+  team.members = memberships.count;
 
   const urlObject = url.parse(req.fullUrl);
   const endpointWithoutSearch =

@@ -9,7 +9,7 @@
     "yarn": "1.5.1"
   },
   "scripts": {
-    "build": "npm run remove-build && npm run build:server && npm run db:reset && npm run db:migrate",
+    "build": "npm run remove-build && npm run build:server && npm run db:migrate",
     "build:server": "./node_modules/.bin/babel -d ./build ./src -s --copy-files",
     "build-and-start": "npm run build && npm start",
     "build-and-start:dev": "npm run build && npm run start:dev",
@@ -46,6 +46,7 @@
     "body-parser": "^1.18.2",
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "forever": "^0.15.3",

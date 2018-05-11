@@ -4,6 +4,7 @@
  * @author Franklin Chieze
  *
  * @requires NPM:body-parser
+ * @requires NPM:cors
  * @requires NPM:dotenv
  * @requires NPM:express
  * @requires NPM:morgan
@@ -14,6 +15,7 @@
  */
 
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
@@ -57,13 +59,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// set important headers
+// CORS
+/*
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin');
   res.header('Access-Control-Allow-Methods', 'DELETE, GET, POST, PUT');
   next();
 });
+*/
+app.use(cors());
 
 // Serves directory with url as static files
 app.use(express.static(path.join(__dirname, '../api-docs/')));

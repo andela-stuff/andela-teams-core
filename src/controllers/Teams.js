@@ -94,21 +94,6 @@ export default class Teams {
   }
 
   /**
-   * @method getById
-   * @desc This method get the team with the specified team ID
-   *
-   * @param { object} req request
-   * @param { object} res response
-   *
-   * @returns { object } response
-   */
-  async getById(req, res) {
-    return res.status(200).send({
-      data: { name: 'team1' }
-    });
-  }
-
-  /**
    * @method get
    * @desc This method gets an array of teams
    *
@@ -128,7 +113,7 @@ export default class Teams {
       });
       if (teams) {
         const pagination = helpers.Misc.generatePaginationMeta(
-          req.fullUrl,
+          req,
           dbResult,
           limit,
           offset
@@ -149,6 +134,26 @@ export default class Teams {
       }
 
       throw new Error('Could not retrieve teams from the database.');
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
+
+  /**
+   * @method getById
+   * @desc This method get the team with the specified team ID
+   *
+   * @param { object} req request
+   * @param { object} res response
+   *
+   * @returns { object } response
+   */
+  async getById(req, res) {
+    try {
+      const team =
+      await helpers.Misc.updateTeamAttributes(req.existingTeam, req);
+
+      return res.sendSuccess({ team });
     } catch (error) {
       return res.sendFailure([error.message]);
     }

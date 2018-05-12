@@ -17,7 +17,7 @@ import models from '../models';
  * @method generatePaginationMeta
  * @desc Return pagination meta
  *
- * @param { string } endpoint the endpoint
+ * @param { object } req the request object
  * @param { Array } dbResult the query results from the database
  * @param {number} limit the number of items on a page
  * @param {number} offset the number of items to be skipped from the
@@ -25,7 +25,7 @@ import models from '../models';
  *
  * @returns { object } the output user object
  */
-function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
+function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
   limit = Number(limit) || 20;
   offset = Number(offset) || 0;
 
@@ -38,9 +38,11 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
     offset = 0;
   }
 
-  const urlObject = url.parse(endpoint);
+  const protocol =
+  (req.secure || req.connection.encrypted) ? 'https:' : 'http:';
+  const urlObject = url.parse(req.fullUrl);
   const endpointWithoutSearch =
-  `${urlObject.protocol}//${urlObject.host}${urlObject.pathname}`;
+  `${protocol}//${urlObject.host}${urlObject.pathname}`;
   const query = querystring.parse(urlObject.query || '');
 
   const paginationMeta = {
@@ -53,7 +55,7 @@ function generatePaginationMeta(endpoint, dbResult, limit = 20, offset = 0) {
   };
 
   // current endpoint
-  paginationMeta.current = endpoint;
+  paginationMeta.current = req.fullUrl;
 
   // calculate next
   const nextOffset = offset + limit;
@@ -97,10 +99,12 @@ async function updateTeamAttributes(team, req) {
 
   team.members = memberships.count;
 
+  const protocol =
+  (req.secure || req.connection.encrypted) ? 'https:' : 'http:';
   const urlObject = url.parse(req.fullUrl);
-  const endpointWithoutSearch =
-  `${urlObject.protocol}//${urlObject.host}${urlObject.pathname}`;
-  team.membersUrl = `${endpointWithoutSearch}/${team.id}/members`;
+  const baseUrl =
+  `${protocol}//${urlObject.host}`;
+  team.membersUrl = `${baseUrl}/v1/teams/${team.id}/members`;
 
   return team;
 }

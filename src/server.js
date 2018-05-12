@@ -55,10 +55,6 @@ app.set('port', port);
 // Log requests to the console.
 app.use(logger('dev'));
 
-// Parse incoming requests data
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
 // CORS
 /*
 app.use((req, res, next) => {
@@ -69,6 +65,10 @@ app.use((req, res, next) => {
 });
 */
 app.use(cors());
+
+// Parse incoming requests data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Serves directory with url as static files
 app.use(express.static(path.join(__dirname, '../api-docs/')));

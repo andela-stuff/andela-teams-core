@@ -98,7 +98,7 @@ async function updateTeamAttributes(team, req) {
 
   team.members = memberships.count;
 
-  const protocol = req.secure ? 'https:' : 'http:';
+  const protocol = (req.secure || req.connection.encrypted) ? 'https:' : 'http:';
   const urlObject = url.parse(req.fullUrl);
   const baseUrl =
   `${protocol}//${urlObject.host}`;

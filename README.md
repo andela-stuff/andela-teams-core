@@ -3,10 +3,10 @@
 This is the core server side for [Andela Teams](https://andela-teams.herokuapp.com).
 
 [![Andela](https://andela-badge.herokuapp.com/)](https://andela.com)
-[![Build Status](https://travis-ci.org/andela-stuff/andela-teams-core.svg?branch=master)](https://travis-ci.org/andela-stuff/andela-teams-core)
+[![Build Status](https://travis-ci.org/andela-stuff/andela-teams-core.svg?branch=staging)](https://travis-ci.org/andela-stuff/andela-teams-core)
 [![CircleCI](https://circleci.com/gh/andela-stuff/andela-teams-core.svg?style=svg)](https://circleci.com/gh/andela-stuff/andela-teams-core)
-[![Coverage Status](https://coveralls.io/repos/github/andela-stuff/andela-teams-core/badge.svg?branch=master)](https://coveralls.io/github/andela-stuff/andela-teams-core?branch=master)
-[![codecov](https://codecov.io/gh/andela-stuff/andela-teams-core/branch/master/graph/badge.svg)](https://codecov.io/gh/andela-stuff/andela-teams-core)
+[![Coverage Status](https://coveralls.io/repos/github/andela-stuff/andela-teams-core/badge.svg?branch=staging)](https://coveralls.io/github/andela-stuff/andela-teams-core?branch=staging)
+[![codecov](https://codecov.io/gh/andela-stuff/andela-teams-core/branch/staging/graph/badge.svg)](https://codecov.io/gh/andela-stuff/andela-teams-core)
 [![Hound CI](https://camo.githubusercontent.com/23ee7a697b291798079e258bbc25434c4fac4f8b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f50726f7465637465645f62792d486f756e642d6138373364312e737667)](https://houndci.com)
 [![Heroku](https://heroku-badge.herokuapp.com/?app=andela-teams-core)](https://andela-teams-core.herokuapp.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

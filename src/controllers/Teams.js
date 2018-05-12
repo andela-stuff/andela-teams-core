@@ -149,9 +149,14 @@ export default class Teams {
    * @returns { object } response
    */
   async getById(req, res) {
-    return res.status(200).send({
-      data: { name: 'team1' }
-    });
+    try {
+      const team =
+      await helpers.Misc.updateTeamAttributes(req.existingTeam, req);
+
+      return res.sendSuccess({ team });
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 
   /**

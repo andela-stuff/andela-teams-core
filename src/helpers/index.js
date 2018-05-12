@@ -60,16 +60,32 @@ function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
   // calculate next
   const nextOffset = offset + limit;
   if (nextOffset < dbResult.count) {
-    query.offset = nextOffset;
+    if (query['@offset']) {
+      query['@offset'] = nextOffset;
+    }
+    if (query['@page']) {
+      query['@page'] = paginationMeta.page + 1;
+    }
     paginationMeta.next =
-    `${endpointWithoutSearch}?${querystring.stringify(query)}`;
+    `${endpointWithoutSearch}?${querystring.stringify(query)}`
+      .replace('%40limit=', '@limit=')
+      .replace('%40page=', '@page=')
+      .replace('%40offset=', '@offset=');
   }
   // calculate previous
   const prevOffset = offset - limit;
   if (prevOffset > -1) {
-    query.offset = prevOffset;
+    if (query['@offset']) {
+      query['@offset'] = prevOffset;
+    }
+    if (query['@page']) {
+      query['@page'] = paginationMeta.page - 1;
+    }
     paginationMeta.previous =
-    `${endpointWithoutSearch}?${querystring.stringify(query)}`;
+    `${endpointWithoutSearch}?${querystring.stringify(query)}`
+      .replace('%40limit=', '@limit=')
+      .replace('%40page=', '@page=')
+      .replace('%40offset=', '@offset=');
   }
 
   return paginationMeta;

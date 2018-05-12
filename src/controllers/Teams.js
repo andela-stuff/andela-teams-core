@@ -113,7 +113,7 @@ export default class Teams {
       });
       if (teams) {
         const pagination = helpers.Misc.generatePaginationMeta(
-          req.fullUrl,
+          req,
           dbResult,
           limit,
           offset

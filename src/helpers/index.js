@@ -38,7 +38,7 @@ function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
     offset = 0;
   }
 
-  const protocol = req.secure ? 'https:' : 'http:';
+  const protocol = (req.secure || req.connection.encrypted) ? 'https:' : 'http:';
   const urlObject = url.parse(req.fullUrl);
   const endpointWithoutSearch =
   `${protocol}//${urlObject.host}${urlObject.pathname}`;

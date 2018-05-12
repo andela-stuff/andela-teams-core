@@ -97,10 +97,11 @@ async function updateTeamAttributes(team, req) {
 
   team.members = memberships.count;
 
+  const protocol = req.secure ? 'https:' : 'http:';
   const urlObject = url.parse(req.fullUrl);
-  const endpointWithoutSearch =
-  `${urlObject.protocol}//${urlObject.host}${urlObject.pathname}`;
-  team.membersUrl = `${endpointWithoutSearch}/${team.id}/members`;
+  const baseUrl =
+  `${protocol}//${urlObject.host}`;
+  team.membersUrl = `${baseUrl}/v1/teams/${team.id}/members`;
 
   return team;
 }

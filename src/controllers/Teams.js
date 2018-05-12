@@ -94,21 +94,6 @@ export default class Teams {
   }
 
   /**
-   * @method getById
-   * @desc This method get the team with the specified team ID
-   *
-   * @param { object} req request
-   * @param { object} res response
-   *
-   * @returns { object } response
-   */
-  async getById(req, res) {
-    return res.status(200).send({
-      data: { name: 'team1' }
-    });
-  }
-
-  /**
    * @method get
    * @desc This method gets an array of teams
    *
@@ -152,6 +137,21 @@ export default class Teams {
     } catch (error) {
       return res.sendFailure([error.message]);
     }
+  }
+
+  /**
+   * @method getById
+   * @desc This method get the team with the specified team ID
+   *
+   * @param { object} req request
+   * @param { object} res response
+   *
+   * @returns { object } response
+   */
+  async getById(req, res) {
+    return res.status(200).send({
+      data: { name: 'team1' }
+    });
   }
 
   /**

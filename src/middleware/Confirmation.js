@@ -50,6 +50,8 @@ export default class Confirmation {
         throw new Error('Team with the specified ID does not exist.');
       }
 
+      req.existingTeam = existingTeam;
+
       next();
     } catch (error) {
       return res.sendFailure([error.message]);
@@ -73,6 +75,8 @@ export default class Confirmation {
         throw new Error('User with the specified ID does not exist.');
       }
 
+      req.existingUser = existingUser;
+
       next();
     } catch (error) {
       return res.sendFailure([error.message]);
@@ -90,15 +94,15 @@ export default class Confirmation {
   */
   async confirmUserIsLeadInTeamById(req, res, next) {
     try {
-      const existingAdmin = await models.Membership.findOne({
+      const existingLead = await models.Membership.findOne({
         where: {
           teamId: req.params.teamId,
           userId: req.user.id,
           role: 'lead'
         }
       });
-      if (!existingAdmin) {
-        throw new Error('This user in not a team lead in this team.');
+      if (!existingLead) {
+        throw new Error('This user is not a team lead in this team.');
       }
 
       next();

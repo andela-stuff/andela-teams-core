@@ -34,7 +34,26 @@ routes.use(middleware.auth.authenticateUser);
    *             $ref: '#/definitions/ResponseBody'
    */
 routes.get('/', middleware.pagination, teamsController.get);
-routes.get('/:teamId', teamsController.getById);
+/**
+   * @swagger
+   * /v1/teams/:teamId:
+   *   get:
+   *     description: Return the team with the specified ID
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: team
+   *         schema:
+   *           type: object
+   *           items:
+   *             $ref: '#/definitions/ResponseBody'
+   */
+routes.get(
+  '/:teamId',
+  middleware.confirmation.confirmTeamById,
+  teamsController.getById
+);
 /**
    * @swagger
    * /v1/teams:

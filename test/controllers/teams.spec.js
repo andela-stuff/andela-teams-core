@@ -25,6 +25,7 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
+let team1 = {};
 let user0 = {};
 let user1 = {};
 
@@ -63,33 +64,58 @@ describe('TeamsController', () => {
           done();
         });
     });
-    it('should not create a team with an existing name', (done) => {
+  });
+
+  describe('GET: /v1/teams/:teamId', (done) => {
+    beforeEach(async () => {
+      team1 = await models.Team.create({ ...mock.team1, userId: user0.id });
+    });
+    it('should get a team with the specified ID', (done) => {
       chai.request(server)
-        .post('/v1/teams')
-        .send(mock.team1)
+        .get(`/v1/teams/${team1.id}`)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('team');
+          expect(res.body.data.team.id).to.not.be.undefined;
+          expect(res.body.data.team.name).to.equal(mock.team1.name);
+          expect(res.body.data.team.createdByYou).to.equal(true);
+          expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it(
+      'should get a team with the specified ID created by another user',
+      (done) => {
+        chai.request(server)
+          .get(`/v1/teams/${team1.id}`)
+          .set('x-teams-user-token', mock.user1.token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('data');
+            expect(res.body.data).to.be.an('Object');
+            res.body.data.should.have.property('team');
+            expect(res.body.data.team.id).to.not.be.undefined;
+            expect(res.body.data.team.name).to.equal(mock.team1.name);
+            expect(res.body.data.team.createdByYou).to.equal(false);
+            expect(res.body.errors).to.be.undefined;
+            done();
+          });
+      }
+    );
+    it('should not get a team given an incorrect ID', (done) => {
+      chai.request(server)
+        .get(`/v1/teams/${user0.id}`) // deliberately using a user's ID here
         .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('errors');
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
-            .to.include('Team with the same name already exists.');
+            .to.include('Team with the specified ID does not exist.');
           expect(res.body.data).to.be.undefined;
-          done();
-        });
-    });
-  });
-
-  describe('GET: /v1/teams/:teamId', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .get('/v1/teams/1')
-        .set('x-teams-user-token', mock.user0.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
           done();
         });
     });
@@ -178,6 +204,27 @@ describe('TeamsController', () => {
           expect(res.body.data.team.private).to.equal(false);
           expect(res.body.data.team.progress).to.equal(0);
           expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+  });
+
+  describe('POST: /v1/teams', (done) => {
+    beforeEach(async () => {
+      await models.Team.create({ ...mock.team1, userId: user0.id });
+    });
+    it('should not create a team with an existing name', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('Team with the same name already exists.');
+          expect(res.body.data).to.be.undefined;
           done();
         });
     });

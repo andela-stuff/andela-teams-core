@@ -28,7 +28,7 @@ import routes from './routes';
 dotenv.config();
 
 const env = process.env.NODE_ENV || 'development';
-const port = parseInt(process.env.PORT, 10) || 3000;
+const port = parseInt(process.env.PORT, 10) || 8000;
 
 // swagger definition
 const swaggerDefinition = {

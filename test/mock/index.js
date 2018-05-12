@@ -8,6 +8,8 @@ export default {
     name: 'team2',
     description: 'description of team2',
     photo: 'https://www.myphotos.com/2',
+    private: true,
+    progress: 50
   },
   team3: {
     name: 'team3',
@@ -24,14 +26,15 @@ export default {
     description: 'description of team5',
     photo: 'https://www.myphotos.com/5',
   },
-  team1WithoutDescription: {
+  team1WithoutOptionalProperties: {
     name: 'team1'
   },
-  team2WithoutDescription: {
+  team2WithoutOptionalProperties: {
     name: 'team2'
   },
   team1WithoutName: {
-    description: 'description of team1'
+    description: 'description of team1',
+    photo: 'https://www.myphotos.com/1',
   },
   user0: {
     displayName: 'user0',
@@ -39,6 +42,7 @@ export default {
     githubUsername: 'user0',
     googleId: 123450,
     photo: 'https://www.myphotos.com/0',
+    role: 'admin',
     slackId: 1234560
   },
   user1: {

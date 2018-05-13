@@ -25,7 +25,7 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe('UsersController', () => {
+describe('Pagination Middleware', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
     await models.User.create(mock.user1);

@@ -37,6 +37,7 @@ routes.get(
   '/',
   middleware.pagination,
   middleware.sort,
+  middleware.filter,
   usersController.get
 );
 routes.get('/:userId', usersController.getById);

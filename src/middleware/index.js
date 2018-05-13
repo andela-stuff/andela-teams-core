@@ -13,6 +13,7 @@
 import api from './api';
 import Auth from './Auth';
 import Confirmation from './Confirmation';
+import filter from './filter';
 import pagination from './pagination';
 import sort from './sort';
 import Validation from './Validation';
@@ -25,6 +26,7 @@ export default {
   api,
   auth,
   confirmation,
+  filter,
   pagination,
   sort,
   validation

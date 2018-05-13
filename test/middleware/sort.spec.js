@@ -1,5 +1,5 @@
 /**
- * @fileOverview pagination middleware tests
+ * @fileOverview sort middleware tests
  *
  * @author Franklin Chieze
  *

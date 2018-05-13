@@ -106,9 +106,11 @@ export default class Teams {
     try {
       const { limit, offset } = req.meta.pagination;
       const { attribute, order } = req.meta.sort;
+      const { where } = req.meta.filter;
 
-      const dbResult = await models.Team.findAndCountAll();
+      const dbResult = await models.Team.findAndCountAll({ where });
       const teams = await models.Team.findAll({
+        where,
         limit,
         offset,
         order: [[attribute, order]]

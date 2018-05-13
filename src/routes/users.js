@@ -36,6 +36,7 @@ routes.use(middleware.auth.authenticateUser);
 routes.get(
   '/',
   middleware.pagination,
+  middleware.search,
   middleware.sort,
   middleware.filter,
   usersController.get

@@ -71,6 +71,7 @@ function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
       .replace('%40page=', '@page=')
       .replace('%40offset=', '@offset=')
       .replace('%40order=', '@order=')
+      .replace('%40search=', '@search=')
       .replace('%40sort=', '@sort=');
   }
   // calculate previous
@@ -87,6 +88,7 @@ function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
       .replace('%40page=', '@page=')
       .replace('%40offset=', '@offset=')
       .replace('%40order=', '@order=')
+      .replace('%40search=', '@search=')
       .replace('%40sort=', '@sort=');
   }
 

@@ -33,7 +33,12 @@ routes.use(middleware.auth.authenticateUser);
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.get('/', middleware.pagination, teamsController.get);
+routes.get(
+  '/',
+  middleware.pagination,
+  middleware.sort,
+  teamsController.get
+);
 /**
    * @swagger
    * /v1/teams/:teamId:

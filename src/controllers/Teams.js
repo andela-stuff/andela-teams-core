@@ -105,11 +105,13 @@ export default class Teams {
   async get(req, res) {
     try {
       const { limit, offset } = req.meta.pagination;
+      const { attribute, order } = req.meta.sort;
 
       const dbResult = await models.Team.findAndCountAll();
       const teams = await models.Team.findAll({
         limit,
-        offset
+        offset,
+        order: [[attribute, order]]
       });
       if (teams) {
         const pagination = helpers.Misc.generatePaginationMeta(

@@ -13,7 +13,10 @@
 import api from './api';
 import Auth from './Auth';
 import Confirmation from './Confirmation';
+import filter from './filter';
 import pagination from './pagination';
+import search from './search';
+import sort from './sort';
 import Validation from './Validation';
 
 const auth = new Auth();
@@ -24,6 +27,9 @@ export default {
   api,
   auth,
   confirmation,
+  filter,
   pagination,
+  search,
+  sort,
   validation
 };

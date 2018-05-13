@@ -10,6 +10,7 @@
 import helpers from '../helpers';
 import models from '../models';
 
+const { Op } = models.Sequelize;
 /**
 * Users controller class
 * @class Users
@@ -57,11 +58,30 @@ export default class Users {
   async get(req, res) {
     try {
       const { limit, offset } = req.meta.pagination;
+      const { query } = req.meta.search;
+      const { attribute, order } = req.meta.sort;
+      let { where } = req.meta.filter;
 
-      const dbResult = await models.User.findAndCountAll();
+      // if search query is present, overwrite the 'where' so that
+      // the 'displayName', 'email', and 'githubUsername'
+      // are checked to see if they contain
+      // that search query (case-INsensitive)
+      if (query) {
+        where = {
+          [Op.or]: [
+            { displayName: { [Op.iLike]: `%${query}%` } },
+            { email: { [Op.iLike]: `%${query}%` } },
+            { githubUsername: { [Op.iLike]: `%${query}%` } }
+          ]
+        };
+      }
+
+      const dbResult = await models.User.findAndCountAll({ where });
       const users = await models.User.findAll({
+        where,
         limit,
-        offset
+        offset,
+        order: [[attribute, order]]
       });
       if (users) {
         const pagination = helpers.Misc.generatePaginationMeta(

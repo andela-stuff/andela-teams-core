@@ -33,7 +33,14 @@ routes.use(middleware.auth.authenticateUser);
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
-routes.get('/', middleware.pagination, usersController.get);
+routes.get(
+  '/',
+  middleware.pagination,
+  middleware.search,
+  middleware.sort,
+  middleware.filter,
+  usersController.get
+);
 routes.get('/:userId', usersController.getById);
 routes.put('/:userId', usersController.updateById);
 routes.delete('/:userId', usersController.deleteById);

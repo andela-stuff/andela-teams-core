@@ -25,7 +25,7 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe('UsersController', () => {
+describe('Pagination Middleware', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
     await models.User.create(mock.user1);
@@ -66,7 +66,7 @@ describe('UsersController', () => {
     it('should return pagination metadata (limit: -1)', (done) => {
       // limit less than 1 is automatically changed to 1
       chai.request(server)
-        .get('/v1/users?limit=-1')
+        .get('/v1/users?@limit=-1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -90,7 +90,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1')
+        .get('/v1/users?@limit=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -115,7 +115,7 @@ describe('UsersController', () => {
     it('should return pagination metadata (limit: 1, offset: -1)', (done) => {
       // offset less than 0 is automatically changed to 0
       chai.request(server)
-        .get('/v1/users?limit=1&offset=-1')
+        .get('/v1/users?@limit=1&@offset=-1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -139,7 +139,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1, offset: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1&offset=1')
+        .get('/v1/users?@limit=1&@offset=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -163,7 +163,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1, offset: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1&offset=2')
+        .get('/v1/users?@limit=1&@offset=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -187,7 +187,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1, offset: 5)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1&offset=5')
+        .get('/v1/users?@limit=1&@offset=5')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -212,7 +212,7 @@ describe('UsersController', () => {
     it('should return pagination metadata (limit: 1, page: -1)', (done) => {
       // page less than 1 is automatically changed to 1
       chai.request(server)
-        .get('/v1/users?limit=1&page=-1')
+        .get('/v1/users?@limit=1&@page=-1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -236,7 +236,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1, page: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1&page=1')
+        .get('/v1/users?@limit=1&@page=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -260,7 +260,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1, page: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1&page=2')
+        .get('/v1/users?@limit=1&@page=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -284,7 +284,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1, page: 5)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1&page=5')
+        .get('/v1/users?@limit=1&@page=5')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -308,7 +308,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 1, page: 10)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=1&page=10')
+        .get('/v1/users?@limit=1&@page=10')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -332,7 +332,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2')
+        .get('/v1/users?@limit=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -356,7 +356,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2, offset: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&offset=1')
+        .get('/v1/users?@limit=2&@offset=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -380,7 +380,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2, offset: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&offset=2')
+        .get('/v1/users?@limit=2&@offset=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -404,7 +404,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2, offset: 5)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&offset=5')
+        .get('/v1/users?@limit=2&@offset=5')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -428,7 +428,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2, page: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&page=1')
+        .get('/v1/users?@limit=2&@page=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -452,7 +452,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2, page: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&page=2')
+        .get('/v1/users?@limit=2&@page=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -476,7 +476,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2, page: 3)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&page=3')
+        .get('/v1/users?@limit=2&@page=3')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -500,7 +500,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 2, page: 5)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=2&page=5')
+        .get('/v1/users?@limit=2&@page=5')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -524,7 +524,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 5)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=5')
+        .get('/v1/users?@limit=5')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -547,7 +547,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 5, offset: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=5&offset=1')
+        .get('/v1/users?@limit=5&@offset=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -571,7 +571,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 5, offset: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=5&offset=2')
+        .get('/v1/users?@limit=5&@offset=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -595,7 +595,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 5, offset: 5)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=5&offset=5')
+        .get('/v1/users?@limit=5&@offset=5')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -619,7 +619,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 5, page: 1)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=5&page=1')
+        .get('/v1/users?@limit=5&@page=1')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -643,7 +643,7 @@ describe('UsersController', () => {
     });
     it('should return pagination metadata (limit: 5, page: 2)', (done) => {
       chai.request(server)
-        .get('/v1/users?limit=5&page=2')
+        .get('/v1/users?@limit=5&@page=2')
         .set('x-teams-user-token', mock.user1.token)
         .end((err, res) => {
           res.should.have.status(200);

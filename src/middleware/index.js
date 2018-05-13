@@ -14,6 +14,7 @@ import api from './api';
 import Auth from './Auth';
 import Confirmation from './Confirmation';
 import pagination from './pagination';
+import sort from './sort';
 import Validation from './Validation';
 
 const auth = new Auth();
@@ -25,5 +26,6 @@ export default {
   auth,
   confirmation,
   pagination,
+  sort,
   validation
 };

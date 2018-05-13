@@ -57,11 +57,13 @@ export default class Users {
   async get(req, res) {
     try {
       const { limit, offset } = req.meta.pagination;
+      const { attribute, order } = req.meta.sort;
 
       const dbResult = await models.User.findAndCountAll();
       const users = await models.User.findAll({
         limit,
-        offset
+        offset,
+        order: [[attribute, order]]
       });
       if (users) {
         const pagination = helpers.Misc.generatePaginationMeta(

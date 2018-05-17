@@ -29,8 +29,9 @@ let team1 = {};
 let user0 = {};
 let user1 = {};
 
-describe('TeamsController', () => {
+describe('MembersController', () => {
   beforeEach(async () => {
+    await models.Membership.destroy({ where: {} });
     await models.Team.destroy({ where: {} });
     await models.User.destroy({ where: {} });
     user0 = await models.User.create(mock.user0);
@@ -137,36 +138,6 @@ describe('TeamsController', () => {
   });
 
   describe('POST: /v1/teams/', (done) => {
-    it('should not create a team without a name', (done) => {
-      chai.request(server)
-        .post('/v1/teams')
-        .send({ ...mock.team1WithoutName, userId: user0.id })
-        .set('x-teams-user-token', mock.user0.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('errors');
-          expect(res.body.errors).to.be.an('Array');
-          expect(res.body.errors)
-            .to.include('The name field is required.');
-          expect(res.body.data).to.be.undefined;
-          done();
-        });
-    });
-    it('should not create a team by a user that is not an admin', (done) => {
-      chai.request(server)
-        .post('/v1/teams')
-        .send({ ...mock.team1, userId: user1.id })
-        .set('x-teams-user-token', mock.user1.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('errors');
-          expect(res.body.errors).to.be.an('Array');
-          expect(res.body.errors)
-            .to.include('This user is not an admin.');
-          expect(res.body.data).to.be.undefined;
-          done();
-        });
-    });
     it('should create a new team and auto-add user to team', (done) => {
       chai.request(server)
         .post('/v1/teams')
@@ -186,10 +157,10 @@ describe('TeamsController', () => {
           done();
         });
     });
-    it('should create a new team with default properties', (done) => {
+    it('should add user that creates team to team as team lead', (done) => {
       chai.request(server)
         .post('/v1/teams')
-        .send(mock.team2WithoutOptionalProperties)
+        .send(mock.team1)
         .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -197,12 +168,10 @@ describe('TeamsController', () => {
           expect(res.body.data).to.be.an('Object');
           res.body.data.should.have.property('team');
           expect(res.body.data.team.id).to.not.be.undefined;
-          expect(res.body.data.team.name)
-            .to.equal(mock.team2WithoutOptionalProperties.name);
-          expect(res.body.data.team.description)
-            .to.equal('There is no description for this team');
-          expect(res.body.data.team.private).to.equal(false);
-          expect(res.body.data.team.progress).to.equal(0);
+          expect(res.body.data.team.name).to.equal(mock.team1.name);
+          expect(res.body.data.team.containsYou).to.equal(true);
+          expect(res.body.data.team.createdByYou).to.equal(true);
+          expect(res.body.data.team.members).to.equal(1);
           expect(res.body.errors).to.be.undefined;
           done();
         });

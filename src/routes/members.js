@@ -18,18 +18,41 @@ const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
 
-// routes.get('/:teamId/members', teamsController.getMemberships);
-// routes.get('/:teamId/members/:memberId', teamsController.getMembershipById);
+// routes.get('/:teamId/members', teamsController.get);
+// routes.get('/*/members', teamsController.getForAllTeamsAndAllUsers);
+// routes.get('/*/members/*', teamsController.getForAllTeamsAndAllUsers);
+// routes.get('/*/members/:userId', teamsController.getForAllTeams);
 /**
    * @swagger
-   * /v1/teams/:teamId/members:
-   *   post:
-   *     description: Creates a new team member
+   * /v1/teams/:teamId/members/:userId:
+   *   get:
+   *     description: Return the team membership with the specified IDs
    *     produces:
    *      - application/json
    *     responses:
    *       200:
-   *         description: members
+   *         description: membership
+   *         schema:
+   *           type: object
+   *           items:
+   *             $ref: '#/definitions/ResponseBody'
+   */
+routes.get(
+  '/:teamId/members/:userId',
+  middleware.confirmation.confirmTeamById,
+  middleware.confirmation.confirmUserById,
+  membersController.getById
+);
+/**
+   * @swagger
+   * /v1/teams/:teamId/members/:userId:
+   *   post:
+   *     description: Creates a new team membership
+   *     produces:
+   *      - application/json
+   *     responses:
+   *       200:
+   *         description: memberships
    *         schema:
    *           type: object
    *           items:
@@ -43,10 +66,10 @@ routes.post(
   middleware.validation.validateCreateTeamMember,
   membersController.create
 );
-/** routes.put('/:teamId/members/:memberId', teamsController.updateMembershipById);
+/** routes.put('/:teamId/members/:memberId', teamsController.updateById);
 routes.delete(
   '/:teamId/members/:memberId',
-  teamsController.deleteMembershipById
+  teamsController.deleteById
 ); */
 
 export default routes;

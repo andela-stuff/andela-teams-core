@@ -28,6 +28,7 @@ chai.use(chaiHttp);
 let team1 = {};
 let user0 = {};
 let user1 = {};
+let user2 = {};
 
 describe('MembersController', () => {
   beforeEach(async () => {
@@ -40,105 +41,13 @@ describe('MembersController', () => {
     user1 = await models.User.create(mock.user1);
     mock.user1.token = jwt.sign({ email: mock.user1.email }, config.SECRET);
     user1.token = mock.user1.token;
+    user2 = await models.User.create(mock.user2);
+    mock.user2.token = jwt.sign({ email: mock.user2.email }, config.SECRET);
+    user2.token = mock.user2.token;
   });
 
-  describe('GET: /v1/teams', (done) => {
-    beforeEach(async () => {
-      await models.Team.create({ ...mock.team1, userId: user0.id });
-      await models.Team.create({ ...mock.team2, userId: user0.id });
-      await models.Team.create({ ...mock.team3, userId: user0.id });
-      await models.Team.create({ ...mock.team4, userId: user0.id });
-      await models.Team.create({ ...mock.team5, userId: user0.id });
-    });
-    it('should return an array of existing teams', (done) => {
-      chai.request(server)
-        .get('/v1/teams')
-        .set('x-teams-user-token', mock.user0.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('teams');
-          expect(res.body.data.teams).to.be.an('Array').that.is.not.empty;
-          expect(res.body.data.teams.length).to.equal(5);
-          expect(res.body.errors).to.be.undefined;
-          done();
-        });
-    });
-  });
-
-  describe('GET: /v1/teams/:teamId', (done) => {
-    beforeEach(async () => {
-      team1 = await models.Team.create({ ...mock.team1, userId: user0.id });
-    });
-    it('should get a team with the specified ID', (done) => {
-      chai.request(server)
-        .get(`/v1/teams/${team1.id}`)
-        .set('x-teams-user-token', mock.user0.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('team');
-          expect(res.body.data.team.id).to.not.be.undefined;
-          expect(res.body.data.team.name).to.equal(mock.team1.name);
-          expect(res.body.data.team.createdByYou).to.equal(true);
-          expect(res.body.errors).to.be.undefined;
-          done();
-        });
-    });
-    it(
-      'should get a team with the specified ID created by another user',
-      (done) => {
-        chai.request(server)
-          .get(`/v1/teams/${team1.id}`)
-          .set('x-teams-user-token', mock.user1.token)
-          .end((err, res) => {
-            res.should.have.status(200);
-            res.body.should.have.property('data');
-            expect(res.body.data).to.be.an('Object');
-            res.body.data.should.have.property('team');
-            expect(res.body.data.team.id).to.not.be.undefined;
-            expect(res.body.data.team.name).to.equal(mock.team1.name);
-            expect(res.body.data.team.createdByYou).to.equal(false);
-            expect(res.body.errors).to.be.undefined;
-            done();
-          });
-      }
-    );
-    it('should not get a team given an incorrect ID', (done) => {
-      chai.request(server)
-        .get(`/v1/teams/${user0.id}`) // deliberately using a user's ID here
-        .set('x-teams-user-token', mock.user0.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('errors');
-          expect(res.body.errors).to.be.an('Array');
-          expect(res.body.errors)
-            .to.include('Team with the specified ID does not exist.');
-          expect(res.body.data).to.be.undefined;
-          done();
-        });
-    });
-  });
-
-  describe('DELETE: /v1/teams/:teamId', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .delete('/v1/teams/1')
-        .set('x-teams-user-token', mock.user0.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
-          done();
-        });
-    });
-  });
-
-  describe('POST: /v1/teams/', (done) => {
-    it('should create a new team and auto-add user to team', (done) => {
+  describe('GET: /v1/teams/:teamId/members/:userId', (done) => {
+    it('should get the membership with the specified IDs', (done) => {
       chai.request(server)
         .post('/v1/teams')
         .send(mock.team1)
@@ -154,7 +63,26 @@ describe('MembersController', () => {
           expect(res.body.data.team.createdByYou).to.equal(true);
           expect(res.body.data.team.members).to.equal(1);
           expect(res.body.errors).to.be.undefined;
-          done();
+
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .get(`/v1/teams/${team1.id}/members/${user0.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('membership');
+              expect(res2.body.data.membership.id).to.not.be.undefined;
+              expect(res2.body.data.membership.role).to.equal('lead');
+              expect(res2.body.data.membership.teamId).to.equal(team1.id);
+              expect(res2.body.data.membership.userId).to.equal(user0.id);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
         });
     });
     it('should add user that creates team to team as team lead', (done) => {
@@ -173,43 +101,359 @@ describe('MembersController', () => {
           expect(res.body.data.team.createdByYou).to.equal(true);
           expect(res.body.data.team.members).to.equal(1);
           expect(res.body.errors).to.be.undefined;
-          done();
+
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .get(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('errors');
+              expect(res2.body.errors).to.be.an('Array');
+              expect(res2.body.errors)
+                .to
+                .include('Membership with the specified IDs does not exist.');
+              expect(res2.body.data).to.be.undefined;
+
+              done();
+            });
         });
     });
   });
 
-  describe('POST: /v1/teams', (done) => {
-    beforeEach(async () => {
-      await models.Team.create({ ...mock.team1, userId: user0.id });
-    });
-    it('should not create a team with an existing name', (done) => {
+  describe('POST: /v1/teams/:teamId/members/:userId', (done) => {
+    it('should add user that creates team to team as team lead', (done) => {
       chai.request(server)
         .post('/v1/teams')
         .send(mock.team1)
         .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('errors');
-          expect(res.body.errors).to.be.an('Array');
-          expect(res.body.errors)
-            .to.include('Team with the same name already exists.');
-          expect(res.body.data).to.be.undefined;
-          done();
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('team');
+          expect(res.body.data.team.id).to.not.be.undefined;
+          expect(res.body.data.team.name).to.equal(mock.team1.name);
+          expect(res.body.data.team.containsYou).to.equal(true);
+          expect(res.body.data.team.createdByYou).to.equal(true);
+          expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.errors).to.be.undefined;
+
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .get(`/v1/teams/${team1.id}/members/${user0.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('membership');
+              expect(res2.body.data.membership.id).to.not.be.undefined;
+              expect(res2.body.data.membership.role).to.equal('lead');
+              expect(res2.body.data.membership.teamId).to.equal(team1.id);
+              expect(res2.body.data.membership.userId).to.equal(user0.id);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
         });
     });
-  });
-
-  describe('PUT: /v1/teams/:teamId', (done) => {
-    it('should respond with an object', (done) => {
+    it('should not add a user to a team that does not exist', (done) => {
       chai.request(server)
-        .put('/v1/teams/1')
+        .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+        .send({})
         .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('Team with the specified ID does not exist.');
+          expect(res.body.data).to.be.undefined;
+
           done();
+        });
+    });
+    it('should not add a user that does not exist to a team', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          // deliberately use 'team1.id' as user ID
+          // so that we get a valid UUID which is not the ID of an existing user
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${team1.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('errors');
+              expect(res2.body.errors).to.be.an('Array');
+              expect(res2.body.errors)
+                .to.include('User with the specified ID does not exist.');
+              expect(res2.body.data).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should allow only team lead to add members to the team', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('membership');
+              expect(res2.body.data.membership.id).to.not.be.undefined;
+              expect(res2.body.data.membership.role).to.equal('member');
+              expect(res2.body.data.membership.teamId).to.equal(team1.id);
+              expect(res2.body.data.membership.userId).to.equal(user1.id);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should allow only team lead to add members to the team [2]', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          // user1 is not a member of team1
+          // so user1 should not be able to add members to team1
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user1.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('errors');
+              expect(res2.body.errors).to.be.an('Array');
+              expect(res2.body.errors)
+                .to.include('This user is not a team lead in this team.');
+              expect(res2.body.data).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should allow only team lead to add members to the team [3]', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              // user1 is a member of team1 but not a team lead
+              // so user1 should not be able to add members to team1
+              chai.request(server)
+                .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+                .send({})
+                .set('x-teams-user-token', mock.user1.token)
+                .end((err3, res3) => {
+                  res3.should.have.status(200);
+                  res3.body.should.have.property('errors');
+                  expect(res3.body.errors).to.be.an('Array');
+                  expect(res3.body.errors)
+                    .to.include('This user is not a team lead in this team.');
+                  expect(res3.body.data).to.be.undefined;
+
+                  done();
+                });
+            });
+        });
+    });
+    it('should allow only team lead to add members to the team [4]', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({ role: 'lead' })
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              // user1 is a member of team1 and a team lead
+              // so user1 should be able to add members to team1
+              chai.request(server)
+                .post(`/v1/teams/${team1.id}/members/${user2.id}`)
+                .send({})
+                .set('x-teams-user-token', mock.user1.token)
+                .end((err3, res3) => {
+                  res3.should.have.status(200);
+                  res3.body.should.have.property('data');
+                  expect(res3.body.data).to.be.an('Object');
+                  res3.body.data.should.have.property('membership');
+                  expect(res3.body.data.membership.id).to.not.be.undefined;
+                  expect(res3.body.data.membership.role).to.equal('member');
+                  expect(res3.body.data.membership.teamId).to.equal(team1.id);
+                  expect(res3.body.data.membership.userId).to.equal(user2.id);
+                  expect(res3.body.errors).to.be.undefined;
+
+                  done();
+                });
+            });
+        });
+    });
+    it('should not allow user to be added more than once to a team', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user0.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('errors');
+              expect(res2.body.errors).to.be.an('Array');
+              expect(res2.body.errors)
+                .to.include('This user already exists in this team.');
+              expect(res2.body.data).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should add a user to a team as "member" by default', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({})
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('membership');
+              expect(res2.body.data.membership.id).to.not.be.undefined;
+              expect(res2.body.data.membership.role).to.equal('member');
+              expect(res2.body.data.membership.teamId).to.equal(team1.id);
+              expect(res2.body.data.membership.userId).to.equal(user1.id);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should add a user to a team in the role specified', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({ role: 'developer' })
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('membership');
+              expect(res2.body.data.membership.id).to.not.be.undefined;
+              expect(res2.body.data.membership.role).to.equal('developer');
+              expect(res2.body.data.membership.teamId).to.equal(team1.id);
+              expect(res2.body.data.membership.userId).to.equal(user1.id);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should add a user to a team in the role specified [2]', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({ role: 'lead' })
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('membership');
+              expect(res2.body.data.membership.id).to.not.be.undefined;
+              expect(res2.body.data.membership.role).to.equal('lead');
+              expect(res2.body.data.membership.teamId).to.equal(team1.id);
+              expect(res2.body.data.membership.userId).to.equal(user1.id);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should add a user to a team in the role specified [3]', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/members/${user1.id}`)
+            .send({ role: 'member' })
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('membership');
+              expect(res2.body.data.membership.id).to.not.be.undefined;
+              expect(res2.body.data.membership.role).to.equal('member');
+              expect(res2.body.data.membership.teamId).to.equal(team1.id);
+              expect(res2.body.data.membership.userId).to.equal(user1.id);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
         });
     });
   });

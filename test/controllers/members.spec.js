@@ -68,7 +68,6 @@ describe('MembersController', () => {
 
           chai.request(server)
             .get(`/v1/teams/${team1.id}/members/${user0.id}`)
-            .send({})
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
               res2.should.have.status(200);
@@ -106,7 +105,6 @@ describe('MembersController', () => {
 
           chai.request(server)
             .get(`/v1/teams/${team1.id}/members/${user1.id}`)
-            .send({})
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
               res2.should.have.status(200);
@@ -145,7 +143,6 @@ describe('MembersController', () => {
 
           chai.request(server)
             .get(`/v1/teams/${team1.id}/members/${user0.id}`)
-            .send({})
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
               res2.should.have.status(200);

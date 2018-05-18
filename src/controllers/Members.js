@@ -34,13 +34,13 @@ export default class Members {
         throw new Error('This user already exists in this team.');
       }
 
-      const member = await models.Membership.create({
+      const membership = await models.Membership.create({
         ...req.body,
         teamId: req.params.teamId,
         userId: req.params.userId
       });
 
-      return res.sendSuccess({ member });
+      return res.sendSuccess({ membership });
     } catch (error) {
       return res.sendFailure([error.message]);
     }
@@ -63,8 +63,8 @@ export default class Members {
   }
 
   /**
-   * @method getMembershipById
-   * @desc This method gets the team membership with the specified member ID
+   * @method getById
+   * @desc This method gets the team membership with the specified user ID
    * from the team with the specified team ID
    *
    * @param { object} req request
@@ -72,10 +72,19 @@ export default class Members {
    *
    * @returns { object } response
    */
-  async getMembershipById(req, res) {
-    return res.status(200).send({
-      data: { teamId: 1, userId: 1, role: 'LF' }
-    });
+  async getById(req, res) {
+    try {
+      const membership = await models.Membership.findOne({
+        where: { teamId: req.params.teamId, userId: req.params.userId }
+      });
+      if (!membership) {
+        throw new Error('Membership with the specified IDs does not exist.');
+      }
+
+      return res.sendSuccess({ membership });
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 
   /**

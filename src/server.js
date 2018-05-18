@@ -53,7 +53,9 @@ const app = express();
 app.set('port', port);
 
 // Log requests to the console.
-app.use(logger('dev'));
+if (env !== 'test') {
+  app.use(logger('dev'));
+}
 
 // CORS
 /*

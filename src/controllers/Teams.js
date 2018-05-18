@@ -171,6 +171,11 @@ export default class Teams {
       const team =
       await helpers.Misc.updateTeamAttributes(req.existingTeam, req);
 
+      // you can't view a private team that doesn't contain you
+      if (team.private && !team.containsYou) {
+        throw new Error('This team is private.');
+      }
+
       return res.sendSuccess({ team });
     } catch (error) {
       return res.sendFailure([error.message]);

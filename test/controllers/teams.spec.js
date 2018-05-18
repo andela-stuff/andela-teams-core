@@ -26,6 +26,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 let team1 = {};
+let team2 = {};
 let user0 = {};
 let user1 = {};
 
@@ -117,6 +118,78 @@ describe('TeamsController', () => {
             .to.include('Team with the specified ID does not exist.');
           expect(res.body.data).to.be.undefined;
           done();
+        });
+    });
+    it('should allow members access private teams', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team2)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('team');
+          expect(res.body.data.team.id).to.not.be.undefined;
+          expect(res.body.data.team.name).to.equal(mock.team2.name);
+          expect(res.body.data.team.containsYou).to.equal(true);
+          expect(res.body.data.team.createdByYou).to.equal(true);
+          expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.errors).to.be.undefined;
+
+          team2 = res.body.data.team;
+
+          chai.request(server)
+            .get(`/v1/teams/${team2.id}`)
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('team');
+              expect(res2.body.data.team.id).to.not.be.undefined;
+              expect(res2.body.data.team.name).to.equal(mock.team2.name);
+              expect(res2.body.data.team.containsYou).to.equal(true);
+              expect(res2.body.data.team.createdByYou).to.equal(true);
+              expect(res2.body.data.team.members).to.equal(1);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+    it('should not allow non-members access private teams', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team2)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('team');
+          expect(res.body.data.team.id).to.not.be.undefined;
+          expect(res.body.data.team.name).to.equal(mock.team2.name);
+          expect(res.body.data.team.containsYou).to.equal(true);
+          expect(res.body.data.team.createdByYou).to.equal(true);
+          expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.errors).to.be.undefined;
+
+          team2 = res.body.data.team;
+
+          chai.request(server)
+            .get(`/v1/teams/${team2.id}`)
+            .set('x-teams-user-token', mock.user1.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('errors');
+              expect(res2.body.errors).to.be.an('Array');
+              expect(res2.body.errors)
+                .to.include('This team is private.');
+              expect(res2.body.data).to.be.undefined;
+
+              done();
+            });
         });
     });
   });

@@ -18,7 +18,30 @@ const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
 
-// routes.get('/:teamId/members', teamsController.get);
+/**
+ * @swagger
+ * /v1/teams/:teamId/members:
+ *   get:
+ *     description: Return the memberships for the team with the specified IDs
+ *     produces:
+ *      - application/json
+ *     responses:
+ *       200:
+ *         description: memberships
+ *         schema:
+ *           type: object
+ *           items:
+ *             $ref: '#/definitions/ResponseBody'
+ */
+routes.get(
+  '/:teamId/members',
+  middleware.confirmation.confirmTeamById,
+  middleware.pagination,
+  middleware.search,
+  middleware.sort,
+  middleware.filter,
+  membersController.get
+);
 // routes.get('/*/members', teamsController.getForAllTeamsAndAllUsers);
 // routes.get('/*/members/*', teamsController.getForAllTeamsAndAllUsers);
 // routes.get('/*/members/:userId', teamsController.getForAllTeams);

@@ -96,6 +96,19 @@ function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
 }
 
 /**
+ * @method updateMembershipAttributes
+ * @desc Return updated membership details
+ *
+ * @param { object } membership the input membership object
+ *
+ * @returns { object } the output membership object
+ */
+function updateMembershipAttributes(membership) {
+  membership = membership.get();
+  return membership;
+}
+
+/**
  * @method updateTeamAttributes
  * @desc Return updated team details
  *
@@ -145,6 +158,7 @@ function updateUserAttributes(user) {
 export default {
   Misc: {
     generatePaginationMeta,
+    updateMembershipAttributes,
     updateTeamAttributes,
     updateUserAttributes
   }

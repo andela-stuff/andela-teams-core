@@ -46,6 +46,45 @@ describe('MembersController', () => {
     user2.token = mock.user2.token;
   });
 
+  describe('GET: /v1/teams/:teamId/members', (done) => {
+    it('should get the memberships of team with specified team ID', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('team');
+          expect(res.body.data.team.id).to.not.be.undefined;
+          expect(res.body.data.team.name).to.equal(mock.team1.name);
+          expect(res.body.data.team.containsYou).to.equal(true);
+          expect(res.body.data.team.createdByYou).to.equal(true);
+          expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.errors).to.be.undefined;
+
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .get(`/v1/teams/${team1.id}/members`)
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              res2.should.have.status(200);
+              res2.body.should.have.property('data');
+              expect(res2.body.data).to.be.an('Object');
+              res2.body.data.should.have.property('memberships');
+              expect(res2.body.data.memberships).to.be.an('Array')
+                .that.is.not.empty;
+              expect(res2.body.data.memberships.length).to.equal(1);
+              expect(res2.body.errors).to.be.undefined;
+
+              done();
+            });
+        });
+    });
+  });
+
   describe('GET: /v1/teams/:teamId/members/:userId', (done) => {
     it('should get the membership with the specified IDs', (done) => {
       chai.request(server)
@@ -68,7 +107,6 @@ describe('MembersController', () => {
 
           chai.request(server)
             .get(`/v1/teams/${team1.id}/members/${user0.id}`)
-            .send({})
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
               res2.should.have.status(200);
@@ -106,7 +144,6 @@ describe('MembersController', () => {
 
           chai.request(server)
             .get(`/v1/teams/${team1.id}/members/${user1.id}`)
-            .send({})
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
               res2.should.have.status(200);
@@ -145,7 +182,6 @@ describe('MembersController', () => {
 
           chai.request(server)
             .get(`/v1/teams/${team1.id}/members/${user0.id}`)
-            .send({})
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
               res2.should.have.status(200);

@@ -47,12 +47,13 @@ export default (sequelize, DataTypes) => {
 
   Team.associate = (models) => {
     Team.belongsTo(models.User, {
+      as: 'user',
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
     Team.hasMany(models.Membership, {
+      as: 'memberships',
       foreignKey: 'teamId',
-      as: 'memberships'
     });
   };
 

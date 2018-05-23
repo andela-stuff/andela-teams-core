@@ -66,12 +66,12 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = (models) => {
     User.hasMany(models.Membership, {
+      as: 'memberships',
       foreignKey: 'userId',
-      as: 'memberships'
     });
     User.hasMany(models.Team, {
+      as: 'teams',
       foreignKey: 'userId',
-      as: 'teams'
     });
   };
 

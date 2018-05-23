@@ -37,10 +37,12 @@ module.exports = (sequelize, DataTypes) => {
 
   Membership.associate = (models) => {
     Membership.belongsTo(models.User, {
+      as: 'user',
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
     Membership.belongsTo(models.Team, {
+      as: 'team',
       foreignKey: 'teamId',
       onDelete: 'CASCADE'
     });

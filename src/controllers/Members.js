@@ -75,7 +75,11 @@ export default class Members {
   async getById(req, res) {
     try {
       const membership = await models.Membership.findOne({
-        where: { teamId: req.params.teamId, userId: req.params.userId }
+        where: { teamId: req.params.teamId, userId: req.params.userId },
+        include: [
+          { model: models.Team, as: 'team' },
+          { model: models.User, as: 'user' }
+        ]
       });
       if (!membership) {
         throw new Error('Membership with the specified IDs does not exist.');

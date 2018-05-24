@@ -1,5 +1,5 @@
 /**
- * @fileOverview Confirmation middleware
+ * @fileOverview Check middleware
  *
  * @author Franklin Chieze
  *
@@ -9,10 +9,10 @@
 import models from '../models';
 
 /**
-* Middleware for confirmations
-* @class Confirmation
+* Middleware for checks
+* @class Check
 */
-export default class Confirmation {
+export default class Check {
   /**
   * Confirm that the currently authenticated user is an admin
   * @param {object} req express request object
@@ -21,7 +21,7 @@ export default class Confirmation {
   *
   * @returns {any} the next middleware or controller
   */
-  async confirmCurrentUserIsAdmin(req, res, next) {
+  async currentUserIsAdmin(req, res, next) {
     try {
       if (req.user.role !== 'admin') {
         throw new Error('This user is not an admin.');
@@ -41,7 +41,7 @@ export default class Confirmation {
   *
   * @returns {any} the next middleware or controller
   */
-  async confirmTeamById(req, res, next) {
+  async teamWithParamsIdExists(req, res, next) {
     try {
       const existingTeam = await models.Team.findOne({
         where: { id: req.params.teamId }
@@ -66,7 +66,7 @@ export default class Confirmation {
   *
   * @returns {any} the next middleware or controller
   */
-  async confirmUserById(req, res, next) {
+  async userWithParamsIdExists(req, res, next) {
     try {
       const existingUser = await models.User.findOne({
         where: { id: req.params.userId }
@@ -92,7 +92,7 @@ export default class Confirmation {
   *
   * @returns {any} the next middleware or controller
   */
-  async confirmUserIsLeadInTeamById(req, res, next) {
+  async currentUserIsLeadInTeamWithParamsId(req, res, next) {
     try {
       const existingLead = await models.Membership.findOne({
         where: {

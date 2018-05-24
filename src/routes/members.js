@@ -35,7 +35,7 @@ routes.use(middleware.auth.authenticateUser);
  */
 routes.get(
   '/:teamId/members',
-  middleware.confirmation.confirmTeamById,
+  middleware.check.teamWithParamsIdExists,
   middleware.pagination,
   middleware.search,
   middleware.sort,
@@ -62,8 +62,8 @@ routes.get(
    */
 routes.get(
   '/:teamId/members/:userId',
-  middleware.confirmation.confirmTeamById,
-  middleware.confirmation.confirmUserById,
+  middleware.check.teamWithParamsIdExists,
+  middleware.check.userWithParamsIdExists,
   membersController.getById
 );
 /**
@@ -83,9 +83,9 @@ routes.get(
    */
 routes.post(
   '/:teamId/members/:userId',
-  middleware.confirmation.confirmTeamById,
-  middleware.confirmation.confirmUserById,
-  middleware.confirmation.confirmUserIsLeadInTeamById,
+  middleware.check.teamWithParamsIdExists,
+  middleware.check.userWithParamsIdExists,
+  middleware.check.currentUserIsLeadInTeamWithParamsId,
   middleware.validate.createTeamMember,
   membersController.create
 );

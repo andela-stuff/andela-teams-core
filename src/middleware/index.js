@@ -12,7 +12,7 @@
 
 import api from './api';
 import Auth from './Auth';
-import Confirmation from './Confirmation';
+import Check from './Check';
 import filter from './filter';
 import pagination from './pagination';
 import search from './search';
@@ -20,13 +20,13 @@ import sort from './sort';
 import Validate from './Validate';
 
 const auth = new Auth();
-const confirmation = new Confirmation();
+const check = new Check();
 const validate = new Validate();
 
 export default {
   api,
   auth,
-  confirmation,
+  check,
   filter,
   pagination,
   search,

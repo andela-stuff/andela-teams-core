@@ -58,7 +58,7 @@ routes.get(
    */
 routes.get(
   '/:teamId',
-  middleware.confirmation.confirmTeamById,
+  middleware.check.teamWithParamsIdExists,
   teamsController.getById
 );
 /**
@@ -78,7 +78,7 @@ routes.get(
    */
 routes.post(
   '/',
-  middleware.confirmation.confirmCurrentUserIsAdmin,
+  middleware.check.currentUserIsAdmin,
   middleware.validate.createTeam,
   teamsController.create
 );

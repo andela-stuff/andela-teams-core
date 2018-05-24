@@ -17,11 +17,11 @@ import filter from './filter';
 import pagination from './pagination';
 import search from './search';
 import sort from './sort';
-import Validation from './Validation';
+import Validate from './Validate';
 
 const auth = new Auth();
 const confirmation = new Confirmation();
-const validation = new Validation();
+const validate = new Validate();
 
 export default {
   api,
@@ -31,5 +31,5 @@ export default {
   pagination,
   search,
   sort,
-  validation
+  validate
 };

@@ -1,5 +1,5 @@
 /**
- * @fileOverview Validation middleware
+ * @fileOverview Validate middleware
  *
  * @author Franklin Chieze
  *
@@ -35,9 +35,9 @@ const createTeamMemberRules = {
 
 /**
 * Middleware for validations
-* @class Validation
+* @class Validate
 */
-export default class Validation {
+export default class Validate {
   /**
   * Validate sign in user data
   * @param {object} req express request object
@@ -46,7 +46,7 @@ export default class Validation {
   *
   * @returns {any} the next middleware or controller
   */
-  async validateSigninUser(req, res, next) {
+  async signinUser(req, res, next) {
     const validation = new Validator(req.body, signinUserRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('displayName'),
@@ -65,7 +65,7 @@ export default class Validation {
   *
   * @returns {any} the next middleware or controller
   */
-  async validateSignupUser(req, res, next) {
+  async signupUser(req, res, next) {
     const validation = new Validator(req.body, signupUserRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('displayName'),
@@ -86,7 +86,7 @@ export default class Validation {
   *
   * @returns {any} the next middleware or controller
   */
-  async validateCreateTeam(req, res, next) {
+  async createTeam(req, res, next) {
     const validation = new Validator(req.body, createTeamRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('name'),
@@ -106,7 +106,7 @@ export default class Validation {
   *
   * @returns {any} the next middleware or controller
   */
-  async validateCreateTeamMember(req, res, next) {
+  async createTeamMember(req, res, next) {
     const validation = new Validator(req.body, createTeamMemberRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('role'),

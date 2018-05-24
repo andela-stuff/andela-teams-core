@@ -86,7 +86,7 @@ routes.post(
   middleware.confirmation.confirmTeamById,
   middleware.confirmation.confirmUserById,
   middleware.confirmation.confirmUserIsLeadInTeamById,
-  middleware.validation.validateCreateTeamMember,
+  middleware.validate.createTeamMember,
   membersController.create
 );
 /** routes.put('/:teamId/members/:memberId', teamsController.updateById);

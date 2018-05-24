@@ -79,7 +79,7 @@ routes.get(
 routes.post(
   '/',
   middleware.confirmation.confirmCurrentUserIsAdmin,
-  middleware.validation.validateCreateTeam,
+  middleware.validate.createTeam,
   teamsController.create
 );
 routes.put('/:teamId', teamsController.updateById);

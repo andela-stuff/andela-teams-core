@@ -51,6 +51,10 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'userId',
       onDelete: 'CASCADE'
     });
+    Team.hasMany(models.Account, {
+      as: 'accounts',
+      foreignKey: 'teamId',
+    });
     Team.hasMany(models.Membership, {
       as: 'memberships',
       foreignKey: 'teamId',

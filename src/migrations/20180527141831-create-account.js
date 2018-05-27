@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Memberships', {
+    queryInterface.createTable('Accounts', {
       id: {
         allowNull: false,
         // autoIncrement: true,
@@ -8,12 +8,13 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
-      role: {
-        type: Sequelize.ENUM,
-        values: [
-          'disabled', 'developer', 'lead', 'member'
-        ],
-        defaultValue: 'member'
+      name: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       teamId: {
         type: Sequelize.UUID,
@@ -24,14 +25,21 @@ module.exports = {
           as: 'teamId',
         },
       },
-      userId: {
-        type: Sequelize.UUID,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Users',
-          key: 'id',
-          as: 'userId',
-        },
+      type: {
+        type: Sequelize.ENUM,
+        values: [
+          'github_org', 'github_repo', 'pt_org', 'pt_project',
+          'slack_group', 'slack_org', 'slack_channel'
+        ],
+        defaultValue: 'slack_channel'
+      },
+      url: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       createdAt: {
         allowNull: false,
@@ -43,11 +51,11 @@ module.exports = {
       }
     }),
   down: (queryInterface, Sequelize) => {
-    const result = queryInterface.dropTable('Memberships');
+    const result = queryInterface.dropTable('Accounts');
 
-    // manually drop "enum_Memberships_role" since Sequelize does not
-    // drop when dropping "Memberships"
-    queryInterface.sequelize.query('DROP TYPE "enum_Memberships_role";');
+    // // manually drop "enum_Accounts_type" since Sequelize does not
+    // // drop when dropping "Accounts"
+    // queryInterface.sequelize.query('DROP TYPE "enum_Accounts_type";');
 
     return result;
   }

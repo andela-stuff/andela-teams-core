@@ -90,7 +90,19 @@ export default class Users {
           limit,
           offset
         );
-        return res.sendSuccess({ users }, 200, { pagination });
+
+        const updatedUsers = [];
+        // using await in loop as shown below
+        // https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const user of users) {
+          // eslint-disable-next-line no-await-in-loop
+          const u = await helpers.Misc.updateUserAttributes(user);
+          updatedUsers.push(u);
+        }
+
+        return res.sendSuccess({ users: updatedUsers }, 200, { pagination });
       }
 
       throw new Error('Could not retrieve users from the database.');

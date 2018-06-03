@@ -152,6 +152,7 @@ async function updateTeamAttributes(team, req) {
  */
 function updateUserAttributes(user) {
   user = user.get();
+  delete user.password;
   return user;
 }
 

@@ -26,6 +26,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 let user0 = {};
+let user1 = {};
 
 describe('UsersController', () => {
   beforeEach(async () => {
@@ -93,6 +94,9 @@ describe('UsersController', () => {
   });
 
   describe('GET: /v1/users/:userId', (done) => {
+    beforeEach(async () => {
+      user1 = await models.User.create(mock.user1);
+    });
     it('should get a user with the specified ID', (done) => {
       chai.request(server)
         .get(`/v1/users/${user0.id}`)
@@ -108,6 +112,42 @@ describe('UsersController', () => {
           expect(res.body.data.user.email).to.equal(mock.user0.email);
           expect(res.body.data.user.isYou).to.equal(true);
           expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it(
+      'should get a user (different from the logged-in user) ' +
+      'with the specified ID',
+      (done) => {
+        chai.request(server)
+          .get(`/v1/users/${user1.id}`)
+          .set('x-teams-user-token', mock.user0.token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.have.property('data');
+            expect(res.body.data).to.be.an('Object');
+            res.body.data.should.have.property('user');
+            expect(res.body.data.user.id).to.not.be.undefined;
+            expect(res.body.data.user.displayName)
+              .to.equal(mock.user1.displayName);
+            expect(res.body.data.user.email).to.equal(mock.user1.email);
+            expect(res.body.data.user.isYou).to.equal(false);
+            expect(res.body.errors).to.be.undefined;
+            done();
+          });
+      }
+    );
+    it('should not get a user given an incorrect ID', (done) => {
+      chai.request(server)
+        .get('/v1/users/12345678-1234-1234-1234-123456789abc')
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('User with the specified ID does not exist.');
+          expect(res.body.data).to.be.undefined;
           done();
         });
     });

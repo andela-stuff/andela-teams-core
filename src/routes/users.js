@@ -41,7 +41,11 @@ routes.get(
   middleware.filter,
   usersController.get
 );
-routes.get('/:userId', usersController.getById);
+routes.get(
+  '/:userId',
+  middleware.check.userWithParamsIdExists,
+  usersController.getById
+);
 routes.put('/:userId', usersController.updateById);
 routes.delete('/:userId', usersController.deleteById);
 

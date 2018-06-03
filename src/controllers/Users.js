@@ -32,21 +32,6 @@ export default class Users {
   }
 
   /**
-   * @method getById
-   * @desc This method get the user with the specified user ID
-   *
-   * @param { object } req request
-   * @param { object } res response
-   *
-   * @returns { object } response
-   */
-  async getById(req, res) {
-    return res.status(200).send({
-      data: { name: 'user1' }
-    });
-  }
-
-  /**
    * @method get
    * @desc This method gets an array of users
    *
@@ -106,6 +91,26 @@ export default class Users {
       }
 
       throw new Error('Could not retrieve users from the database.');
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
+
+  /**
+   * @method getById
+   * @desc This method get the user with the specified user ID
+   *
+   * @param { object } req request
+   * @param { object } res response
+   *
+   * @returns { object } response
+   */
+  async getById(req, res) {
+    try {
+      const user =
+      await helpers.Misc.updateUserAttributes(req.existingUser);
+
+      return res.sendSuccess({ user });
     } catch (error) {
       return res.sendFailure([error.message]);
     }

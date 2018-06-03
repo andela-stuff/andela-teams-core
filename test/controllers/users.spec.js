@@ -25,11 +25,14 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
+let user0 = {};
+
 describe('UsersController', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
-    await models.User.create(mock.user1);
-    mock.user1.token = jwt.sign({ email: mock.user1.email }, config.SECRET);
+    user0 = await models.User.create(mock.user0);
+    mock.user0.token = jwt.sign({ email: mock.user0.email }, config.SECRET);
+    user0.token = mock.user0.token;
   });
 
   describe('GET: /v1/users', (done) => {
@@ -75,7 +78,7 @@ describe('UsersController', () => {
     it('should return an array of existing users', (done) => {
       chai.request(server)
         .get('/v1/users')
-        .set('x-teams-user-token', mock.user1.token)
+        .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -90,15 +93,21 @@ describe('UsersController', () => {
   });
 
   describe('GET: /v1/users/:userId', (done) => {
-    it('should respond with an object', (done) => {
+    it('should get a user with the specified ID', (done) => {
       chai.request(server)
-        .get('/v1/users/1')
-        .set('x-teams-user-token', mock.user1.token)
+        .get(`/v1/users/${user0.id}`)
+        .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
           expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
+          res.body.data.should.have.property('user');
+          expect(res.body.data.user.id).to.not.be.undefined;
+          expect(res.body.data.user.displayName)
+            .to.equal(mock.user0.displayName);
+          expect(res.body.data.user.email).to.equal(mock.user0.email);
+          expect(res.body.data.user.isYou).to.equal(true);
+          expect(res.body.errors).to.be.undefined;
           done();
         });
     });
@@ -108,7 +117,7 @@ describe('UsersController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .delete('/v1/users/1')
-        .set('x-teams-user-token', mock.user1.token)
+        .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');
@@ -123,7 +132,7 @@ describe('UsersController', () => {
     it('should respond with an object', (done) => {
       chai.request(server)
         .put('/v1/users/1')
-        .set('x-teams-user-token', mock.user1.token)
+        .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('data');

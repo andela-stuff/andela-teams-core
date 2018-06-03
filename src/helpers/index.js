@@ -147,11 +147,13 @@ async function updateTeamAttributes(team, req) {
  * @desc Return updated user details
  *
  * @param { object } user the input user object
+ * @param { object } req the request object
  *
  * @returns { object } the output user object
  */
-function updateUserAttributes(user) {
+function updateUserAttributes(user, req) {
   user = user.get();
+  user.isYou = (user.id === req.user.id);
   delete user.password;
   return user;
 }

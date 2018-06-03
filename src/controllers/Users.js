@@ -7,6 +7,8 @@
  * @requires ../models
  */
 
+import _ from 'lodash';
+
 import helpers from '../helpers';
 import models from '../models';
 
@@ -126,9 +128,59 @@ export default class Users {
    * @returns { object } response
    */
   async updateById(req, res) {
-    // it should be possible to also update the user's role here, right?
-    return res.status(200).send({
-      data: { name: 'user1' }
-    });
+    try {
+      // you can't update 'verified'
+      delete req.body.verified;
+
+      if (typeof req.body.blocked !== 'undefined') {
+        // only an admin can update 'blocked'
+        if (req.user.role !== 'admin') {
+          throw new
+          Error('You need admin privilege to block or unblock a user.');
+        }
+
+        // a user cannot update their own 'blocked'
+        if (req.existingUser.id === req.user.id) {
+          throw new
+          Error('You cannot block or unblock yourself.');
+        }
+      }
+
+      // only an admin can update 'role'
+      if (typeof req.body.role !== 'undefined') {
+        // only an admin can update 'role'
+        if (req.user.role !== 'admin') {
+          throw new
+          Error('You need admin privilege to update a user\'s role.');
+        }
+
+        // a user cannot update their own 'role'
+        if (req.existingUser.id === req.user.id) {
+          throw new
+          Error('You cannot update your role.');
+        }
+      }
+
+      // for the other fields you can only update your own data
+      // this is how we will achieve this
+      // (without having to explicitly state the other fields):
+      // copy req.body into a temporary variable tempUser
+      // delete properties 'blocked' and 'role' from tempUser
+      // find out if tempUser still has fields in it
+      // if so, ensure (req.existingUser.id === req.user.id) is true
+      const tempUser = { ...req.body };
+      console.log(tempUser);
+      console.log(req.body);
+      delete tempUser.blocked;
+      delete tempUser.role;
+
+      const updatedUser = await req.existingUser.update({ ...req.body });
+      const user =
+      await helpers.Misc.updateUserAttributes(updatedUser, req);
+
+      return res.sendSuccess({ user });
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
   }
 }

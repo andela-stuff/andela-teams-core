@@ -129,8 +129,10 @@ export default class Users {
    */
   async updateById(req, res) {
     try {
-      // you can't update 'verified'
-      delete req.body.verified;
+      // the only properties you can update using this endpoint are:
+      // 'blocked', 'photo', 'role'
+
+      const fieldsToUpdate = {};
 
       if (typeof req.body.blocked !== 'undefined') {
         // only an admin can update 'blocked'
@@ -144,6 +146,8 @@ export default class Users {
           throw new
           Error('You cannot block or unblock yourself.');
         }
+
+        fieldsToUpdate.blocked = req.body.blocked;
       }
 
       // only an admin can update 'role'
@@ -159,22 +163,20 @@ export default class Users {
           throw new
           Error('You cannot update your role.');
         }
+
+        fieldsToUpdate.role = req.body.role;
       }
 
-      // for the other fields you can only update your own data
-      // this is how we will achieve this
-      // (without having to explicitly state the other fields):
-      // copy req.body into a temporary variable tempUser
-      // delete properties 'blocked' and 'role' from tempUser
-      // find out if tempUser still has fields in it
-      // if so, ensure (req.existingUser.id === req.user.id) is true
-      const tempUser = { ...req.body };
-      console.log(tempUser);
-      console.log(req.body);
-      delete tempUser.blocked;
-      delete tempUser.role;
+      if (typeof req.body.photo !== 'undefined') {
+        // you cannot update another user's 'photo'
+        if (req.existingUser.id !== req.user.id) {
+          throw new Error('Cannot update another user\'s photo.');
+        }
 
-      const updatedUser = await req.existingUser.update({ ...req.body });
+        fieldsToUpdate.photo = req.body.photo;
+      }
+
+      const updatedUser = await req.existingUser.update(fieldsToUpdate);
       const user =
       await helpers.Misc.updateUserAttributes(updatedUser, req);
 

@@ -169,17 +169,9 @@ describe('UsersController', () => {
   });
 
   describe('PUT: /v1/users/:userId', (done) => {
-    it('should respond with an object', (done) => {
-      chai.request(server)
-        .put('/v1/users/1')
-        .set('x-teams-user-token', mock.user0.token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
-          done();
-        });
-    });
+    // successful update
+    // you cannot update another user's photo
+    // you cannot update your own blocked and role
+    // you need admin right to update another user's blocked and role
   });
 });

@@ -173,5 +173,6 @@ describe('UsersController', () => {
     // you cannot update another user's photo
     // you cannot update your own blocked and role
     // you need admin right to update another user's blocked and role
+    //
   });
 });

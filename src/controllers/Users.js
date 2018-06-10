@@ -7,8 +7,6 @@
  * @requires ../models
  */
 
-import _ from 'lodash';
-
 import helpers from '../helpers';
 import models from '../models';
 

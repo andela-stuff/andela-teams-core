@@ -155,13 +155,13 @@ export default class Users {
         // only an admin can update 'role'
         if (req.user.role !== 'admin') {
           throw new
-          Error('You need admin privilege to update a user\'s role.');
+          Error('You need admin privilege to assign roles to a user.');
         }
 
         // a user cannot update their own 'role'
         if (req.existingUser.id === req.user.id) {
           throw new
-          Error('You cannot update your role.');
+          Error('You cannot assign roles to yourself.');
         }
 
         fieldsToUpdate.role = req.body.role;

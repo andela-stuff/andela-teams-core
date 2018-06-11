@@ -36,6 +36,13 @@ const createTeamRules = {
   progress: 'numeric'
 };
 
+const createTeamAccountRules = {
+  name: 'required|string',
+  description: 'string',
+  type: 'string',
+  url: 'required|string',
+};
+
 const createTeamMemberRules = {
   role: 'string',
 };
@@ -101,6 +108,25 @@ export default class Validate {
       ...validation.errors.get('photo'),
       ...validation.errors.get('privacy'),
       ...validation.errors.get('progress'),
+    ]));
+    validation.passes(() => next());
+  }
+
+  /**
+  * Validate create team account data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async createTeamAccount(req, res, next) {
+    const validation = new Validator(req.body, createTeamRules);
+    validation.fails(() => res.sendFailure([
+      ...validation.errors.get('name'),
+      ...validation.errors.get('description'),
+      ...validation.errors.get('type'),
+      ...validation.errors.get('url'),
     ]));
     validation.passes(() => next());
   }

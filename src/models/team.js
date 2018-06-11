@@ -6,6 +6,11 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'There is no description for this team'
+    },
     name: {
       type: DataTypes.STRING,
       unique: true,
@@ -13,11 +18,6 @@ export default (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: 'There is no description for this team'
     },
     photo: {
       type: DataTypes.STRING,

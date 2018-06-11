@@ -8,9 +8,21 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'There is no description for this account'
+      },
       name: {
         type: Sequelize.STRING,
         unique: true,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
+      },
+      response: {
+        type: Sequelize.JSON,
         allowNull: false,
         validate: {
           notEmpty: true

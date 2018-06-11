@@ -6,9 +6,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: 'There is no description for this account'
+    },
     name: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    response: {
+      type: DataTypes.JSON,
       allowNull: false,
       validate: {
         notEmpty: true

@@ -40,7 +40,6 @@ const createTeamAccountRules = {
   name: 'required|string',
   description: 'string',
   type: 'string',
-  url: 'required|string',
 };
 
 const createTeamMemberRules = {
@@ -126,7 +125,6 @@ export default class Validate {
       ...validation.errors.get('name'),
       ...validation.errors.get('description'),
       ...validation.errors.get('type'),
-      ...validation.errors.get('url'),
     ]));
     validation.passes(() => next());
   }

@@ -91,6 +91,22 @@ class Channel {
         }
       }
 
+      // to reduce the size of the JSON delete some fields
+      delete result.created.scopes;
+      delete result.created.acceptedScopes;
+      delete result.invitedBot.channel;
+      delete result.invitedBot.group;
+      delete result.invitedBot.scopes;
+      delete result.invitedBot.acceptedScopes;
+      delete result.invitedCustomBot.channel;
+      delete result.invitedCustomBot.group;
+      delete result.invitedCustomBot.scopes;
+      delete result.invitedCustomBot.acceptedScopes;
+      delete result.setPurpose.scopes;
+      delete result.setPurpose.acceptedScopes;
+      delete result.setTopic.scopes;
+      delete result.setTopic.acceptedScopes;
+
       return result;
     } catch (error) {
       return {

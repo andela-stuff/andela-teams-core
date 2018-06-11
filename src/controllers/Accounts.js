@@ -60,6 +60,9 @@ export default class Accounts {
               topic: req.existingTeam.description
             }
           );
+
+        req.body.url =
+        `/messages/${(req.body.type === 'slack_group') ? response.created.group.id : response.created.channel.id}`;
       }
 
       const account = await models.Account.create({

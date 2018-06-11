@@ -56,7 +56,7 @@ import usersRoutes from './users';
  */
 
 export default (app) => {
-  app.use('/v1/accounts', accountsRoutes);
+  app.use('/v1/teams', accountsRoutes);
 
   app.use('/v1/auth', authRoutes);
 

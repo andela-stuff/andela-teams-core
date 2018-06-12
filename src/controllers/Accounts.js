@@ -61,6 +61,10 @@ export default class Accounts {
             }
           );
 
+        if (response.created.ok === false) {
+          throw new Error('Could not create Slack channel or group.');
+        }
+
         req.body.url =
         `/messages/${(req.body.type === 'slack_group') ? response.created.group.id : response.created.channel.id}`;
       }

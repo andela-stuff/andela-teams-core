@@ -41,8 +41,17 @@ routes.get(
   middleware.filter,
   usersController.get
 );
-routes.get('/:userId', usersController.getById);
-routes.put('/:userId', usersController.updateById);
+routes.get(
+  '/:userId',
+  middleware.check.userWithParamsIdExists,
+  usersController.getById
+);
+routes.put(
+  '/:userId',
+  middleware.check.userWithParamsIdExists,
+  middleware.validate.updateUser,
+  usersController.updateById
+);
 routes.delete('/:userId', usersController.deleteById);
 
 export default routes;

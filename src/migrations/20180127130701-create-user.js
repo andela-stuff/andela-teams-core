@@ -8,6 +8,10 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4
       },
+      blocked: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       displayName: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -57,6 +61,10 @@ module.exports = {
         validate: {
           notEmpty: true
         }
+      },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

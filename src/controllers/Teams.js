@@ -3,17 +3,14 @@
  *
  * @author Franklin Chieze
  *
- * @requires ../integrations
  * @requires ../helpers
  * @requires ../models
  */
 
-import Slack from '../integrations/Slack';
 import helpers from '../helpers';
 import models from '../models';
 
 const { Op } = models.Sequelize;
-const slackIntegration = new Slack();
 
 /**
 * Controls endpoints for teams

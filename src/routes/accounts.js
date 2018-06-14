@@ -1,19 +1,19 @@
 /**
- * @fileOverview members routes
+ * @fileOverview accounts routes
  *
  * @author Franklin Chieze
  *
  * @requires NPM:express
- * @requires ../controllers/Members
+ * @requires ../controllers/Accounts
  * @requires ../middleware
  */
 
 import { Router } from 'express';
 
-import Members from '../controllers/Members';
+import Accounts from '../controllers/Accounts';
 import middleware from '../middleware';
 
-const membersController = new Members();
+const accountsController = new Accounts();
 const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
@@ -32,9 +32,9 @@ routes.use(middleware.auth.authenticateUser);
  *           type: object
  *           items:
  *             $ref: '#/definitions/ResponseBody'
- */
+ *
 routes.get(
-  '/:teamId/members',
+  '/:teamId/accounts',
   middleware.check.teamWithParamsIdExists,
   middleware.pagination,
   middleware.search,
@@ -42,9 +42,6 @@ routes.get(
   middleware.filter,
   membersController.get
 );
-// routes.get('/*/members', teamsController.getForAllTeamsAndAllUsers);
-// routes.get('/*/members/*', teamsController.getForAllTeamsAndAllUsers);
-// routes.get('/*/members/:userId', teamsController.getForAllTeams);
 /**
    * @swagger
    * /v1/teams/:teamId/members/:userId:
@@ -59,40 +56,40 @@ routes.get(
    *           type: object
    *           items:
    *             $ref: '#/definitions/ResponseBody'
-   */
+   *
 routes.get(
-  '/:teamId/members/:userId',
+  '/:teamId/accounts/:userId',
   middleware.check.teamWithParamsIdExists,
   middleware.check.userWithParamsIdExists,
   membersController.getById
 );
+*/
 /**
    * @swagger
-   * /v1/teams/:teamId/members/:userId:
+   * /v1/teams/:teamId/accounts:
    *   post:
-   *     description: Creates a new team membership
+   *     description: Creates a new team account
    *     produces:
    *      - application/json
    *     responses:
    *       200:
-   *         description: memberships
+   *         description: accounts
    *         schema:
    *           type: object
    *           items:
    *             $ref: '#/definitions/ResponseBody'
    */
 routes.post(
-  '/:teamId/members/:userId',
+  '/:teamId/accounts',
   middleware.check.teamWithParamsIdExists,
-  middleware.check.userWithParamsIdExists,
   middleware.check.currentUserIsLeadInTeamWithParamsId,
-  middleware.validate.createTeamMember,
-  membersController.create
+  middleware.validate.createTeamAccount,
+  accountsController.create
 );
-/** routes.put('/:teamId/members/:userId', membersController.updateById);
+/** routes.put('/:teamId/accounts/:accountId', accountsController.updateById);
 routes.delete(
-  '/:teamId/members/:userId',
-  membersController.deleteById
+  '/:teamId/accounts/:accountId',
+  accountsController.deleteById
 ); */
 
 export default routes;

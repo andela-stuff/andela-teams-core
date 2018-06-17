@@ -43,6 +43,14 @@ export default {
     },
     inviteCustomBotResponse1: {
       ok: true
+    },
+    setPurposeResponse1: {
+      ok: true,
+      purpose: 'purpose of channel'
+    },
+    setTopicResponse1: {
+      ok: true,
+      topic: 'topic of channel'
     }
   }
 };

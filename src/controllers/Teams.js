@@ -51,26 +51,6 @@ export default class Teams {
       const updatedTeam = await helpers.Misc.updateTeamAttributes(team, req);
 
       return res.sendSuccess({ team: updatedTeam });
-
-      /* // Slack integration
-      // get response, put it in returned json, create integrations
-      const slackResponse =
-      await slackIntegration.channel.create(
-          team.name,
-          {
-            private: false,
-            purpose: team.description,
-            topic: 'This is a test topic'
-          }
-        );
-
-      return res.sendSuccess({
-        team,
-        integrations: {
-          slack: slackResponse
-        }
-      });
-      */
     } catch (error) {
       return res.sendFailure([error.message]);
     }

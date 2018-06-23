@@ -25,6 +25,11 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
+// team must exist
+// only team lead can create accounts
+// can't have 2 accounts with the same name in the same team
+// account must include certain fields (during creation)
+
 let user0 = {};
 let user1 = {};
 

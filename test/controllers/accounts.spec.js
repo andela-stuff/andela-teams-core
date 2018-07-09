@@ -31,7 +31,6 @@ chai.use(chaiHttp);
 // account must include certain fields (during creation)
 
 let user0 = {};
-let user1 = {};
 
 describe('AccountsController', () => {
   beforeEach(async () => {
@@ -42,16 +41,19 @@ describe('AccountsController', () => {
   });
 
   describe('POST: /v1/teams/:teamId/accounts', (done) => {
-    it('should return an error if user token header is missing', (done) => {
+    it('should not add an account to a team that does not exist', (done) => {
       chai.request(server)
-        .get('/v1/users')
+        .post(`/v1/teams/${user0.id}/accounts`)
+        .send(mock.account1)
+        .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.have.property('errors');
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
-            .to.include('Request has no user token header.');
+            .to.include('Team with the specified ID does not exist.');
           expect(res.body.data).to.be.undefined;
+
           done();
         });
     });

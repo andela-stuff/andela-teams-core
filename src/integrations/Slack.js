@@ -36,10 +36,6 @@ class Channel {
    * @returns { object } a response object showing the result of the operation
    */
   async create(name, configuration = { private: false }) {
-    if (process.env.NODE_ENV === 'test') {
-      return {};
-    }
-
     try {
       const result = {}; // the result to be returned
 

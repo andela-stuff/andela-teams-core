@@ -1,4 +1,9 @@
 export default {
+  account1: {
+    name: 'account1',
+    description: 'description of account1',
+    type: 'slack_channel',
+  },
   team1: {
     name: 'team1',
     description: 'description of team1',

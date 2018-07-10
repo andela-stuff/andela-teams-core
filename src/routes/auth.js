@@ -33,7 +33,7 @@ const routes = new Router();
    */
 routes.post(
   '/signin',
-  middleware.validation.validateSigninUser,
+  middleware.validate.signinUser,
   authController.signin
 );
 /**
@@ -53,7 +53,7 @@ routes.post(
    */
 routes.post(
   '/signup',
-  middleware.validation.validateSignupUser,
+  middleware.validate.signupUser,
   authController.signup
 );
 

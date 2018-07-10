@@ -4,12 +4,14 @@
  * @author Franklin Chieze
  *
  * @requires NPM:axios
+ * @requires ./mock
  * @requires ../config
  */
 
 import axios from 'axios';
 import client from '@slack/client';
 
+import mock from './mock';
 import config from '../config';
 
 // create Slack web client using the bot token
@@ -34,10 +36,6 @@ class Channel {
    * @returns { object } a response object showing the result of the operation
    */
   async create(name, configuration = { private: false }) {
-    if (process.env.NODE_ENV === 'test') {
-      return {};
-    }
-
     try {
       const result = {}; // the result to be returned
 
@@ -49,7 +47,12 @@ class Channel {
         customBotChannels = customBotWebClient.groups; // private channels
       }
       // create channel
-      const createChannelResponse = await channels.create(name);
+      let createChannelResponse;
+      if (process.env.NODE_ENV === 'test') {
+        createChannelResponse = mock.slack.createChannelResponse1;
+      } else {
+        createChannelResponse = await channels.create(name);
+      }
       result.created = createChannelResponse;
 
       if (createChannelResponse.ok) {
@@ -57,39 +60,75 @@ class Channel {
         const channel =
         createChannelResponse.channel // public channel
         || createChannelResponse.group; // private channel
-        const inviteBotResponse =
-        await channels.invite(
-            channel.id,
-            config.SLACK_BOT_ID
-          );
+        let inviteBotResponse;
+        if (process.env.NODE_ENV === 'test') {
+          inviteBotResponse = mock.slack.inviteBotResponse1;
+        } else {
+          inviteBotResponse =
+          await channels.invite(
+              channel.id,
+              config.SLACK_BOT_ID
+            );
+        }
         result.invitedBot = inviteBotResponse;
         // invite custom bot to channel
-        const inviteCustomBotResponse =
-        await channels.invite(
-            channel.id,
-            config.SLACK_CUSTOM_BOT_ID
-          );
+        let inviteCustomBotResponse;
+        if (process.env.NODE_ENV === 'test') {
+          inviteCustomBotResponse = mock.slack.inviteCustomBotResponse1;
+        } else {
+          inviteCustomBotResponse =
+          await channels.invite(
+              channel.id,
+              config.SLACK_CUSTOM_BOT_ID
+            );
+        }
         result.invitedCustomBot = inviteCustomBotResponse;
         // set channel's purpose
         if (configuration.purpose && inviteCustomBotResponse.ok) {
-          const setPurposeResponse =
-          await customBotChannels.setPurpose(
-              channel.id,
-              configuration.purpose
-            );
+          let setPurposeResponse;
+          if (process.env.NODE_ENV === 'test') {
+            setPurposeResponse = mock.slack.setPurposeResponse1;
+          } else {
+            setPurposeResponse =
+            await customBotChannels.setPurpose(
+                channel.id,
+                configuration.purpose
+              );
+          }
           result.setPurpose = setPurposeResponse;
         }
 
         // set channel's topic
         if (configuration.topic && inviteCustomBotResponse.ok) {
-          const setTopicResponse =
-          await customBotChannels.setTopic(
-              channel.id,
-              configuration.topic
-            );
+          let setTopicResponse;
+          if (process.env.NODE_ENV === 'test') {
+            setTopicResponse = mock.slack.setTopicResponse1;
+          } else {
+            setTopicResponse =
+            await customBotChannels.setTopic(
+                channel.id,
+                configuration.topic
+              );
+          }
           result.setTopic = setTopicResponse;
         }
       }
+
+      // to reduce the size of the JSON delete some fields
+      delete result.created.scopes;
+      delete result.created.acceptedScopes;
+      delete result.invitedBot.channel;
+      delete result.invitedBot.group;
+      delete result.invitedBot.scopes;
+      delete result.invitedBot.acceptedScopes;
+      delete result.invitedCustomBot.channel;
+      delete result.invitedCustomBot.group;
+      delete result.invitedCustomBot.scopes;
+      delete result.invitedCustomBot.acceptedScopes;
+      delete result.setPurpose.scopes;
+      delete result.setPurpose.acceptedScopes;
+      delete result.setTopic.scopes;
+      delete result.setTopic.acceptedScopes;
 
       return result;
     } catch (error) {

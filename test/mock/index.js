@@ -1,4 +1,17 @@
 export default {
+  account1: {
+    name: 'account1',
+    description: 'description of account1',
+    type: 'slack_channel',
+  },
+  account1WithoutName: {
+    description: 'description of account1',
+    type: 'slack_channel',
+  },
+  account1WithoutType: {
+    name: 'account1',
+    description: 'description of account1',
+  },
   team1: {
     name: 'team1',
     description: 'description of team1',

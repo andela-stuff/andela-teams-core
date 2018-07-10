@@ -7,19 +7,20 @@
  * @requires NPM:chai-http
  * @requires NPM:jsonwebtoken
  * @requires ../mock
- * @requires ../../build/config
- * @requires ../../build/models
- * @requires ../../build/server
+ * @requires ../../src/config
+ * @requires ../../src/models
+ * @requires ../../src/server
  */
 
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
 
+
 import mock from '../mock';
-import config from '../../build/config';
-import models from '../../build/models';
-import server from '../../build/server';
+import config from '../../src/config';
+import models from '../../src/models';
+import server from '../../src/server';
 
 const should = chai.should();
 const { expect } = chai;

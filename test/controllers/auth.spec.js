@@ -6,16 +6,18 @@
  * @requires NPM:chai
  * @requires NPM:chai-http
  * @requires ../mock
- * @requires ../../build/models
- * @requires ../../build/server
+ * @requires ../../src/models
+ * @requires ../../src/server
  */
 
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 
+
 import mock from '../mock';
-import models from '../../build/models';
-import server from '../../build/server';
+import models from '../../src/models';
+import server from '../../src/server';
+
 
 const should = chai.should();
 const { expect } = chai;

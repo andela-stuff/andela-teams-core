@@ -1,5 +1,5 @@
 /**
- * @fileOverview Auth controller tests
+ * @fileOverview Users controller tests
  *
  * @author Franklin Chieze
  *

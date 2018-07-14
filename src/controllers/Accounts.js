@@ -65,6 +65,8 @@ export default class Accounts {
           throw new Error('Could not create Slack channel or group.');
         }
 
+        // TODO: invite the current user to the channel/group
+
         req.body.url =
         `/messages/${(req.body.type === 'slack_group') ? response.created.group.id : response.created.channel.id}`;
       }

@@ -3,12 +3,10 @@
  *
  * @author Franklin Chieze
  *
- * @requires NPM:axios
  * @requires ./mock
  * @requires ../config
  */
 
-import axios from 'axios';
 import client from '@slack/client';
 
 import mock from './mock';

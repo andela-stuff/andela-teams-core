@@ -10,6 +10,7 @@
 
 import request from 'requestretry';
 
+import mock from './mock';
 import config from '../config';
 
 const requestOptions = {
@@ -43,13 +44,21 @@ class Repo {
       // create repo
       let createRepoResponse;
       if (configuration.type === 'org') {
-        requestOptions.uri = `/orgs/${configuration.organization}/repos`;
+        requestOptions.uri = `/orgs/${config.GITHUB_ORGANIZATION}/repos`;
         requestOptions.body = { name };
-        const userRepoResponse = await request.post(requestOptions);
+        if (process.env.NODE_ENV === 'test') {
+          createRepoResponse = mock.github.createOrgRepoResponse1;
+        } else {
+          createRepoResponse = await request.post(requestOptions);
+        }
       } else if (configuration.type === 'user') {
         requestOptions.uri = '/user/repos';
         requestOptions.body = { name };
-        const userRepoResponse = await request.post(requestOptions);
+        if (process.env.NODE_ENV === 'test') {
+          createRepoResponse = mock.github.createUserRepoResponse1;
+        } else {
+          createRepoResponse = await request.post(requestOptions);
+        }
       }
     } catch (error) {
       return {

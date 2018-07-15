@@ -60,6 +60,35 @@ class Repo {
           createRepoResponse = await request.post(requestOptions);
         }
       }
+      result.created = {};
+
+      // to reduce the size of the JSON extract only needed fields
+      result.created.id = createRepoResponse.id;
+      result.created.node_id = createRepoResponse.node_id;
+      result.created.name = createRepoResponse.name;
+      result.created.full_name = createRepoResponse.full_name;
+      result.created.private = createRepoResponse.private;
+      result.created.html_url = createRepoResponse.html_url;
+      result.created.description = createRepoResponse.description;
+      if (createRepoResponse.organization) {
+        result.created.organization = {};
+        result.created.organization.login =
+        createRepoResponse.organization.login;
+        result.created.organization.id = createRepoResponse.organization.id;
+        result.created.organization.node_id =
+        createRepoResponse.organization.node_id;
+        result.created.organization.avatar_url =
+        createRepoResponse.organization.avatar_url;
+        result.created.organization.html_url =
+        createRepoResponse.organization.html_url;
+        result.created.organization.type = createRepoResponse.organization.type;
+      }
+
+      // for uniformity with the slack API (and easy error detection)
+      // add the 'ok' field
+      result.created.ok = true;
+
+      return result;
     } catch (error) {
       return {
         created: {

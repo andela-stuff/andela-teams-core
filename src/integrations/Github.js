@@ -37,14 +37,17 @@ class Repo {
    *
    * @returns { object } a response object showing the result of the operation
    */
-  async create(name, configuration = { type: 'org' }) {
+  async create(
+    name,
+    configuration = { organization: config.GITHUB_ORGANIZATION, type: 'org' }
+  ) {
     try {
       const result = {}; // the result to be returned
 
       // create repo
       let createRepoResponse;
       if (configuration.type === 'org') {
-        requestOptions.uri = `/orgs/${config.GITHUB_ORGANIZATION}/repos`;
+        requestOptions.uri = `/orgs/${configuration.organization}/repos`;
         requestOptions.body = { name };
         if (process.env.NODE_ENV === 'test') {
           createRepoResponse = mock.github.createOrgRepoResponse1;

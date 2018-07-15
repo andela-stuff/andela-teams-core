@@ -103,3 +103,16 @@ class Repo {
     }
   }
 }
+
+/**
+* Github Integration
+* @class Github
+*/
+export default class Github {
+  /**
+   * @constructor
+   */
+  constructor() {
+    this.repo = new Repo();
+  }
+}

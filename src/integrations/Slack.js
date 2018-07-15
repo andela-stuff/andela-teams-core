@@ -141,7 +141,6 @@ class Channel {
   }
 }
 
-
 /**
 * Slack Integration
 * @class Slack

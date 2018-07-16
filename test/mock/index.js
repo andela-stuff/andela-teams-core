@@ -12,6 +12,11 @@ export default {
     name: 'account1',
     description: 'description of account1',
   },
+  accountTypeGithubRepo1: {
+    name: 'account1',
+    description: 'description of account1',
+    type: 'github_repo',
+  },
   team1: {
     name: 'team1',
     description: 'description of team1',

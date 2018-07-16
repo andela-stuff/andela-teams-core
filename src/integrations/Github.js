@@ -48,7 +48,12 @@ class Repo {
       let createRepoResponse;
       if (configuration.type === 'org') {
         requestOptions.uri = `/orgs/${configuration.organization}/repos`;
-        requestOptions.body = { name };
+        requestOptions.body =
+        {
+          name,
+          description: configuration.description,
+          private: configuration.private
+        };
         if (process.env.NODE_ENV === 'test') {
           createRepoResponse = mock.github.createOrgRepoResponse1;
         } else {
@@ -56,7 +61,12 @@ class Repo {
         }
       } else if (configuration.type === 'user') {
         requestOptions.uri = '/user/repos';
-        requestOptions.body = { name };
+        requestOptions.body =
+        {
+          name,
+          description: configuration.description,
+          private: configuration.private
+        };
         if (process.env.NODE_ENV === 'test') {
           createRepoResponse = mock.github.createUserRepoResponse1;
         } else {

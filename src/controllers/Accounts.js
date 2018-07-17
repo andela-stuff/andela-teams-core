@@ -8,11 +8,14 @@
  * @requires ../models
  */
 
+import config from '../config';
+import Github from '../integrations/Github';
 import Slack from '../integrations/Slack';
 import helpers from '../helpers';
 import models from '../models';
 
 const { Op } = models.Sequelize;
+const githubIntegration = new Github();
 const slackIntegration = new Slack();
 
 /**
@@ -49,7 +52,26 @@ export default class Accounts {
 
       let response;
 
-      if (req.body.type === 'slack_channel' ||
+      if (req.body.type === 'github_repo') {
+        response =
+        await githubIntegration.repo.create(
+            req.body.name,
+            {
+              private: false,
+              description: req.body.description,
+              organization: config.GITHUB_ORGANIZATION,
+              type: 'org'
+            }
+          );
+
+        if (response.created.ok === false) {
+          throw new Error('Could not create Github repo.');
+        }
+
+        // TODO: invite the user to the repo
+
+        req.body.url = response.created.html_url;
+      } else if (req.body.type === 'slack_channel' ||
       req.body.type === 'slack_group') {
         response =
         await slackIntegration.channel.create(
@@ -64,6 +86,8 @@ export default class Accounts {
         if (response.created.ok === false) {
           throw new Error('Could not create Slack channel or group.');
         }
+
+        // TODO: invite the current user to the channel/group
 
         req.body.url =
         `/messages/${(req.body.type === 'slack_group') ? response.created.group.id : response.created.channel.id}`;

@@ -1,4 +1,32 @@
 export default {
+  github: {
+    createOrgRepoResponse1: {
+      id: 140960259,
+      node_id: 'MDEwOlJlcG9zaXRvcnkxNDA5NjAyNTk=',
+      name: 'test-repo-3',
+      full_name: 'nuclear-tests/test-repo-3',
+      private: false,
+      html_url: 'https://github.com/nuclear-tests/test-repo-3',
+      description: 'First auto-created repository',
+      organization: {
+        login: 'nuclear-tests',
+        id: 41114601,
+        node_id: 'MDEyOk9yZ2FuaXphdGlvbjQxMTE0NjAx',
+        avatar_url: 'https://avatars2.githubusercontent.com/u/41114601?v=4',
+        html_url: 'https://github.com/nuclear-tests',
+        type: 'Organization'
+      }
+    },
+    createUserRepoResponse1: {
+      id: 141013236,
+      node_id: 'MDEwOlJlcG9zaXRvcnkxNDEwMTMyMzY=',
+      name: 'test-repo-3',
+      full_name: 'Chieze-Franklin/test-repo-3',
+      private: false,
+      html_url: 'https://github.com/Chieze-Franklin/test-repo-3',
+      description: 'First auto-created repository'
+    }
+  },
   slack: {
     createChannelResponse1: {
       ok: true,

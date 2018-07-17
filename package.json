@@ -9,7 +9,7 @@
     "yarn": "1.5.1"
   },
   "scripts": {
-    "build": "npm run remove-build && npm run build:server && npm run db:reset && npm run db:migrate",
+    "build": "npm run remove-build && npm run build:server && npm run db:migrate",
     "build:server": "./node_modules/.bin/babel -d ./build ./src -s --copy-files",
     "build-and-start": "npm run build && npm start",
     "build-and-start:dev": "npm run build && npm run start:dev",
@@ -56,6 +56,7 @@
     "morgan": "^1.9.0",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
+    "requestretry": "^1.13.0",
     "rimraf": "^2.6.2",
     "sequelize": "^4.31.2",
     "sequelize-cli": "^4.0.0",

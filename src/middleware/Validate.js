@@ -20,7 +20,7 @@ const signupUserRules = {
   githubUsername: 'required|string',
   googleId: 'required|numeric',
   photo: 'string',
-  slackId: 'required|numeric',
+  slackId: 'required|string',
 };
 const updateUserRules = {
   blocked: 'boolean',

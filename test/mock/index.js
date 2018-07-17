@@ -12,6 +12,11 @@ export default {
     name: 'account1',
     description: 'description of account1',
   },
+  accountTypeGithubRepo1: {
+    name: 'account1',
+    description: 'description of account1',
+    type: 'github_repo',
+  },
   team1: {
     name: 'team1',
     description: 'description of team1',
@@ -64,7 +69,7 @@ export default {
     githubUsername: 'user1',
     googleId: 123451,
     photo: 'https://www.myphotos.com/1',
-    slackId: 1234561
+    slackId: '1234561'
   },
   user2: {
     displayName: 'user2',
@@ -72,7 +77,7 @@ export default {
     githubUsername: 'user2',
     googleId: 123452,
     photo: 'https://www.myphotos.com/2',
-    slackId: 1234562
+    slackId: '1234562'
   },
   user3: {
     displayName: 'user3',
@@ -80,7 +85,7 @@ export default {
     githubUsername: 'user3',
     googleId: 123453,
     photo: 'https://www.myphotos.com/3',
-    slackId: 1234563
+    slackId: '1234563'
   },
   user4: {
     displayName: 'user4',
@@ -88,7 +93,7 @@ export default {
     githubUsername: 'user4',
     googleId: 123454,
     photo: 'https://www.myphotos.com/4',
-    slackId: 1234564
+    slackId: '1234564'
   },
   user5: {
     displayName: 'user5',
@@ -96,7 +101,7 @@ export default {
     githubUsername: 'user5',
     googleId: 123455,
     photo: 'https://www.myphotos.com/5',
-    slackId: 1234565
+    slackId: '1234565'
   },
   user1WithNonAndelaEmail: {
     displayName: 'user1',
@@ -104,7 +109,7 @@ export default {
     githubUsername: 'user1',
     googleId: 12345,
     photo: 'https://www.myphotos.com/1',
-    slackId: 123456
+    slackId: '123456'
   },
   user1WithMalformedEmail: {
     displayName: 'user1',
@@ -112,7 +117,7 @@ export default {
     githubUsername: 'user1',
     googleId: 12345,
     photo: 'https://www.myphotos.com/1',
-    slackId: 123456
+    slackId: '123456'
   },
   user2WithMalformedEmail: {
     displayName: 'user2',
@@ -120,7 +125,7 @@ export default {
     githubUsername: 'user2',
     googleId: 12345,
     photo: 'https://www.myphotos.com/2',
-    slackId: 123456
+    slackId: '123456'
   },
   user3WithMalformedEmail: {
     displayName: 'user3',
@@ -128,35 +133,35 @@ export default {
     githubUsername: 'user3',
     googleId: 12345,
     photo: 'https://www.myphotos.com/3',
-    slackId: 123456
+    slackId: '123456'
   },
   user1WithoutEmail: {
     displayName: 'user1',
     githubUsername: 'user1',
     googleId: 12345,
     photo: 'https://www.myphotos.com/1',
-    slackId: 123456
+    slackId: '123456'
   },
   user1WithoutDisplayName: {
     email: 'user1@andela.com',
     githubUsername: 'user1',
     googleId: 12345,
     photo: 'https://www.myphotos.com/1',
-    slackId: 123456
+    slackId: '123456'
   },
   user1WithoutGithubUsername: {
     displayName: 'user1',
     email: 'user1@andela.com',
     googleId: 12345,
     photo: 'https://www.myphotos.com/1',
-    slackId: 123456
+    slackId: '123456'
   },
   user1WithoutGoogleId: {
     displayName: 'user1',
     email: 'user1@andela.com',
     githubUsername: 'user1',
     photo: 'https://www.myphotos.com/1',
-    slackId: 123456
+    slackId: '123456'
   },
   user1WithoutSlackId: {
     displayName: 'user1',

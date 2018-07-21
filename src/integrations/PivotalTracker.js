@@ -19,7 +19,7 @@ const requestOptions = {
   json: true,
   headers: {
     'Content-Type': 'application/json',
-    'X-TrackerToken': config.PIVOTAL_TRACKER_TOKEN, // //////////////////////////////////////////////////////////
+    'X-TrackerToken': config.PIVOTAL_TRACKER_TOKEN,
   }
 };
 
@@ -38,7 +38,7 @@ class Project {
    */
   async create(
     name,
-    configuration = { accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID } // ///////////////////////////////////////////
+    configuration = { accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID }
   ) {
     try {
       const result = {}; // the result to be returned
@@ -54,7 +54,7 @@ class Project {
         // (we will, instead, add the currently logged in user as owner later)
       };
       if (process.env.NODE_ENV === 'test') {
-        // fetch dummy data //////////////////////////////////////////////////////////////////////////////////////
+        createProjectResponse = mock.pivotalTracker.createProjectResponse1;
       } else {
         createProjectResponse = await request.post(requestOptions);
       }

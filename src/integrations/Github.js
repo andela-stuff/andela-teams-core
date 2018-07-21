@@ -75,6 +75,10 @@ class Repo {
       }
       result.created = {};
 
+      // for uniformity with the slack API (and easy error detection)
+      // add the 'ok' field
+      result.created.ok = true;
+
       // to reduce the size of the JSON extract only needed fields
       result.created.id = createRepoResponse.id;
       result.created.node_id = createRepoResponse.node_id;
@@ -96,10 +100,6 @@ class Repo {
         createRepoResponse.organization.html_url;
         result.created.organization.type = createRepoResponse.organization.type;
       }
-
-      // for uniformity with the slack API (and easy error detection)
-      // add the 'ok' field
-      result.created.ok = true;
 
       return result;
     } catch (error) {

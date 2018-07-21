@@ -13,9 +13,15 @@ export default {
     description: 'description of account1',
   },
   accountTypeGithubRepo1: {
-    name: 'account1',
+    name: 'github_repo_account1',
     description: 'description of account1',
     type: 'github_repo',
+  },
+
+  accountTypePivotalTrackerProject1: {
+    name: 'pt_project_account1',
+    description: 'description of account1',
+    type: 'pt_project',
   },
   team1: {
     name: 'team1',

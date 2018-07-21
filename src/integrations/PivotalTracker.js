@@ -46,9 +46,9 @@ class Project {
       // create project
       let createProjectResponse;
       requestOptions.uri = '/projects';
-      requestOptions.formData = {
+      requestOptions.body = {
         name,
-        account_id: configuration.accountId,
+        account_id: parseInt(configuration.accountId, 10),
         description: configuration.description,
         public: configuration.public,
         no_owner: true // we set this to true because we don't want to auto-add

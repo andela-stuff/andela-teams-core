@@ -24,7 +24,7 @@ const requestOptions = {
 };
 
 /**
-* @class Repo
+* @class Project
 */
 class Project {
   /**
@@ -49,6 +49,8 @@ class Project {
       requestOptions.formData = {
         name,
         account_id: configuration.accountId,
+        description: configuration.description,
+        public: configuration.public,
         no_owner: true // we set this to true because we don't want to auto-add
         // the user whose token was used to make this API call
         // (we will, instead, add the currently logged in user as owner later)
@@ -70,6 +72,14 @@ class Project {
       result.created.ok = true;
 
       // to reduce the size of the JSON extract only needed fields
+      result.created.id = createProjectResponse.id;
+      result.created.kind = createProjectResponse.kind;
+      result.created.name = createProjectResponse.name;
+      result.created.public = createProjectResponse.public;
+      result.created.project_type = createProjectResponse.project_type;
+      result.created.account_id = createProjectResponse.account_id;
+
+      return result;
     } catch (error) {
       return {
         created: {
@@ -79,5 +89,18 @@ class Project {
         }
       };
     }
+  }
+}
+
+/**
+* Pivotal Tracker Integration
+* @class PivotalTracker
+*/
+export default class PivotalTracker {
+  /**
+   * @constructor
+   */
+  constructor() {
+    this.project = new Project();
   }
 }

@@ -10,12 +10,14 @@
 
 import config from '../config';
 import Github from '../integrations/Github';
+import PivotalTracker from '../integrations/PivotalTracker';
 import Slack from '../integrations/Slack';
 import helpers from '../helpers';
 import models from '../models';
 
 const { Op } = models.Sequelize;
 const githubIntegration = new Github();
+const ptIntegration = new PivotalTracker();
 const slackIntegration = new Slack();
 
 /**
@@ -71,6 +73,24 @@ export default class Accounts {
         // TODO: invite the user to the repo
 
         req.body.url = response.created.html_url;
+      } else if (req.body.type === 'pt_project') {
+        response =
+        await ptIntegration.project.create(
+            req.body.name,
+            {
+              accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
+              description: req.body.description,
+              public: true,
+            }
+          );
+
+        if (response.created.ok === false) {
+          throw new Error('Could not create Pivotal Tracker project.');
+        }
+
+        // TODO: invite the user to the project
+
+        req.body.url = `https://www.pivotaltracker.com/projects/${response.created.id}`;
       } else if (req.body.type === 'slack_channel' ||
       req.body.type === 'slack_group') {
         response =

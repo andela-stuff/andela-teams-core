@@ -27,6 +27,16 @@ export default {
       description: 'First auto-created repository'
     }
   },
+  pivotalTracker: {
+    createProjectResponse1: {
+      id: 2186167,
+      kind: 'project',
+      name: 'test-project-1',
+      public: false,
+      project_type: 'private',
+      account_id: 1050596
+    }
+  },
   slack: {
     createChannelResponse1: {
       ok: true,

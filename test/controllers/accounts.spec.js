@@ -232,6 +232,36 @@ describe('AccountsController', () => {
       }
     );
     it(
+      'should allow only team lead to add (pivotal tracker) accounts to the team',
+      (done) => {
+        chai.request(server)
+          .post('/v1/teams')
+          .send(mock.team1)
+          .set('x-teams-user-token', mock.user0.token)
+          .end((err, res) => {
+            team1 = res.body.data.team;
+
+            chai.request(server)
+              .post(`/v1/teams/${team1.id}/accounts`)
+              .send(mock.accountTypePivotalTrackerProject1)
+              .set('x-teams-user-token', mock.user0.token)
+              .end((err2, res2) => {
+                res2.should.have.status(200);
+                res2.body.should.have.property('data');
+                expect(res2.body.data).to.be.an('Object');
+                res2.body.data.should.have.property('account');
+                expect(res2.body.data.account.id).to.not.be.undefined;
+                expect(res2.body.data.account.teamId).to.equal(team1.id);
+                expect(res2.body.data.account.type).to.equal('pt_project');
+                expect(res2.body.data.account.url).to.not.be.undefined;
+                expect(res2.body.errors).to.be.undefined;
+
+                done();
+              });
+          });
+      }
+    );
+    it(
       'should add accounts with default type of "slack_channel" to the team',
       (done) => {
         chai.request(server)

@@ -70,7 +70,7 @@ export default class Accounts {
           throw new Error('Could not create Github repo.');
         }
 
-        // TODO: invite the user to the repo
+        // TODO: invite the current user to the repo
 
         req.body.url = response.created.html_url;
       } else if (req.body.type === 'pt_project') {
@@ -81,14 +81,13 @@ export default class Accounts {
               accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
               description: req.body.description,
               public: true,
+              user: req.user // invite the current user to the project
             }
           );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Pivotal Tracker project.');
         }
-
-        // TODO: invite the user to the project
 
         req.body.url = `https://www.pivotaltracker.com/projects/${response.created.id}`;
       } else if (req.body.type === 'slack_channel' ||

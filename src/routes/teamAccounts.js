@@ -1,5 +1,5 @@
 /**
- * @fileOverview accounts routes
+ * @fileOverview team accounts routes
  *
  * @author Franklin Chieze
  *

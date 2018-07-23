@@ -10,11 +10,11 @@
  * @requires ./users
  */
 
-import accountMembersRoutes from './accountMembers';
 import authRoutes from './auth';
 import favoritesRoutes from './favorites';
 import teamsRoutes from './teams';
 import teamAccountsRoutes from './teamAccounts';
+import teamAccountMembersRoutes from './teamAccountMembers';
 import teamMembersRoutes from './teamMembers';
 import usersRoutes from './users';
 
@@ -58,13 +58,13 @@ import usersRoutes from './users';
  */
 
 export default (app) => {
-  app.use('/v1/accounts', accountMembersRoutes);
-
   app.use('/v1/auth', authRoutes);
 
   app.use('/v1/teams', teamsRoutes);
 
   app.use('/v1/teams', teamAccountsRoutes);
+
+  app.use('/v1/teams', teamAccountMembersRoutes);
 
   app.use('/v1/teams', teamMembersRoutes);
 

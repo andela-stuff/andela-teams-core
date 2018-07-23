@@ -1,19 +1,16 @@
 /**
- * @fileOverview members routes
+ * @fileOverview account members routes
  *
  * @author Franklin Chieze
  *
  * @requires NPM:express
- * @requires ../controllers/Members
  * @requires ../middleware
  */
 
 import { Router } from 'express';
 
-import Members from '../controllers/Members';
 import middleware from '../middleware';
 
-const membersController = new Members();
 const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
@@ -34,37 +31,13 @@ routes.use(middleware.auth.authenticateUser);
  *             $ref: '#/definitions/ResponseBody'
  */
 routes.get(
-  '/:teamId/members',
+  '/:teamId/accounts/:accountId/members',
   middleware.check.teamWithParamsIdExists,
   middleware.pagination,
   middleware.search,
   middleware.sort,
   middleware.filter,
   membersController.get
-);
-// routes.get('/*/members', teamsController.getForAllTeamsAndAllUsers);
-// routes.get('/*/members/*', teamsController.getForAllTeamsAndAllUsers);
-// routes.get('/*/members/:userId', teamsController.getForAllTeams);
-/**
-   * @swagger
-   * /v1/teams/:teamId/members/:userId:
-   *   get:
-   *     description: Return the team membership with the specified IDs
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: membership
-   *         schema:
-   *           type: object
-   *           items:
-   *             $ref: '#/definitions/ResponseBody'
-   */
-routes.get(
-  '/:teamId/members/:userId',
-  middleware.check.teamWithParamsIdExists,
-  middleware.check.userWithParamsIdExists,
-  membersController.getById
 );
 /**
    * @swagger
@@ -82,16 +55,16 @@ routes.get(
    *             $ref: '#/definitions/ResponseBody'
    */
 routes.post(
-  '/:teamId/members/:userId',
+  '/:teamId/accounts/:accountId/members/:userId',
   middleware.check.teamWithParamsIdExists,
   middleware.check.userWithParamsIdExists,
   middleware.check.currentUserIsLeadInTeamWithParamsId,
   middleware.validate.createTeamMember,
   membersController.create
 );
-/** routes.put('/:teamId/members/:userId', membersController.updateById);
+/**
 routes.delete(
-  '/:teamId/members/:userId',
+  '/:teamId/accounts/:accountId/members/:userId',
   membersController.deleteById
 ); */
 

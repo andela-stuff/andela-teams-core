@@ -3,16 +3,17 @@
  *
  * @author Franklin Chieze
  *
- * @requires ./accounts
  * @requires ./auth
  * @requires ./members
  * @requires ./teams
+ * @requires ./teamAccounts
  * @requires ./users
  */
 
-import accountsRoutes from './accounts';
+import accountMembersRoutes from './accountMembers';
 import authRoutes from './auth';
 import teamsRoutes from './teams';
+import teamAccountsRoutes from './teamAccounts';
 import teamMembersRoutes from './members';
 import usersRoutes from './users';
 
@@ -56,11 +57,13 @@ import usersRoutes from './users';
  */
 
 export default (app) => {
-  app.use('/v1/teams', accountsRoutes);
+  app.use('/v1/accounts', accountMembersRoutes);
 
   app.use('/v1/auth', authRoutes);
 
   app.use('/v1/teams', teamsRoutes);
+
+  app.use('/v1/teams', teamAccountsRoutes);
 
   app.use('/v1/teams', teamMembersRoutes);
 

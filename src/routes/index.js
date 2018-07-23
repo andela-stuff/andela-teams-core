@@ -15,7 +15,7 @@ import authRoutes from './auth';
 import favoritesRoutes from './favorites';
 import teamsRoutes from './teams';
 import teamAccountsRoutes from './teamAccounts';
-import teamMembersRoutes from './members';
+import teamMembersRoutes from './teamMembers';
 import usersRoutes from './users';
 
 /**

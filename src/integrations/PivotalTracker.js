@@ -59,27 +59,23 @@ class Project {
         Error(`Failed to add user '${userEmail}' to Pivotal Tracker project.`);
       }
 
-      result.addedUser = {};
-
       // for uniformity with the slack API (and easy error detection)
       // add the 'ok' field
-      result.addedUser.ok = true;
+      result.ok = true;
 
       // to reduce the size of the JSON extract only needed fields
-      result.addedUser.id = addUserResponse.id;
-      result.addedUser.kind = addUserResponse.kind;
-      result.addedUser.person = addUserResponse.person;
-      result.addedUser.project_id = addUserResponse.project_id;
-      result.addedUser.role = addUserResponse.role;
+      result.id = addUserResponse.id;
+      result.kind = addUserResponse.kind;
+      result.person = addUserResponse.person;
+      result.project_id = addUserResponse.project_id;
+      result.role = addUserResponse.role;
 
       return result;
     } catch (error) {
       return {
-        invitedUser: {
-          ok: false,
-          error: 'uncaught_exception',
-          detail: error.message
-        }
+        ok: false,
+        error: 'uncaught_exception',
+        detail: error.message
       };
     }
   }

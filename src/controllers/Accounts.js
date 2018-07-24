@@ -27,6 +27,50 @@ const slackIntegration = new Slack();
 export default class Accounts {
   /**
    * @method create
+   * @desc This method invites a user
+   * to the account with the specified account ID
+   *
+   * @param { object} req request
+   * @param { object} res response
+   *
+   * @returns { object } response
+   */
+  async addUser(req, res) {
+    try {
+      let response;
+
+      if (req.existingAccount.type === 'pt_project') {
+        let role;
+        switch (req.existingMember.role) {
+          case 'lead':
+            role = 'owner';
+            break;
+          case 'developer':
+            role = 'member';
+            break;
+          case 'member':
+            role = 'member';
+            break;
+          default:
+            role = 'viewer';
+        }
+        response =
+        await ptIntegration.project.addUser(
+            req.existingAccount.response.created.id,
+            req.existingUser.email,
+            {
+              role,
+            }
+          );
+
+        return res.sendSuccess({ response });
+      }
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
+  /**
+   * @method create
    * @desc This method creates a new account
    * for the team with the specified team ID
    *

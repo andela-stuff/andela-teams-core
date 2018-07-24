@@ -4,13 +4,16 @@
  * @author Franklin Chieze
  *
  * @requires NPM:express
+ * @requires ../controllers/Accounts
  * @requires ../middleware
  */
 
 import { Router } from 'express';
 
+import Accounts from '../controllers/Accounts';
 import middleware from '../middleware';
 
+const accountsController = new Accounts();
 const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
@@ -37,13 +40,13 @@ routes.get(
   middleware.search,
   middleware.sort,
   middleware.filter,
-  membersController.get
+  // membersController.get
 );
 /**
    * @swagger
    * /v1/teams/:teamId/members/:userId:
    *   post:
-   *     description: Creates a new team membership
+   *     description: Add a user to a team account
    *     produces:
    *      - application/json
    *     responses:
@@ -57,10 +60,12 @@ routes.get(
 routes.post(
   '/:teamId/accounts/:accountId/members/:userId',
   middleware.check.teamWithParamsIdExists,
+  middleware.check.accountWithParamsIdExists,
+  middleware.check.accountWithParamsIdBelongsToTeamWithParamsId,
   middleware.check.userWithParamsIdExists,
+  middleware.check.userWithParamsIdIsMemberOfTeamWithParamsId,
   middleware.check.currentUserIsLeadInTeamWithParamsId,
-  middleware.validate.createTeamMember,
-  membersController.create
+  accountsController.addUser
 );
 /**
 routes.delete(

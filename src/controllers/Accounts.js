@@ -43,7 +43,7 @@ export default class Accounts {
         let role;
         switch (req.existingMember.role) {
           case 'lead':
-            role = 'owner';
+            role = 'ow ner';
             break;
           case 'developer':
             role = 'member';

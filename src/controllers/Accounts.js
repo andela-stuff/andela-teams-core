@@ -3,6 +3,7 @@
  *
  * @author Franklin Chieze
  *
+ * @requires ../config
  * @requires ../integrations
  * @requires ../helpers
  * @requires ../models

@@ -21,7 +21,7 @@ import express from 'express';
 import logger from 'morgan';
 import path from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
-import 'babel-polyfill'
+import 'babel-polyfill' // eslint-disable-line
 
 
 import middleware from './middleware';

@@ -55,7 +55,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // serves swagger
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.get('/', (req, res) =>
+  res.redirect('/doc'));
 
 // set content type
 app.use((req, res, next) => {

@@ -8,8 +8,7 @@
  * @requires NPM:dotenv
  * @requires NPM:express
  * @requires NPM:morgan
- * @requires NPM:path
- * @requires NPM:swagger-jsdoc
+ * @requires NPM:swagger-ui-express
  * @requires ./middleware
  * @requires ./routes
  */
@@ -19,36 +18,17 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import logger from 'morgan';
-import path from 'path';
-import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 import 'babel-polyfill' // eslint-disable-line
-
 
 import middleware from './middleware';
 import routes from './routes';
+import swaggerDoc from '../api.swagger20.json';
 
 dotenv.config();
 
 const env = process.env.NODE_ENV || 'development';
 const port = parseInt(process.env.PORT, 10) || 8000;
-
-// swagger definition
-const swaggerDefinition = {
-  info: {
-    title: 'Andela Teams API',
-    version: '1.0',
-    description: 'Andela Teams seeks to automate some of the routine actions' +
-    ' taken by simulations learning facilitators at Andela.'
-  },
-};
-const options = {
-  // import swaggerDefinitions
-  swaggerDefinition,
-  // path to the API docs
-  apis: ['./routes/*.js'],
-};
-// initialize swagger-jsdoc
-const swaggerSpec = swaggerJSDoc(options);
 
 const app = express();
 
@@ -74,13 +54,10 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Serves directory with url as static files
-app.use(express.static(path.join(__dirname, '../api-docs/')));
-
 // serves swagger
-app.get('/api-doc.json', (req, res) => {
-  res.send(swaggerSpec);
-});
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.get('/', (req, res) =>
+  res.redirect('/doc'));
 
 // set content type
 app.use((req, res, next) => {

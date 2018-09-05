@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "ee7a954c-b903-ce7a-9972-1ca141f479ea",
+		"name": "Andela Teams",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "127.0.0.1:8000/v1/auth/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "displayName",
+							"value": "user3",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "user3@andela.com",
+							"type": "text"
+						},
+						{
+							"key": "googleId",
+							"value": "123445563",
+							"type": "text"
+						},
+						{
+							"key": "githubUsername",
+							"value": "user3",
+							"type": "text"
+						},
+						{
+							"key": "slackId",
+							"value": "12345683",
+							"type": "text"
+						},
+						{
+							"key": "photo",
+							"value": "https://myphoto2.com/3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/v1/auth/signup",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "127.0.0.1:8000/v1/users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-teams-user-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGFuZGVsYS5jb20iLCJpYXQiOjE1Mjc0MjgwOTB9.lpjuAc0TxrPhN06WVUrYZJoZqW7txGwFt8qGiFz5Vt8"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "127.0.0.1:8000/v1/users",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "127.0.0.1:8000/v1/teams",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-teams-user-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyQGFuZGVsYS5jb20iLCJpYXQiOjE1MjY1OTg4ODJ9.g_M28WFCUKGP-aOP-KyUGaphsBM20f9lPqpijKd0XGY"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "127.0.0.1:8000/v1/teams",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"teams"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "127.0.0.1:8000/v1/teams/3aa211e9-48bf-4a64-96d8-a01acad4fd44/members?@search=8f8733b8-5bd2-41c5-9b81-3a00ac1170b6",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-teams-user-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyQGFuZGVsYS5jb20iLCJpYXQiOjE1MjcwODEwNDB9.Ns03BSwDNltTkn1CKJeCTsuvbDHEBljXY483bru-kYM"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "127.0.0.1:8000/v1/teams/3aa211e9-48bf-4a64-96d8-a01acad4fd44/members?@search=8f8733b8-5bd2-41c5-9b81-3a00ac1170b6",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"teams",
+						"3aa211e9-48bf-4a64-96d8-a01acad4fd44",
+						"members"
+					],
+					"query": [
+						{
+							"key": "@search",
+							"value": "8f8733b8-5bd2-41c5-9b81-3a00ac1170b6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "127.0.0.1:8000/v1/teams",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-teams-user-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIyQGFuZGVsYS5jb20iLCJpYXQiOjE1MjYxMTE1MDB9.jnw0NEaSTWAdefdDBQCces3pBk_LrIushKvmr1PL17s"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "team3",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "third team",
+							"type": "text"
+						},
+						{
+							"key": "private",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/v1/teams",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"v1",
+						"teams"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

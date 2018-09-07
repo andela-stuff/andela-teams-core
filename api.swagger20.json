@@ -3,12 +3,12 @@
   "info": {
     "version": "1.0",
     "title": "Andela Teams",
-    "description": "TODO: Add Description"
+    "description": "API documentation for Andela Teams v1"
   },
-  "host": "127.0.0.1:8000",
-  "basePath": "/v1",
+  "host": "andela-teams-core.herokuapp.com",
+  "basePath": "/v1/auth",
   "schemes": [
-    "http"
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -17,14 +17,14 @@
     "application/json"
   ],
   "paths": {
-    "/auth/signup": {
+    "/signup": {
       "post": {
-        "description": "TODO: Add Description",
-        "summary": "127.0.0.1:8000/v1/auth/signup",
+        "description": "This endpoint registers a new user.",
+        "summary": "/v1/auth/signup",
         "tags": [
           "Misc"
         ],
-        "operationId": "AuthSignupPost",
+        "operationId": "SignupPost",
         "produces": [
           "application/json"
         ],
@@ -44,42 +44,42 @@
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's display name"
           },
           {
             "name": "email",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's email"
           },
           {
             "name": "googleId",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's Google ID"
           },
           {
             "name": "githubUsername",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's Github username"
           },
           {
             "name": "slackId",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's Slack ID"
           },
           {
             "name": "photo",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's profile picture URL"
           }
         ],
         "responses": {
@@ -92,11 +92,11 @@
           {
             "request": {
               "method": "POST",
-              "uri": "/auth/signup",
+              "uri": "/signup",
               "headers": {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
-              "body": "displayName=user3&email=user3@andela.com&googleId=123445563&githubUsername=user3&slackId=12345683&photo=https://myphoto2.com/3"
+              "body": "displayName=john doe&email=john.doe@andela.com&googleId=1234567&githubUsername=john-doe&slackId=ABCD1234&photo=https://dummyimage.com/200x200/000/fff"
             },
             "expectedResponse": {
               "x-allowExtraHeaders": true,
@@ -108,8 +108,97 @@
             },
             "x-testShouldPass": true,
             "x-testEnabled": true,
-            "x-testName": "127.0.0.1:8000/v1/auth/signup",
-            "x-testDescription": "TODO: Add Description"
+            "x-testName": "/v1/auth/signup",
+            "x-testDescription": "This endpoint registers a new user."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/signin": {
+      "post": {
+        "description": "This endpoint signs in an existing user.\n\nTo change a user's display name (to something different from the one used during sign up), supply a different display name during sign in.",
+        "summary": "/v1/auth/signin",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "SigninPost",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "displayName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's display name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's email"
+          },
+          {
+            "name": "googleId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's Google ID"
+          },
+          {
+            "name": "photo",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's profile picture URL"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/signin",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              "body": "displayName=john doe&email=john.doe@andela.com&googleId=1234567&photo=https://dummyimage.com/200x200/000/fff"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "/v1/auth/signin",
+            "x-testDescription": "This endpoint signs in an existing user.\n\nTo change a user's display name (to something different from the one used during sign up), supply a different display name during sign in."
           }
         ],
         "x-operation-settings": {

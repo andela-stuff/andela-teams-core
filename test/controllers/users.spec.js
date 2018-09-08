@@ -161,9 +161,11 @@ describe('UsersController', () => {
         .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.should.have.property('data');
-          expect(res.body.data).to.be.an('Object');
-          res.body.data.should.have.property('name');
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('This operation is not yet supported.');
+          expect(res.body.data).to.be.undefined;
           done();
         });
     });

@@ -19,6 +19,7 @@ export default class Users {
   /**
    * @method deleteById
    * @desc This method deletes the user with the specified user ID
+   * This method is not yet implemented
    *
    * @param { object } req request
    * @param { object } res response
@@ -26,9 +27,7 @@ export default class Users {
    * @returns { object } response
    */
   async deleteById(req, res) {
-    return res.status(200).send({
-      data: { name: 'user1' }
-    });
+    return res.sendFailure(['This operation is not yet supported.']);
   }
 
   /**

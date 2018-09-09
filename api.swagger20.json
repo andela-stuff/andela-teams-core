@@ -3,12 +3,12 @@
   "info": {
     "version": "1.0",
     "title": "Andela Teams",
-    "description": "TODO: Add Description"
+    "description": "API documentation for Andela Teams v1.\n\nAll endpoints that return collections (for instance `GET: /v1/users`) support pagination, searching, sorting and filtering of their results.\n\n#### pagination\n\nTo limit the number of items returned in a collection, use the request query `@limit`.\n```\nGET: /v1/users?@limit=2\n```\nThe default value for `@limit` is `20`. \n\nTo skip a number of items (from the beginning), use the request query `@offset`.\n```\nGET: /v1/users?@offset=2\n```\nThe default value for `@offset` is `0`. \n\nUsing the number specified by the `@limit` as the maximum number of items per page, the entire collection is broken into pages. To view a particular page of items, use the request query `@page`.\n```\nGET: /v1/users?@page=2\n```\nThe default value for `@page` is `1`.\n\nThese request queries can be combined together.\n```\nGET: /v1/users?@limit=2&@offset=2\n\nGET: /v1/users?@limit=2&@page=2\n```\n\n`@offset` and `@page` are very similar in purpose, and should not be used together. When used together, only `@offset` will be considered while `@page` will be ignored.\n\n#### searching\n\nTo specify a search term, use the request query `@search`.\n```\nGET: /v1/users?@search=doe\n```\n\nDifferent collections use the search terms differently. For instance, when the collection being searched is the users collection (`GET: /v1/users`), the display names, emails, and github usernames of the users will be searched to see if they contain the search term. From the query above, only users with `doe` in names, emails or github usernames will be returned.\n\nSearches are case-*IN*sensitive.\n\n#### sorting\n\nTo specify the field to be used to sort the items in a collection, use the request query `@sort`.\n```\nGET: /v1/users?@sort=displayName\n```\nThe default value for `@sort` is `updatedAt`.\n\n\nTo specify the order in which the sorting should happen, use the request query `@order`.\n```\nGET: /v1/users?@order=ASC\n```\nThe default value for `@order` is `DESC`.\n\n\nThese request queries can be combined together.\n```\nGET: /v1/users?@sort=displayName&@order=ASC\n```\n\n#### filtering\n\nAny request query that doesn't start with a `@` is taken to be a filter. For every key-value pair that makes up a filter, the _key_ should be a field that exists in the items contained in the collection being filtered, while the _value_ should be the desired value that field should hold for every item in the collection. For instance, to find all users with `role` set to `admin`:\n```\nGET: /v1/users?role=admin\n```\n\nFilters may be case-*SENSITIVE*.\n\n*Note that* pretty much all these request queries can be combined together. However, searching (`@search`) and filtering don't play well together because they perform similar tasks.\n```\nGET: /v1/users?@limit=2&@offset=2&@search=doe&@sort=displayName&@order=ASC\n\nGET: /v1/users?@limit=2&@offset=2&@sort=displayName&@order=ASC&role=admin\n```\n\n## Authentication\n\nAfter a user is sign up/in, a token is generated for that user and returned in the responce JSON as `userToken`.\n\n```\n{\n    \"data\": {\n        \"user\": {\n            \"id\": \"8e4f754f-38da-4143-9f60-875fe12956c2\",\n            \"blocked\": false,\n            \"displayName\": \"john doe\",\n            \"email\": \"john.doe@andela.com\",\n            \"githubUsername\": \"john-doe\",\n            \"googleId\": \"1234567\",\n            \"photo\": \"https://dummyimage.com/200x200/000/fff\",\n            \"role\": \"admin\",\n            \"slackId\": \"ABCD1234\",\n            \"verified\": false,\n            \"createdAt\": \"2018-09-07T14:32:08.491Z\",\n            \"updatedAt\": \"2018-09-07T14:32:08.491Z\"\n        },\n        \"userToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0NDE4NDZ9.PHFydXdwZBNMdhUNuWQU7BCrGQkmKJAFmC0QllIPxFo\"\n    }\n}\n```\n\nThis token is expected to be included in every request made to the server by/on behalf of the user. This is done storing the token in the request header `x-teams-user-token`.\n"
   },
-  "host": "127.0.0.1:8000",
+  "host": "andela-teams-core.herokuapp.com",
   "basePath": "/v1",
   "schemes": [
-    "http"
+    "https"
   ],
   "consumes": [
     "application/json"
@@ -19,8 +19,8 @@
   "paths": {
     "/auth/signup": {
       "post": {
-        "description": "TODO: Add Description",
-        "summary": "127.0.0.1:8000/v1/auth/signup",
+        "description": "This endpoint registers a new user.",
+        "summary": "/v1/auth/signup",
         "tags": [
           "Misc"
         ],
@@ -44,42 +44,42 @@
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's display name"
           },
           {
             "name": "email",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's email"
           },
           {
             "name": "googleId",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's Google ID"
           },
           {
             "name": "githubUsername",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's Github username"
           },
           {
             "name": "slackId",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's Slack ID"
           },
           {
             "name": "photo",
             "in": "formData",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "user's profile picture URL"
           }
         ],
         "responses": {
@@ -96,7 +96,7 @@
               "headers": {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
-              "body": "displayName=user3&email=user3@andela.com&googleId=123445563&githubUsername=user3&slackId=12345683&photo=https://myphoto2.com/3"
+              "body": "displayName=john doe&email=john.doe@andela.com&googleId=1234567&githubUsername=john-doe&slackId=ABCD1234&photo=https://dummyimage.com/200x200/000/fff"
             },
             "expectedResponse": {
               "x-allowExtraHeaders": true,
@@ -108,8 +108,97 @@
             },
             "x-testShouldPass": true,
             "x-testEnabled": true,
-            "x-testName": "127.0.0.1:8000/v1/auth/signup",
-            "x-testDescription": "TODO: Add Description"
+            "x-testName": "/v1/auth/signup",
+            "x-testDescription": "This endpoint registers a new user."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "description": "This endpoint signs in an existing user.\n\nTo change a user's display name or photo (to something different from the one used during sign up), supply a different display name or photo during sign in.",
+        "summary": "/v1/auth/signin",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "AuthSigninPost",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "displayName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's display name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's email"
+          },
+          {
+            "name": "googleId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's Google ID"
+          },
+          {
+            "name": "photo",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's profile picture URL"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/auth/signin",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
+              },
+              "body": "displayName=john doe&email=john.doe@andela.com&googleId=1234567&photo=https://dummyimage.com/200x200/000/fff"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "/v1/auth/signin",
+            "x-testDescription": "This endpoint signs in an existing user.\n\nTo change a user's display name or photo (to something different from the one used during sign up), supply a different display name or photo during sign in."
           }
         ],
         "x-operation-settings": {
@@ -122,8 +211,8 @@
     },
     "/users": {
       "get": {
-        "description": "TODO: Add Description",
-        "summary": "127.0.0.1:8000/v1/users",
+        "description": "This endpoint returns an array of existing users.\n\nThis endpoint requires authentication.\n\nThis endpoint supports pagination (`@limit`, `@offset`, `@page`), searching (`@search`), sorting (`@sort`, `@order`) and filtering.\n\nWhen searching the users collection (using the search term specified by the request query `@search`), the fields that will be checked for that search term are:\n* `displayName`\n* `email`\n* `githubUsername`",
+        "summary": "/v1/users",
         "tags": [
           "Misc"
         ],
@@ -152,7 +241,7 @@
               "method": "GET",
               "uri": "/users",
               "headers": {
-                "x-teams-user-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGFuZGVsYS5jb20iLCJpYXQiOjE1Mjc0MjgwOTB9.lpjuAc0TxrPhN06WVUrYZJoZqW7txGwFt8qGiFz5Vt8"
+                "x-teams-user-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0NDE4NDZ9.PHFydXdwZBNMdhUNuWQU7BCrGQkmKJAFmC0QllIPxFo"
               }
             },
             "expectedResponse": {
@@ -165,8 +254,139 @@
             },
             "x-testShouldPass": true,
             "x-testEnabled": true,
-            "x-testName": "127.0.0.1:8000/v1/users",
-            "x-testDescription": "TODO: Add Description"
+            "x-testName": "/v1/users",
+            "x-testDescription": "This endpoint returns an array of existing users.\n\nThis endpoint requires authentication.\n\nThis endpoint supports pagination (`@limit`, `@offset`, `@page`), searching (`@search`), sorting (`@sort`, `@order`) and filtering.\n\nWhen searching the users collection (using the search term specified by the request query `@search`), the fields that will be checked for that search term are:\n* `displayName`\n* `email`\n* `githubUsername`"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/users/8e4f754f-38da-4143-9f60-875fe12956c2": {
+      "get": {
+        "description": "This endpoint a user with the specified user ID.\n\nThis endpoint requires authentication.",
+        "summary": "/v1/users/{{user_id}}",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Users8e4f754f38da41439f60875fe12956c2Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-teams-user-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/users/8e4f754f-38da-4143-9f60-875fe12956c2",
+              "headers": {
+                "x-teams-user-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0NDE4NDZ9.PHFydXdwZBNMdhUNuWQU7BCrGQkmKJAFmC0QllIPxFo"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "/v1/users/{{user_id}}",
+            "x-testDescription": "This endpoint a user with the specified user ID.\n\nThis endpoint requires authentication."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "put": {
+        "description": "This endpoint updates a user's info.\n\nThis endpoint requires authentication.\n\nThe user fields that can be updated via this endpoint are:\n * `blocked`: you need to have the `admin` role to update this field, and you can't update your own `blocked`\n * `role`: you need to have the `admin` role to update this field, and you can't update your own `role`\n * `photo`: you can't update another user's `photo`\n * `githubUsername`: you can't update another user's `githubUsername`\n * `slackId`: you can't update another user's `slackId`\n \nIt is currently not possible to update `email`, `googleId`. `displayName` can be updated only by signing in with a new display name.",
+        "summary": "/v1/users/{{user_id}}",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Users8e4f754f38da41439f60875fe12956c2Put",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "x-teams-user-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "photo",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "user's profile picture URL"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/users/8e4f754f-38da-4143-9f60-875fe12956c2",
+              "headers": {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "x-teams-user-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0OTgwMTV9.s58C5ZLSVyNJHJiB_4MChUnghETRop7bIYV8_KV4hMs"
+              },
+              "body": "photo=https://dummyimage.com/200x200/000/aaa"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "/v1/users/{{user_id}}1",
+            "x-testDescription": "This endpoint updates a user's info.\n\nThis endpoint requires authentication.\n\nThe user fields that can be updated via this endpoint are:\n * `blocked`: you need to have the `admin` role to update this field, and you can't update your own `blocked`\n * `role`: you need to have the `admin` role to update this field, and you can't update your own `role`\n * `photo`: you can't update another user's `photo`\n * `githubUsername`: you can't update another user's `githubUsername`\n * `slackId`: you can't update another user's `slackId`\n \nIt is currently not possible to update `email`, `googleId`. `displayName` can be updated only by signing in with a new display name."
           }
         ],
         "x-operation-settings": {

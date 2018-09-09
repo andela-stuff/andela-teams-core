@@ -2,11 +2,12 @@
 	"info": {
 		"_postman_id": "ee7a954c-b903-ce7a-9972-1ca141f479ea",
 		"name": "Andela Teams",
+		"description": "API documentation for Andela Teams v1.\n\nAll endpoints that return collections (for instance `GET: /v1/users`) support pagination, searching, sorting and filtering of their results.\n\n#### pagination\n\nTo limit the number of items returned in a collection, use the request query `@limit`.\n```\nGET: /v1/users?@limit=2\n```\nThe default value for `@limit` is `20`. \n\nTo skip a number of items (from the beginning), use the request query `@offset`.\n```\nGET: /v1/users?@offset=2\n```\nThe default value for `@offset` is `0`. \n\nUsing the number specified by the `@limit` as the maximum number of items per page, the entire collection is broken into pages. To view a particular page of items, use the request query `@page`.\n```\nGET: /v1/users?@page=2\n```\nThe default value for `@page` is `1`.\n\nThese request queries can be combined together.\n```\nGET: /v1/users?@limit=2&@offset=2\n\nGET: /v1/users?@limit=2&@page=2\n```\n\n`@offset` and `@page` are very similar in purpose, and should not be used together. When used together, only `@offset` will be considered while `@page` will be ignored.\n\n#### searching\n\nTo specify a search term, use the request query `@search`.\n```\nGET: /v1/users?@search=doe\n```\n\nDifferent collections use the search terms differently. For instance, when the collection being searched is the users collection (`GET: /v1/users`), the display names, emails, and github usernames of the users will be searched to see if they contain the search term. From the query above, only users with `doe` in names, emails or github usernames will be returned.\n\nSearches are case-*IN*sensitive.\n\n#### sorting\n\nTo specify the field to be used to sort the items in a collection, use the request query `@sort`.\n```\nGET: /v1/users?@sort=displayName\n```\nThe default value for `@sort` is `updatedAt`.\n\n\nTo specify the order in which the sorting should happen, use the request query `@order`.\n```\nGET: /v1/users?@order=ASC\n```\nThe default value for `@order` is `DESC`.\n\n\nThese request queries can be combined together.\n```\nGET: /v1/users?@sort=displayName&@order=ASC\n```\n\n#### filtering\n\nAny request query that doesn't start with a `@` is taken to be a filter. For every key-value pair that makes up a filter, the _key_ should be a field that exists in the items contained in the collection being filtered, while the _value_ should be the desired value that field should hold for every item in the collection. For instance, to find all users with `role` set to `admin`:\n```\nGET: /v1/users?role=admin\n```\n\nFilters may be case-*SENSITIVE*.\n\n*Note that* pretty much all these request queries can be combined together. However, searching (`@search`) and filtering don't play well together because they perform similar tasks.\n```\nGET: /v1/users?@limit=2&@offset=2&@search=doe&@sort=displayName&@order=ASC\n\nGET: /v1/users?@limit=2&@offset=2&@sort=displayName&@order=ASC&role=admin\n```\n\n## Authentication\n\nAfter a user is sign up/in, a token is generated for that user and returned in the responce JSON as `userToken`.\n\n```\n{\n    \"data\": {\n        \"user\": {\n            \"id\": \"8e4f754f-38da-4143-9f60-875fe12956c2\",\n            \"blocked\": false,\n            \"displayName\": \"john doe\",\n            \"email\": \"john.doe@andela.com\",\n            \"githubUsername\": \"john-doe\",\n            \"googleId\": \"1234567\",\n            \"photo\": \"https://dummyimage.com/200x200/000/fff\",\n            \"role\": \"admin\",\n            \"slackId\": \"ABCD1234\",\n            \"verified\": false,\n            \"createdAt\": \"2018-09-07T14:32:08.491Z\",\n            \"updatedAt\": \"2018-09-07T14:32:08.491Z\"\n        },\n        \"userToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0NDE4NDZ9.PHFydXdwZBNMdhUNuWQU7BCrGQkmKJAFmC0QllIPxFo\"\n    }\n}\n```\n\nThis token is expected to be included in every request made to the server by/on behalf of the user. This is done storing the token in the request header `x-teams-user-token`.\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "127.0.0.1:8000/v1/auth/signup",
+			"name": "/v1/auth/signup",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -20,79 +21,214 @@
 					"urlencoded": [
 						{
 							"key": "displayName",
-							"value": "user3",
+							"value": "john doe",
+							"description": "user's display name",
 							"type": "text"
 						},
 						{
 							"key": "email",
-							"value": "user3@andela.com",
+							"value": "john.doe@andela.com",
+							"description": "user's email",
 							"type": "text"
 						},
 						{
 							"key": "googleId",
-							"value": "123445563",
+							"value": "1234567",
+							"description": "user's Google ID",
 							"type": "text"
 						},
 						{
 							"key": "githubUsername",
-							"value": "user3",
+							"value": "john-doe",
+							"description": "user's Github username",
 							"type": "text"
 						},
 						{
 							"key": "slackId",
-							"value": "12345683",
+							"value": "ABCD1234",
+							"description": "user's Slack ID",
 							"type": "text"
 						},
 						{
 							"key": "photo",
-							"value": "https://myphoto2.com/3",
+							"value": "https://dummyimage.com/200x200/000/fff",
+							"description": "user's profile picture URL",
 							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "127.0.0.1:8000/v1/auth/signup",
+					"raw": "https://andela-teams-core.herokuapp.com/v1/auth/signup",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"andela-teams-core",
+						"herokuapp",
+						"com"
 					],
-					"port": "8000",
 					"path": [
 						"v1",
 						"auth",
 						"signup"
 					]
-				}
+				},
+				"description": "This endpoint registers a new user."
 			},
 			"response": []
 		},
 		{
-			"name": "127.0.0.1:8000/v1/users",
+			"name": "/v1/auth/signin",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "displayName",
+							"value": "john doe",
+							"description": "user's display name",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "john.doe@andela.com",
+							"description": "user's email",
+							"type": "text"
+						},
+						{
+							"key": "googleId",
+							"value": "1234567",
+							"description": "user's Google ID",
+							"type": "text"
+						},
+						{
+							"key": "photo",
+							"value": "https://dummyimage.com/200x200/000/fff",
+							"description": "user's profile picture URL",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://andela-teams-core.herokuapp.com/v1/auth/signin",
+					"protocol": "https",
+					"host": [
+						"andela-teams-core",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"v1",
+						"auth",
+						"signin"
+					]
+				},
+				"description": "This endpoint signs in an existing user.\n\nTo change a user's display name or photo (to something different from the one used during sign up), supply a different display name or photo during sign in."
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/users",
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "x-teams-user-token",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGFuZGVsYS5jb20iLCJpYXQiOjE1Mjc0MjgwOTB9.lpjuAc0TxrPhN06WVUrYZJoZqW7txGwFt8qGiFz5Vt8"
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0NDE4NDZ9.PHFydXdwZBNMdhUNuWQU7BCrGQkmKJAFmC0QllIPxFo"
 					}
 				],
 				"body": {},
 				"url": {
-					"raw": "127.0.0.1:8000/v1/users",
+					"raw": "https://andela-teams-core.herokuapp.com/v1/users",
+					"protocol": "https",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"andela-teams-core",
+						"herokuapp",
+						"com"
 					],
-					"port": "8000",
 					"path": [
 						"v1",
 						"users"
 					]
-				}
+				},
+				"description": "This endpoint returns an array of existing users.\n\nThis endpoint requires authentication.\n\nThis endpoint supports pagination (`@limit`, `@offset`, `@page`), searching (`@search`), sorting (`@sort`, `@order`) and filtering.\n\nWhen searching the users collection (using the search term specified by the request query `@search`), the fields that will be checked for that search term are:\n* `displayName`\n* `email`\n* `githubUsername`"
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/users/{{user_id}}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-teams-user-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0NDE4NDZ9.PHFydXdwZBNMdhUNuWQU7BCrGQkmKJAFmC0QllIPxFo"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "https://andela-teams-core.herokuapp.com/v1/users/8e4f754f-38da-4143-9f60-875fe12956c2",
+					"protocol": "https",
+					"host": [
+						"andela-teams-core",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"v1",
+						"users",
+						"8e4f754f-38da-4143-9f60-875fe12956c2"
+					]
+				},
+				"description": "This endpoint a user with the specified user ID.\n\nThis endpoint requires authentication."
+			},
+			"response": []
+		},
+		{
+			"name": "/v1/users/{{user_id}}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "x-teams-user-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGFuZGVsYS5jb20iLCJpYXQiOjE1MzY0OTgwMTV9.s58C5ZLSVyNJHJiB_4MChUnghETRop7bIYV8_KV4hMs"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "photo",
+							"value": "https://dummyimage.com/200x200/000/aaa",
+							"description": "user's profile picture URL",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://andela-teams-core.herokuapp.com/v1/users/8e4f754f-38da-4143-9f60-875fe12956c2",
+					"protocol": "https",
+					"host": [
+						"andela-teams-core",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"v1",
+						"users",
+						"8e4f754f-38da-4143-9f60-875fe12956c2"
+					]
+				},
+				"description": "This endpoint updates a user's info.\n\nThis endpoint requires authentication.\n\nThe user fields that can be updated via this endpoint are:\n * `blocked`: you need to have the `admin` role to update this field, and you can't update your own `blocked`\n * `role`: you need to have the `admin` role to update this field, and you can't update your own `role`\n * `photo`: you can't update another user's `photo`\n * `githubUsername`: you can't update another user's `githubUsername`\n * `slackId`: you can't update another user's `slackId`\n \nIt is currently not possible to update `email`, `googleId`. `displayName` can be updated only by signing in with a new display name."
 			},
 			"response": []
 		},
@@ -210,6 +346,28 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "94fc6bd5-c8a3-4966-8be2-a9255e4b041b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3c176c1c-3a91-4a00-89e5-73bc6bfc5109",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

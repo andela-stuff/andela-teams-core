@@ -241,6 +241,87 @@ describe('UsersController', () => {
           done();
         });
     });
+    it('should allow an admin user to update their Github username', (done) => {
+      chai.request(server)
+        .put(`/v1/users/${user0.id}`)
+        .send({ githubUsername: 'user_a' })
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('user');
+          expect(res.body.data.user.id).to.not.be.undefined;
+          expect(res.body.data.user.githubUsername)
+            .to.equal('user_a');
+          expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it('should allow a non-admin user to update their photo', (done) => {
+      chai.request(server)
+        .put(`/v1/users/${user1.id}`)
+        .send({ photo: 'https://www.myphotos.com/new-photo' })
+        .set('x-teams-user-token', mock.user1.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('user');
+          expect(res.body.data.user.id).to.not.be.undefined;
+          expect(res.body.data.user.photo)
+            .to.equal('https://www.myphotos.com/new-photo');
+          expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
+    it('should not allow a user to update another user\'s photo [1]', (done) => {
+      chai.request(server)
+        .put(`/v1/users/${user1.id}`)
+        .send({ photo: 'https://www.myphotos.com/new-photo' })
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('Cannot update another user\'s photo.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should not allow a user to update another user\'s photo [2]', (done) => {
+      chai.request(server)
+        .put(`/v1/users/${user0.id}`)
+        .send({ photo: 'https://www.myphotos.com/new-photo' })
+        .set('x-teams-user-token', mock.user1.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('Cannot update another user\'s photo.');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should allow an admin user to update their Slack ID', (done) => {
+      chai.request(server)
+        .put(`/v1/users/${user0.id}`)
+        .send({ slackId: 'abcd1' })
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('user');
+          expect(res.body.data.user.id).to.not.be.undefined;
+          expect(res.body.data.user.slackId)
+            .to.equal('abcd1');
+          expect(res.body.errors).to.be.undefined;
+          done();
+        });
+    });
     it('should not allow a user to block/unblock themselves', (done) => {
       chai.request(server)
         .put(`/v1/users/${user0.id}`)

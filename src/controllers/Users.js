@@ -19,6 +19,7 @@ export default class Users {
   /**
    * @method deleteById
    * @desc This method deletes the user with the specified user ID
+   * This method is not yet implemented
    *
    * @param { object } req request
    * @param { object } res response
@@ -26,9 +27,7 @@ export default class Users {
    * @returns { object } response
    */
   async deleteById(req, res) {
-    return res.status(200).send({
-      data: { name: 'user1' }
-    });
+    return res.sendFailure(['This operation is not yet supported.']);
   }
 
   /**
@@ -148,7 +147,6 @@ export default class Users {
         fieldsToUpdate.blocked = req.body.blocked;
       }
 
-      // only an admin can update 'role'
       if (typeof req.body.role !== 'undefined') {
         // only an admin can update 'role'
         if (req.user.role !== 'admin') {
@@ -172,6 +170,24 @@ export default class Users {
         }
 
         fieldsToUpdate.photo = req.body.photo;
+      }
+
+      if (typeof req.body.githubUsername !== 'undefined') {
+        // you cannot update another user's 'githubUsername'
+        if (req.existingUser.id !== req.user.id) {
+          throw new Error('Cannot update another user\'s Github username.');
+        }
+
+        fieldsToUpdate.githubUsername = req.body.githubUsername;
+      }
+
+      if (typeof req.body.slackId !== 'undefined') {
+        // you cannot update another user's 'slackId'
+        if (req.existingUser.id !== req.user.id) {
+          throw new Error('Cannot update another user\'s Slack ID.');
+        }
+
+        fieldsToUpdate.slackId = req.body.slackId;
       }
 
       const updatedUser = await req.existingUser.update(fieldsToUpdate);

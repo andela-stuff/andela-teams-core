@@ -18,21 +18,6 @@ const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
 
-/**
-   * @swagger
-   * /v1/users:
-   *   get:
-   *     description: Return an array of existing users
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: users
-   *         schema:
-   *           type: object
-   *           items:
-   *             $ref: '#/definitions/ResponseBody'
-   */
 routes.get(
   '/',
   middleware.pagination,

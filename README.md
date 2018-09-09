@@ -41,7 +41,8 @@ This project uses [Mocha](https://mochajs.org/), [Chai](http://chaijs.com/) and 
 
 ## API Docs
 
-The API docs can be found [here](https://andela-teams-core.herokuapp.com/).
+* [Swagger](https://andela-teams-core.herokuapp.com/).
+* [Postman](https://documenter.getpostman.com/view/129342/RWaGVAD9)
 
 ## Contributing
 

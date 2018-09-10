@@ -120,6 +120,18 @@ function updateMembershipAttributes(membership) {
   membership = membership.get();
   return membership;
 }
+/**
+ * @method updateMembershipAttributes
+ * @desc Return updated membership details
+ *
+ * @param { object } membership the input membership object
+ *
+ * @returns { object } the output membership object
+ */
+function updateProjectAttributes(membership) {
+  membership = membership.get();
+  return membership;
+}
 
 /**
  * @method updateTeamAttributes
@@ -217,6 +229,7 @@ export default {
     updateFavoriteAttributes,
     updateMembershipAttributes,
     updateTeamAttributes,
-    updateUserAttributes
+    updateUserAttributes,
+    updateProjectAttributes
   }
 };

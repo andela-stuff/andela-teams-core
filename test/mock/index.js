@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 export default {
   account1: {
     name: 'account1',
@@ -23,6 +25,26 @@ export default {
     description: 'description of account1',
     type: 'pt_project',
   },
+  favTeam: {
+    id: '93c70d82-b5e3-11e8-96f8-529269fb1459',
+    name: 'favorite team',
+    description: 'description of team2',
+    photo: 'https://www.myphotos.com/2',
+    private: true,
+    progress: 50
+  },
+  favUser: {
+    displayName: 'user0',
+    email: 'user0@andela.com',
+    githubUsername: 'user0',
+    googleId: 123450,
+    photo: 'https://www.myphotos.com/0',
+    role: 'admin',
+    slackId: '1234560',
+  },
+  mockTeam: {
+    teamId: '45745c60-7b1a-11e8-9c9c-2d42b21b1a3e'
+  },
   team1: {
     name: 'team1',
     description: 'description of team1',
@@ -47,6 +69,11 @@ export default {
   },
   team5: {
     name: 'team5',
+    description: 'description of team5',
+    photo: 'https://www.myphotos.com/5',
+  },
+  team6: {
+    name: 'team6',
     description: 'description of team5',
     photo: 'https://www.myphotos.com/5',
   },

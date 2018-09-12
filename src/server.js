@@ -68,6 +68,8 @@ routes(app);
 app.use((req, res) =>
   res.sendFailure([`The endpoint '${req.path}' could not be found.`], 404));
 
-app.listen(port);
+app.listen(port, () => {
+  console.log(`App currently running on port: ${port}`);
+});
 
 export default app;

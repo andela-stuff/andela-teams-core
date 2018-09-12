@@ -57,14 +57,14 @@ export default class Accounts {
       if (req.body.type === 'github_repo') {
         response =
         await githubIntegration.repo.create(
-            req.body.name,
-            {
-              private: false,
-              description: req.body.description,
-              organization: config.GITHUB_ORGANIZATION,
-              type: 'org'
-            }
-          );
+          req.body.name,
+          {
+            private: false,
+            description: req.body.description,
+            organization: config.GITHUB_ORGANIZATION,
+            type: 'org'
+          }
+        );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Github repo.');
@@ -76,13 +76,13 @@ export default class Accounts {
       } else if (req.body.type === 'pt_project') {
         response =
         await ptIntegration.project.create(
-            req.body.name,
-            {
-              accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
-              description: req.body.description,
-              public: true,
-            }
-          );
+          req.body.name,
+          {
+            accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
+            description: req.body.description,
+            public: true,
+          }
+        );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Pivotal Tracker project.');
@@ -95,13 +95,13 @@ export default class Accounts {
       req.body.type === 'slack_group') {
         response =
         await slackIntegration.channel.create(
-            req.body.name,
-            {
-              private: (req.body.type === 'slack_group'),
-              purpose: req.body.description,
-              topic: req.existingTeam.description
-            }
-          );
+          req.body.name,
+          {
+            private: (req.body.type === 'slack_group'),
+            purpose: req.body.description,
+            topic: req.existingTeam.description
+          }
+        );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Slack channel or group.');

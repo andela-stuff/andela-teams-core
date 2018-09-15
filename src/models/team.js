@@ -59,6 +59,10 @@ export default (sequelize, DataTypes) => {
       as: 'memberships',
       foreignKey: 'teamId',
     });
+    Team.hasMany(models.Favorite, {
+      as: 'favorites',
+      foreignKey: 'teamId'
+    });
   };
 
   return Team;

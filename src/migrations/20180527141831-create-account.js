@@ -38,11 +38,7 @@ module.exports = {
         },
       },
       type: {
-        type: Sequelize.ENUM,
-        values: [
-          'github_org', 'github_repo', 'pt_org', 'pt_project',
-          'slack_group', 'slack_org', 'slack_channel'
-        ],
+        type: Sequelize.STRING,
         defaultValue: 'slack_channel'
       },
       url: {
@@ -62,13 +58,5 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: (queryInterface, Sequelize) => {
-    const result = queryInterface.dropTable('Accounts');
-
-    // // manually drop "enum_Accounts_type" since Sequelize does not
-    // // drop when dropping "Accounts"
-    // queryInterface.sequelize.query('DROP TYPE "enum_Accounts_type";');
-
-    return result;
-  }
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Accounts')
 };

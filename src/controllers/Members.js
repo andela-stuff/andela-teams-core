@@ -77,7 +77,7 @@ export default class Members {
   async get(req, res) {
     try {
       const { limit, offset } = req.meta.pagination;
-      const { query } = req.meta.search;
+      // const { query } = req.meta.search;
       const { attribute, order } = req.meta.sort;
       const { where } = req.meta.filter;
 

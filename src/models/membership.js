@@ -7,14 +7,11 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     role: {
-      type: DataTypes.ENUM,
-      values: [
-        'disabled', 'developer', 'lead', 'member'
-      ],
+      type: DataTypes.STRING,
       defaultValue: 'member'
     },
     teamId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       onDelete: 'CASCADE',
       references: {
@@ -24,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       onDelete: 'CASCADE',
       references: {

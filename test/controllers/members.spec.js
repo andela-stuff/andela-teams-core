@@ -63,6 +63,7 @@ describe('MembersController', () => {
           expect(res.body.data.team.containsYou).to.equal(true);
           expect(res.body.data.team.createdByYou).to.equal(true);
           expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.data.team.membersUrl).to.not.be.undefined;
           expect(res.body.errors).to.be.undefined;
 
           team1 = res.body.data.team;
@@ -102,6 +103,7 @@ describe('MembersController', () => {
           expect(res.body.data.team.containsYou).to.equal(true);
           expect(res.body.data.team.createdByYou).to.equal(true);
           expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.data.team.membersUrl).to.not.be.undefined;
           expect(res.body.errors).to.be.undefined;
 
           team1 = res.body.data.team;
@@ -139,6 +141,7 @@ describe('MembersController', () => {
           expect(res.body.data.team.containsYou).to.equal(true);
           expect(res.body.data.team.createdByYou).to.equal(true);
           expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.data.team.membersUrl).to.not.be.undefined;
           expect(res.body.errors).to.be.undefined;
 
           team1 = res.body.data.team;
@@ -177,6 +180,7 @@ describe('MembersController', () => {
           expect(res.body.data.team.containsYou).to.equal(true);
           expect(res.body.data.team.createdByYou).to.equal(true);
           expect(res.body.data.team.members).to.equal(1);
+          expect(res.body.data.team.membersUrl).to.not.be.undefined;
           expect(res.body.errors).to.be.undefined;
 
           team1 = res.body.data.team;

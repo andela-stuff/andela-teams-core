@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 export default {
   account1: {
     name: 'account1',
@@ -50,6 +52,11 @@ export default {
     description: 'description of team5',
     photo: 'https://www.myphotos.com/5',
   },
+  team6: {
+    name: 'team6',
+    description: 'description of team5',
+    photo: 'https://www.myphotos.com/5',
+  },
   team1WithoutOptionalProperties: {
     name: 'team1'
   },
@@ -67,7 +74,7 @@ export default {
     googleId: 123450,
     photo: 'https://www.myphotos.com/0',
     role: 'admin',
-    slackId: 1234560
+    slackId: '1234560'
   },
   user1: {
     displayName: 'user1',

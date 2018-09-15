@@ -12,6 +12,7 @@
 
 import accountsRoutes from './accounts';
 import authRoutes from './auth';
+import favoritesRoutes from './favorites';
 import teamsRoutes from './teams';
 import teamMembersRoutes from './members';
 import usersRoutes from './users';
@@ -65,4 +66,6 @@ export default (app) => {
   app.use('/v1/teams', teamMembersRoutes);
 
   app.use('/v1/users', usersRoutes);
+
+  app.use('/v1/favorites', favoritesRoutes);
 };

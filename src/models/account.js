@@ -29,8 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.ENUM,
       values: [
-        'github_org', 'github_repo', 'pt_org', 'pt_project',
-        'slack_group', 'slack_org', 'slack_channel'
+        'github_org', 'github_private_repo', 'github_repo',
+        'pt_org', 'pt_private_project', 'pt_project',
+        'slack_channel', 'slack_group', 'slack_org'
       ],
       defaultValue: 'slack_channel'
     },

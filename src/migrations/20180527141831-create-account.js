@@ -40,8 +40,9 @@ module.exports = {
       type: {
         type: Sequelize.ENUM,
         values: [
-          'github_org', 'github_repo', 'pt_org', 'pt_project',
-          'slack_group', 'slack_org', 'slack_channel'
+          'github_org', 'github_private_repo', 'github_repo',
+          'pt_org', 'pt_private_project', 'pt_project',
+          'slack_channel', 'slack_group', 'slack_org'
         ],
         defaultValue: 'slack_channel'
       },
@@ -62,13 +63,20 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: (queryInterface, Sequelize) => {
-    const result = queryInterface.dropTable('Accounts');
+  down: async (queryInterface, Sequelize) => {
+    // const result = queryInterface.dropTable('Accounts');
 
     // // manually drop "enum_Accounts_type" since Sequelize does not
     // // drop when dropping "Accounts"
     // queryInterface.sequelize.query('DROP TYPE "enum_Accounts_type";');
 
-    return result;
+    // return result;
+
+    // const a = 1;
+    // // await queryInterface.removeColumn('Accounts', 'type');
+    // return queryInterface.addColumn('Accounts', 'type', {
+    //   type: Sequelize.ENUM('github_org', 'github_private_repo', 'github_repo', 'pt_org', 'pt_private_project', 'pt_project', 'slack_channel', 'slack_group', 'slack_org'),
+    //   defaultValue: 'slack_channel'
+    // });
   }
 };

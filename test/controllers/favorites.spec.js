@@ -51,7 +51,7 @@ describe('FavoritesController', () => {
     });
     it('should get a user\'s favorite teams', (done) => {
       chai.request(server)
-        .get(`/v1/favorites/${user.id}`)
+        .get(`/v1/favorites?userId=${user.id}`)
         .set('x-teams-user-token', mock.user0.token)
         .end((err, response) => {
           expect(response.body).to.be.an('object');

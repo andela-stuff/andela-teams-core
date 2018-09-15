@@ -102,13 +102,6 @@ export default class Teams {
       const dbResult = await models.Team.findAndCountAll({ where });
       const teams = await models.Team.findAll({
         where,
-        include: [
-          {
-            model: models.Favorites,
-            as: 'teams',
-            attributes: ['userId']
-          }
-        ],
         limit,
         offset,
         order: [[attribute, order]]

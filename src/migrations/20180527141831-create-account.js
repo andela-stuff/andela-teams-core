@@ -75,7 +75,9 @@ module.exports = {
     // const a = 1;
     // // await queryInterface.removeColumn('Accounts', 'type');
     // return queryInterface.addColumn('Accounts', 'type', {
-    //   type: Sequelize.ENUM('github_org', 'github_private_repo', 'github_repo', 'pt_org', 'pt_private_project', 'pt_project', 'slack_channel', 'slack_group', 'slack_org'),
+    //   type: Sequelize.ENUM('github_org', 'github_private_repo',
+    // 'github_repo', 'pt_org', 'pt_private_project', 'pt_project',
+    // 'slack_channel', 'slack_group', 'slack_org'),
     //   defaultValue: 'slack_channel'
     // });
   }

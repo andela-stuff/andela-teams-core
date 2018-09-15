@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'member'
     },
     teamId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       onDelete: 'CASCADE',
       references: {
@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     userId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       onDelete: 'CASCADE',
       references: {

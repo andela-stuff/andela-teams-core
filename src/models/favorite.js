@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const Favorite = sequelize.define('Favorites', {
+  const Favorite = sequelize.define('Favorite', {
     id: {
       allowNull: false,
       primaryKey: true,
@@ -30,12 +30,13 @@ export default (sequelize, DataTypes) => {
   Favorite.associate = (models) => {
     Favorite.belongsTo(models.User, {
       as: 'user',
+      foreignKey: 'userId',
       onDelete: 'CASCADE',
-      foreignKey: 'userId'
     });
     Favorite.belongsTo(models.Team, {
-      as: 'teams',
-      foreignKey: 'teamId'
+      as: 'team',
+      foreignKey: 'teamId',
+      onDelete: 'CASCADE'
     });
   };
 

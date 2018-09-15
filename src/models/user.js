@@ -52,10 +52,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     role: {
-      type: DataTypes.ENUM,
-      values: [
-        'admin', 'disabled', 'member'
-      ],
+      type: DataTypes.STRING,
       defaultValue: 'member'
     },
     slackId: {

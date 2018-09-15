@@ -24,8 +24,10 @@ const signupUserRules = {
 };
 const updateUserRules = {
   blocked: 'boolean',
+  githubUsername: 'string',
   photo: 'string',
-  role: 'string',
+  role: 'in:admin,disabled,member',
+  slackId: 'string',
 };
 
 const createTeamRules = {
@@ -157,8 +159,10 @@ export default class Validate {
     const validation = new Validator(req.body, updateUserRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('blocked'),
+      ...validation.errors.get('githubUsername'),
       ...validation.errors.get('photo'),
       ...validation.errors.get('role'),
+      ...validation.errors.get('slackId'),
     ]));
     validation.passes(() => next());
   }

@@ -39,13 +39,5 @@ module.exports = {
         type: Sequelize.DATE
       }
     }),
-  down: (queryInterface, Sequelize) => {
-    const result = queryInterface.dropTable('Memberships');
-
-    // manually drop "enum_Memberships_role" since Sequelize does not
-    // drop when dropping "Memberships"
-    queryInterface.sequelize.query('DROP TYPE "enum_Memberships_role";');
-
-    return result;
-  }
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Memberships')
 };

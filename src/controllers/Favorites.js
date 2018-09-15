@@ -33,12 +33,12 @@ export default class Favorites {
         throw new Error('This user already favorited this team.');
       }
 
-      const favourite = await models.Favorite.create({
+      const favorite = await models.Favorite.create({
         teamId: req.params.teamId,
         userId: req.user.id
       });
 
-      return res.sendSuccess({ favourite });
+      return res.sendSuccess({ favorite });
     } catch (error) {
       return res.sendFailure([error.message]);
     }
@@ -88,7 +88,7 @@ export default class Favorites {
         // eslint-disable-next-line no-restricted-syntax
         for (const favorite of favorites) {
           // eslint-disable-next-line no-await-in-loop
-          const f = await helpers.Misc.updateFavoriteAttributes(favorites);
+          const f = await helpers.Misc.updateFavoriteAttributes(favorite);
           updatedFavorites.push(f);
         }
 
@@ -99,7 +99,7 @@ export default class Favorites {
         );
       }
 
-      throw new Error('Could not retrieve memberships from the database.');
+      throw new Error('Could not retrieve favorites from the database.');
     } catch (error) {
       return res.sendFailure([error.message]);
     }
@@ -120,11 +120,11 @@ export default class Favorites {
         where: { teamId: req.params.teamId, userId: req.user.id }
       });
       if (existingFavorite) {
-        existingFavorite.destroy();
-        res.sendSuccess();
-      } else {
-        throw new Error('This user has not favorited this team.');
+        await existingFavorite.destroy();
+        return res.sendSuccess();
       }
+
+      throw new Error('This user has not favorited this team.');
     } catch (error) {
       return res.sendFailure([error.message]);
     }
@@ -147,15 +147,15 @@ export default class Favorites {
       });
       if (existingFavorite) {
         existingFavorite.destroy();
-        res.sendSuccess();
-      } else {
-        const favourite = await models.Favorite.create({
-          teamId: req.params.teamId,
-          userId: req.user.id
-        });
-
-        return res.sendSuccess({ favourite });
+        return res.sendSuccess();
       }
+
+      const favorite = await models.Favorite.create({
+        teamId: req.params.teamId,
+        userId: req.user.id
+      });
+
+      return res.sendSuccess({ favorite });
     } catch (error) {
       return res.sendFailure([error.message]);
     }

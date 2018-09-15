@@ -20,6 +20,7 @@ module.exports = {
       teamId: {
         type: Sequelize.UUID,
         allowNull: false,
+        onDelete: 'CASCADE',
         references: {
           model: 'Teams',
           key: 'id',

@@ -42,7 +42,7 @@ export default class Auth {
             photo: req.body.photo || user.photo
           });
         const userToken = jwt.sign({ email: user.email }, config.SECRET);
-        updatedUser = helpers.Misc.updateUserAttributes(updatedUser, req);
+        updatedUser = await helpers.Misc.updateUserAttributes(updatedUser, req);
         return res.sendSuccess({ user: updatedUser, userToken });
       }
 
@@ -81,7 +81,7 @@ export default class Auth {
       const user = await models.User.create(req.body);
 
       const userToken = jwt.sign({ email: user.email }, config.SECRET);
-      const updatedUser = helpers.Misc.updateUserAttributes(user, req);
+      const updatedUser = await helpers.Misc.updateUserAttributes(user, req);
 
       return res.sendSuccess({ user: updatedUser, userToken });
     } catch (error) {

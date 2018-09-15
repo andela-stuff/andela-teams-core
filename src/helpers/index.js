@@ -178,18 +178,43 @@ async function updateTeamAttributes(team, req) {
  *
  * @returns { object } the output user object
  */
-function updateUserAttributes(user, req) {
+async function updateUserAttributes(user, req) {
   user = user.get();
   if (req && req.user) {
     user.isYou = (user.id === req.user.id);
+
+    // favorites
+    const favorites = await models.Favorite.findAndCountAll({
+      where: { userId: user.id }
+    });
+
+    user.favorites = favorites.count;
+
+    const protocol =
+    (req.secure || req.connection.encrypted) ? 'https:' : 'http:';
+    const urlObject = url.parse(req.fullUrl);
+    const baseUrl = `${protocol}//${urlObject.host}`;
+
+    user.favoritesUrl = `${baseUrl}/v1/favorites?userId=${user.id}`;
+
+    // memberships
+    const memberships = await models.Membership.findAndCountAll({
+      where: { userId: user.id }
+    });
+
+    user.memberships = memberships.count;
+
+    // user.membershipsUrl = `${baseUrl}/v1/members?userId=${user.id}`;
   }
   delete user.password;
+
   return user;
 }
 
 export default {
   Misc: {
     generatePaginationMeta,
+    updateFavoriteAttributes,
     updateMembershipAttributes,
     updateTeamAttributes,
     updateUserAttributes

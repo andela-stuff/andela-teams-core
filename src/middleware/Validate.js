@@ -45,7 +45,7 @@ const createTeamAccountRules = {
 };
 
 const createTeamMemberRules = {
-  role: 'string',
+  role: 'in:developer,disabled,lead,member',
 };
 
 /**

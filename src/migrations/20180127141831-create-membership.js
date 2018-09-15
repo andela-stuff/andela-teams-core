@@ -9,10 +9,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4
       },
       role: {
-        type: Sequelize.ENUM,
-        values: [
-          'disabled', 'developer', 'lead', 'member'
-        ],
+        type: Sequelize.STRING,
         defaultValue: 'member'
       },
       teamId: {

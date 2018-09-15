@@ -7,10 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4
     },
     role: {
-      type: DataTypes.ENUM,
-      values: [
-        'disabled', 'developer', 'lead', 'member'
-      ],
+      type: DataTypes.STRING,
       defaultValue: 'member'
     },
     teamId: {

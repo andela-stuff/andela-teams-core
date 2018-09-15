@@ -27,7 +27,6 @@
     "start": "NODE_ENV=production ./node_modules/.bin/forever -m 5 ./build/server.js",
     "start:dev": "NODE_ENV=development nodemon --exec npm run babel-node ./src/server",
     "coverage": "NODE_ENV=test nyc --reporter=html --reporter=text ./node_modules/mocha/bin/_mocha 'test/**/*.js' --compilers js:babel-core/register --timeout 10000 --exit",
-    "test2": "npm run db:reset:test && NODE_ENV=test nyc --reporter=html --reporter=text mocha test/controllers/favorites.spec.js --require babel-polyfill --require babel-register --timeout 10000 --exit",
     "test": "npm run db:reset:test && NODE_ENV=test nyc --reporter=html --reporter=text mocha test/**/**.js --require babel-polyfill --require babel-register --timeout 10000 --exit"
   },
   "pre-commit": [

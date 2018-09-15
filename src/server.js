@@ -17,7 +17,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import logger from 'morgan';
+import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import 'babel-polyfill' // eslint-disable-line
 
@@ -45,6 +45,9 @@ app.use((req, res, next) => {
 */
 app.use(cors());
 
+// log requests
+app.use(morgan('combined'));
+
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -69,7 +72,10 @@ app.use((req, res) =>
   res.sendFailure([`The endpoint '${req.path}' could not be found.`], 404));
 
 app.listen(port, () => {
-  console.log(`App currently running on port: ${port}`);
+  if (env === 'development' || env === 'test') {
+    // eslint-disable-next-line no-console
+    console.log(`App currently running on port: ${port}`);
+  }
 });
 
 export default app;

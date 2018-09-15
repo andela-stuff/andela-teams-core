@@ -96,6 +96,19 @@ function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
 }
 
 /**
+ * @method updateFavoriteAttributes
+ * @desc Return updated favorite details
+ *
+ * @param { object } favorite the input favorite object
+ *
+ * @returns { object } the output favorite object
+ */
+function updateFavoriteAttributes(favorite) {
+  favorite = favorite.get();
+  return favorite;
+}
+
+/**
  * @method updateMembershipAttributes
  * @desc Return updated membership details
  *
@@ -120,6 +133,25 @@ function updateMembershipAttributes(membership) {
 async function updateTeamAttributes(team, req) {
   team = team.get();
 
+  // favorites
+  const favorites = await models.Favorite.findAndCountAll({
+    where: { teamId: team.id }
+  });
+
+  const favoritesByYou =
+  favorites.rows.filter(favorite => (favorite.userId === req.user.id));
+  team.favoritedByYou = favoritesByYou.length > 0;
+
+  team.favorites = favorites.count;
+
+  const protocol =
+  (req.secure || req.connection.encrypted) ? 'https:' : 'http:';
+  const urlObject = url.parse(req.fullUrl);
+  const baseUrl = `${protocol}//${urlObject.host}`;
+
+  team.favoritesUrl = `${baseUrl}/v1/favorites?teamId=${team.id}`;
+
+  // memberships
   const memberships = await models.Membership.findAndCountAll({
     where: { teamId: team.id }
   });
@@ -132,11 +164,6 @@ async function updateTeamAttributes(team, req) {
 
   team.members = memberships.count;
 
-  const protocol =
-  (req.secure || req.connection.encrypted) ? 'https:' : 'http:';
-  const urlObject = url.parse(req.fullUrl);
-  const baseUrl =
-  `${protocol}//${urlObject.host}`;
   team.membersUrl = `${baseUrl}/v1/teams/${team.id}/members`;
 
   return team;

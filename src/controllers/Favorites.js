@@ -3,7 +3,11 @@
  *
  * @author Ayelegun Kayode Michael
  *
+ * @requires ../helpers
+ * @requires ../models
  */
+
+import helpers from '../helpers';
 import models from '../models';
 
 /**
@@ -15,111 +19,145 @@ export default class Favorites {
     * @method addFavorite
     * @desc This method adds a team to a user's favorites
     *
-    * @param { object } request The request object
-    * @param { object } response The response object
+    * @param { object } req The request object
+    * @param { object } res The response object
     *
     * @returns { object } response
     */
-  async create(request, response) {
+  async create(req, res) {
     try {
-      const { id } = request.user;
-      const allFavorites = await models.Favorites.findAll({
-        where: {
-          teamId: request.existingTeam.dataValues.id
-        }
+      const existingFavorite = await models.Favorite.findOne({
+        where: { teamId: req.params.teamId, userId: req.user.id }
       });
-      if (allFavorites.length === 0) {
-        const favoriteTeams = await models.Favorites.create({
-          userId: id,
-          teamId: request.existingTeam.dataValues.id,
-        });
-        return response.status(201).json({
-          status: 'Success',
-          message: 'Successfully added team to your list of favorites',
-          favoriteTeams,
-          userIDs: [id]
-        });
+      if (existingFavorite) {
+        throw new Error('This user already favorited this team.');
       }
-      const arrayUserIDs = [];
-      allFavorites.map(favorite => arrayUserIDs
-        .push(favorite.dataValues.userId));
-      const userFavoriteTeams = allFavorites
-        .filter(favorite => favorite.dataValues.userId === id)[0];
 
-      if (arrayUserIDs.includes(id)) {
-        const favoriteTeams = await models
-          .Favorites.findById(userFavoriteTeams.dataValues.id);
-        arrayUserIDs.map((user, index) => {
-          if (arrayUserIDs[index] === id) {
-            arrayUserIDs.splice(index, 1);
-          }
-        });
-        favoriteTeams.destroy();
-        return response.status(200).json({
-          status: 'Success',
-          message: 'Successfully removed team from your list of favorites',
-          favoriteTeams,
-          userIDs: arrayUserIDs
-        });
-      }
-      const favoriteTeams = await models.Favorites.create({
-        userId: id,
-        teamId: request.existingTeam.id,
+      const favourite = await models.Favorite.create({
+        teamId: req.params.teamId,
+        userId: req.user.id
       });
 
-      return response.status(201).json({
-        message: 'Successfully added team to your favorites',
-        teamData: request.params.teamId,
-        favoriteTeams,
-        userIDs: arrayUserIDs
-      });
+      return res.sendSuccess({ favourite });
     } catch (error) {
-      return response.sendFailure([error.message]);
+      return res.sendFailure([error.message]);
     }
   }
 
   /**
     * @method getFavorites
-    * @desc This method gets the user's favorites
+    * @desc This method gets an array of favorites
     *
-    * @param { object } request The request object
-    * @param { object } response The response object
+    * @param { object } req The request object
+    * @param { object } res The response object
     *
     * @returns { object } response
     */
-  async get(request, response) {
+  async get(req, res) {
     try {
-      const { userId } = request.params;
-      const userFavorites = await models.Favorites.findAll({
-        where: {
-          userId
-        },
+      const { limit, offset } = req.meta.pagination;
+      // const { query } = req.meta.search;
+      const { attribute, order } = req.meta.sort;
+      const { where } = req.meta.filter;
+
+      // this endpoint currently does NOT recognize the '@search' query
+
+      const dbResult = await models.Favorite.findAndCountAll({ where });
+      const favorites = await models.Favorite.findAll({
+        where,
+        limit,
+        offset,
+        order: [[attribute, order]],
         include: [
-          {
-            model: models.Team,
-            as: 'teams',
-          }
+          { model: models.Team, as: 'team' },
+          { model: models.User, as: 'user' }
         ]
       });
+      if (favorites) {
+        const pagination = helpers.Misc.generatePaginationMeta(
+          req,
+          dbResult,
+          limit,
+          offset
+        );
 
-      if (userFavorites.length === 0) {
-        return response.status(200).json({
-          status: 'Success',
-          message: 'You currently have no favorite teams'
-        });
+        const updatedFavorites = [];
+        // using await in loop as shown below
+        // https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795
+
+        // eslint-disable-next-line no-restricted-syntax
+        for (const favorite of favorites) {
+          // eslint-disable-next-line no-await-in-loop
+          const f = await helpers.Misc.updateFavoriteAttributes(favorites);
+          updatedFavorites.push(f);
+        }
+
+        return res.sendSuccess(
+          { favorites: updatedFavorites },
+          200,
+          { pagination }
+        );
       }
 
-      const favoriteTeam = [];
-      userFavorites.forEach(favorites => favoriteTeam
-        .push(favorites.dataValues.teams.dataValues));
-
-      return response.sendSuccess({
-        status: 'Success',
-        message: `You have ${userFavorites.length} favorite team(s)`,
-        favoriteTeam
-      }, 200);
+      throw new Error('Could not retrieve memberships from the database.');
     } catch (error) {
-      return response.sendFailure([error.message]);
+      return res.sendFailure([error.message]);
+    }
+  }
+
+  /**
+   * @method deleteById
+   * @desc This method deletes a team from a user's favorites
+   *
+   * @param { object } req request
+   * @param { object } res response
+   *
+   * @returns { object } response
+   */
+  async deleteById(req, res) {
+    try {
+      const existingFavorite = await models.Favorite.findOne({
+        where: { teamId: req.params.teamId, userId: req.user.id }
+      });
+      if (existingFavorite) {
+        existingFavorite.destroy();
+        res.sendSuccess();
+      } else {
+        throw new Error('This user has not favorited this team.');
+      }
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
+
+  /**
+   * @method updateById
+   * @desc This method toggles the favorite status on the team with the
+   * specified ID
+   *
+   * @param { object } req request
+   * @param { object } res response
+   *
+   * @returns { object } response
+   */
+  async updateById(req, res) {
+    try {
+      const existingFavorite = await models.Favorite.findOne({
+        where: { teamId: req.params.teamId, userId: req.user.id }
+      });
+      if (existingFavorite) {
+        existingFavorite.destroy();
+        res.sendSuccess();
+      } else {
+        const favourite = await models.Favorite.create({
+          teamId: req.params.teamId,
+          userId: req.user.id
+        });
+
+        return res.sendSuccess({ favourite });
+      }
+    } catch (error) {
+      return res.sendFailure([error.message]);
     }
   }
 }

@@ -59,10 +59,9 @@ export default (sequelize, DataTypes) => {
       as: 'memberships',
       foreignKey: 'teamId',
     });
-    Team.hasMany(models.Favorites, {
-      as: 'teams',
-      foreignKey: 'teamId',
-      onDelete: 'CASCADE'
+    Team.hasMany(models.Favorite, {
+      as: 'favorites',
+      foreignKey: 'teamId'
     });
   };
 

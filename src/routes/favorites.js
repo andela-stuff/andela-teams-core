@@ -17,7 +17,16 @@ const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
 
+routes.get(
+  '/',
+  middleware.pagination,
+  middleware.search,
+  middleware.sort,
+  middleware.filter,
+  favoritesController.get
+);
+routes.delete('/:teamId', middleware.check.teamWithParamsIdExists, favoritesController.deleteById);
 routes.post('/:teamId', middleware.check.teamWithParamsIdExists, favoritesController.create);
-routes.get('/:userId', favoritesController.get);
+routes.put('/:teamId', middleware.check.teamWithParamsIdExists, favoritesController.updateById);
 
 export default routes;

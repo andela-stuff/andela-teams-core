@@ -1,5 +1,5 @@
 /**
- * @fileoverview Favorites controller tests
+ * @fileoverview Tests for /v1/favorites
  *
  * @author Ayelegun Kayode Michael
  *
@@ -29,7 +29,7 @@ let team2 = {};
 let user0 = {};
 let user1 = {};
 
-describe('FavoritesController', () => {
+describe('Tests for /v1/favorites', () => {
   beforeEach(async () => {
     await models.Favorite.destroy({ where: {} });
     await models.Team.destroy({ where: {} });

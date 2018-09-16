@@ -1,5 +1,5 @@
 /**
- * @fileOverview Members controller tests
+ * @fileOverview Tests for /v1/teams/:teamId/members
  *
  * @author Franklin Chieze
  *
@@ -31,7 +31,7 @@ let user0 = {};
 let user1 = {};
 let user2 = {};
 
-describe('MembersController', () => {
+describe('Tests for /v1/teams/:teamId/members', () => {
   beforeEach(async () => {
     await models.Membership.destroy({ where: {} });
     await models.Team.destroy({ where: {} });

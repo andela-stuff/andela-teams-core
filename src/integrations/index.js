@@ -6,8 +6,12 @@
  * @requires ./Slack
  */
 
+import Github from './Github';
+import PivotalTracker from './PivotalTracker';
 import Slack from './Slack';
 
 export default {
+  Github,
+  PivotalTracker,
   Slack
 };

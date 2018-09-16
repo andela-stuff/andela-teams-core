@@ -19,20 +19,6 @@ const routes = new Router();
 routes.use(middleware.auth.authenticateUser);
 
 /**
- * @swagger
- * /v1/teams/:teamId/members:
- *   get:
- *     description: Return the memberships for the team with the specified IDs
- *     produces:
- *      - application/json
- *     responses:
- *       200:
- *         description: memberships
- *         schema:
- *           type: object
- *           items:
- *             $ref: '#/definitions/ResponseBody'
- *
 routes.get(
   '/:teamId/accounts',
   middleware.check.teamWithParamsIdExists,
@@ -42,21 +28,6 @@ routes.get(
   middleware.filter,
   membersController.get
 );
-/**
-   * @swagger
-   * /v1/teams/:teamId/members/:userId:
-   *   get:
-   *     description: Return the team membership with the specified IDs
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: membership
-   *         schema:
-   *           type: object
-   *           items:
-   *             $ref: '#/definitions/ResponseBody'
-   *
 routes.get(
   '/:teamId/accounts/:userId',
   middleware.check.teamWithParamsIdExists,
@@ -64,21 +35,6 @@ routes.get(
   membersController.getById
 );
 */
-/**
-   * @swagger
-   * /v1/teams/:teamId/accounts:
-   *   post:
-   *     description: Creates a new team account
-   *     produces:
-   *      - application/json
-   *     responses:
-   *       200:
-   *         description: accounts
-   *         schema:
-   *           type: object
-   *           items:
-   *             $ref: '#/definitions/ResponseBody'
-   */
 routes.post(
   '/:teamId/accounts',
   middleware.check.teamWithParamsIdExists,

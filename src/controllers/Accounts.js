@@ -99,12 +99,13 @@ export default class Accounts {
 
       let response;
 
-      if (req.body.type === 'github_repo') {
+      if (req.body.type === 'github_repo' ||
+      req.body.type === 'github_private_repo') {
         response =
         await githubIntegration.repo.create(
             req.body.name,
             {
-              private: false,
+              private: (req.body.type === 'github_private_repo'),
               description: req.body.description,
               organization: config.GITHUB_ORGANIZATION,
               type: 'org'
@@ -118,14 +119,15 @@ export default class Accounts {
         // TODO: invite the current user to the repo
 
         req.body.url = response.created.html_url;
-      } else if (req.body.type === 'pt_project') {
+      } else if (req.body.type === 'pt_project' ||
+      req.body.type === 'pt_private_project') {
         response =
         await ptIntegration.project.create(
             req.body.name,
             {
               accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
               description: req.body.description,
-              public: true,
+              public: (req.body.type === 'pt_project'),
               user: req.user // invite the current user to the project
             }
           );

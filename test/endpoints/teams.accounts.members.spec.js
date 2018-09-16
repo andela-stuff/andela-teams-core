@@ -203,7 +203,7 @@ describe('AccountsController', () => {
         });
     });
     it(
-      'should allow only team lead to add (github) accounts to the team',
+      'should allow only team lead to add (github_repo) accounts to the team',
       (done) => {
         chai.request(server)
           .post('/v1/teams')
@@ -286,6 +286,34 @@ describe('AccountsController', () => {
                 expect(res2.body.data.account.url).to.not.be.undefined;
                 expect(res2.body.data.account.type).to.equal('slack_channel');
                 expect(res2.body.errors).to.be.undefined;
+
+                done();
+              });
+          });
+      }
+    );
+    it(
+      'should not add accounts with invalid types to the team',
+      (done) => {
+        chai.request(server)
+          .post('/v1/teams')
+          .send(mock.team1)
+          .set('x-teams-user-token', mock.user0.token)
+          .end((err, res) => {
+            team1 = res.body.data.team;
+
+            chai.request(server)
+              .post(`/v1/teams/${team1.id}/accounts`)
+              .send(mock.account1WithInvalidType)
+              .set('x-teams-user-token', mock.user0.token)
+              .end((err2, res2) => {
+                res2.should.have.status(200);
+                res2.body.should.have.property('errors');
+                expect(res2.body.errors).to.be.an('Array');
+                expect(res2.body.errors)
+                  .to
+                  .include('The selected type is invalid.');
+                expect(res2.body.data).to.be.undefined;
 
                 done();
               });

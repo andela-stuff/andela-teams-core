@@ -6,6 +6,11 @@ export default {
     description: 'description of account1',
     type: 'slack_channel',
   },
+  account1WithInvalidType: {
+    name: 'account1',
+    description: 'description of account1',
+    type: 'invalid_type',
+  },
   account1WithoutName: {
     description: 'description of account1',
     type: 'slack_channel',

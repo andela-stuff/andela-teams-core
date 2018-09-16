@@ -102,7 +102,7 @@ class Project {
         name,
         account_id: parseInt(configuration.accountId, 10),
         description: configuration.description,
-        public: configuration.public,
+        public: !(configuration.private),
         no_owner: true // we set this to true because we don't want to auto-add
         // the user whose token was used to make this API call
         // (we will, instead, add the currently logged in user as owner later)

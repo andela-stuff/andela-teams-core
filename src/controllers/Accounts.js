@@ -40,7 +40,7 @@ export default class Accounts {
     try {
       let response;
 
-      if (req.existingAccount.type === 'pt_project') {
+      if (req.existingAccount.type === 'pt_project' || req.existingAccount.type === 'pt_private_project') {
         let role;
         switch (req.existingMember.role) {
           case 'lead':
@@ -55,7 +55,7 @@ export default class Accounts {
           default:
             role = 'viewer';
         }
-        response =
+        response.invitedUser =
         await ptIntegration.project.addUser(
             req.existingAccount.response.created.id,
             req.existingUser.email,
@@ -127,7 +127,7 @@ export default class Accounts {
             {
               accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
               description: req.body.description,
-              public: (req.body.type === 'pt_project'),
+              private: (req.body.type === 'pt_private_project'),
               user: req.user // invite the current user to the project
             }
           );

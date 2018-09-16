@@ -26,17 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    type: {
-      type: DataTypes.ENUM,
-      values: [
-        'github_org', 'github_private_repo', 'github_repo',
-        'pt_org', 'pt_private_project', 'pt_project',
-        'slack_channel', 'slack_group', 'slack_org'
-      ],
-      defaultValue: 'slack_channel'
-    },
     teamId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       onDelete: 'CASCADE',
       references: {
@@ -44,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
         as: 'teamId',
       },
+    },
+    type: {
+      type: DataTypes.STRING,
+      defaultValue: 'slack_channel'
     },
     url: {
       type: DataTypes.STRING,

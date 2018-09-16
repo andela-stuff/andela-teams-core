@@ -1,43 +1,40 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Memberships', {
+    queryInterface.createTable('Favorites', {
       id: {
         allowNull: false,
-        // autoIncrement: true,
         primaryKey: true,
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4
-      },
-      role: {
-        type: Sequelize.STRING,
-        defaultValue: 'member'
-      },
-      teamId: {
-        type: Sequelize.UUID,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Teams',
-          key: 'id',
-          as: 'teamId',
-        },
+        defaultValue: Sequelize.UUIDV4,
       },
       userId: {
         type: Sequelize.UUID,
+        allowNull: false,
         onDelete: 'CASCADE',
         references: {
           model: 'Users',
           key: 'id',
           as: 'userId',
-        },
+        }
+      },
+      teamId: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Teams',
+          key: 'id',
+          as: 'teamId',
+        }
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       }
     }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('Memberships')
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('Favorites')
 };

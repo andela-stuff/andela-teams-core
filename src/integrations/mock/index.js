@@ -28,6 +28,21 @@ export default {
     }
   },
   pivotalTracker: {
+    addUserResponse1: {
+      id: 16200,
+      kind: 'project_membership',
+      person:
+      {
+        kind: 'person',
+        id: 106,
+        name: 'Galen Marek',
+        email: 'marek@sith.mil',
+        initials: 'GM',
+        username: 'starkiller'
+      },
+      project_id: 99,
+      role: 'member'
+    },
     createProjectResponse1: {
       id: 2186167,
       kind: 'project',

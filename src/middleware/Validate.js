@@ -122,7 +122,7 @@ export default class Validate {
   * @returns {any} the next middleware or controller
   */
   async createTeamAccount(req, res, next) {
-    const validation = new Validator(req.body, createTeamRules);
+    const validation = new Validator(req.body, createTeamAccountRules);
     validation.fails(() => res.sendFailure([
       ...validation.errors.get('name'),
       ...validation.errors.get('description'),

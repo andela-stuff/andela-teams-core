@@ -1,5 +1,5 @@
 /**
- * @fileOverview Auth controller tests
+ * @fileOverview Tests for /v1/auth
  *
  * @author Franklin Chieze
  *
@@ -23,7 +23,7 @@ const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
-describe('AuthController', () => {
+describe('Tests for /v1/auth', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
   });

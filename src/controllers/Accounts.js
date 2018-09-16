@@ -3,6 +3,7 @@
  *
  * @author Franklin Chieze
  *
+ * @requires ../config
  * @requires ../integrations
  * @requires ../helpers
  * @requires ../models
@@ -25,6 +26,50 @@ const slackIntegration = new Slack();
 * @class Accounts
 */
 export default class Accounts {
+  /**
+   * @method create
+   * @desc This method invites a user
+   * to the account with the specified account ID
+   *
+   * @param { object} req request
+   * @param { object} res response
+   *
+   * @returns { object } response
+   */
+  async addUser(req, res) {
+    try {
+      let response;
+
+      if (req.existingAccount.type === 'pt_project' || req.existingAccount.type === 'pt_private_project') {
+        let role;
+        switch (req.existingMember.role) {
+          case 'lead':
+            role = 'owner';
+            break;
+          case 'developer':
+            role = 'member';
+            break;
+          case 'member':
+            role = 'member';
+            break;
+          default:
+            role = 'viewer';
+        }
+        response.invitedUser =
+        await ptIntegration.project.addUser(
+            req.existingAccount.response.created.id,
+            req.existingUser.email,
+            {
+              role,
+            }
+          );
+
+        return res.sendSuccess({ response });
+      }
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
   /**
    * @method create
    * @desc This method creates a new account
@@ -54,12 +99,13 @@ export default class Accounts {
 
       let response;
 
-      if (req.body.type === 'github_repo') {
+      if (req.body.type === 'github_repo' ||
+      req.body.type === 'github_private_repo') {
         response =
         await githubIntegration.repo.create(
             req.body.name,
             {
-              private: false,
+              private: (req.body.type === 'github_private_repo'),
               description: req.body.description,
               organization: config.GITHUB_ORGANIZATION,
               type: 'org'
@@ -70,25 +116,25 @@ export default class Accounts {
           throw new Error('Could not create Github repo.');
         }
 
-        // TODO: invite the user to the repo
+        // TODO: invite the current user to the repo
 
         req.body.url = response.created.html_url;
-      } else if (req.body.type === 'pt_project') {
+      } else if (req.body.type === 'pt_project' ||
+      req.body.type === 'pt_private_project') {
         response =
         await ptIntegration.project.create(
             req.body.name,
             {
               accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
               description: req.body.description,
-              public: true,
+              private: (req.body.type === 'pt_private_project'),
+              user: req.user // invite the current user to the project
             }
           );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Pivotal Tracker project.');
         }
-
-        // TODO: invite the user to the project
 
         req.body.url = `https://www.pivotaltracker.com/projects/${response.created.id}`;
       } else if (req.body.type === 'slack_channel' ||

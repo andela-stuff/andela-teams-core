@@ -1,5 +1,5 @@
 /**
- * @fileOverview Users controller tests
+ * @fileOverview Tests for /v1/users
  *
  * @author Franklin Chieze
  *
@@ -29,7 +29,7 @@ chai.use(chaiHttp);
 let user0 = {};
 let user1 = {};
 
-describe('UsersController', () => {
+describe('Tests for /v1/users', () => {
   beforeEach(async () => {
     await models.User.destroy({ where: {} });
     user0 = await models.User.create(mock.user0);

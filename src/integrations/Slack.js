@@ -47,7 +47,11 @@ class Channel {
       // create channel
       let createChannelResponse;
       if (process.env.NODE_ENV === 'test') {
-        createChannelResponse = mock.slack.createChannelResponse1;
+        if (configuration.private) {
+          createChannelResponse = mock.slack.createGroupResponse1;
+        } else {
+          createChannelResponse = mock.slack.createChannelResponse1;
+        }
       } else {
         createChannelResponse = await channels.create(name);
       }
@@ -64,9 +68,9 @@ class Channel {
         } else {
           inviteBotResponse =
           await channels.invite(
-              channel.id,
-              config.SLACK_BOT_ID
-            );
+            channel.id,
+            config.SLACK_BOT_ID
+          );
         }
         result.invitedBot = inviteBotResponse;
         // invite custom bot to channel
@@ -76,9 +80,9 @@ class Channel {
         } else {
           inviteCustomBotResponse =
           await channels.invite(
-              channel.id,
-              config.SLACK_CUSTOM_BOT_ID
-            );
+            channel.id,
+            config.SLACK_CUSTOM_BOT_ID
+          );
         }
         result.invitedCustomBot = inviteCustomBotResponse;
         // set channel's purpose
@@ -89,9 +93,9 @@ class Channel {
           } else {
             setPurposeResponse =
             await customBotChannels.setPurpose(
-                channel.id,
-                configuration.purpose
-              );
+              channel.id,
+              configuration.purpose
+            );
           }
           result.setPurpose = setPurposeResponse;
         }
@@ -104,9 +108,9 @@ class Channel {
           } else {
             setTopicResponse =
             await customBotChannels.setTopic(
-                channel.id,
-                configuration.topic
-              );
+              channel.id,
+              configuration.topic
+            );
           }
           result.setTopic = setTopicResponse;
         }

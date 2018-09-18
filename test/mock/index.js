@@ -19,6 +19,21 @@ export default {
     name: 'account1',
     description: 'description of account1',
   },
+  account2: {
+    name: 'account2',
+    description: 'description of account2',
+    type: 'slack_group',
+  },
+  account3: {
+    name: 'account3',
+    description: 'description of account3',
+    type: 'github_repo',
+  },
+  account4: {
+    name: 'account4',
+    description: 'description of account4',
+    type: 'github_private_repo',
+  },
   accountTypeGithubRepo1: {
     name: 'github_repo_account1',
     description: 'description of account1',

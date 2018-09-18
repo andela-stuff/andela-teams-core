@@ -27,6 +27,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 let team1 = {};
+let team2 = {};
 let user0 = {};
 let user1 = {};
 
@@ -41,13 +42,13 @@ describe('Tests for /v1/teams/:teamId/accounts/:accountId/members', () => {
     user1 = await models.User.create(mock.user1);
     mock.user1.token = jwt.sign({ email: mock.user1.email }, config.SECRET);
     user1.token = mock.user1.token;
+    team2 = await models.Team.create({ ...mock.team2, userId: user0.id });
   });
 
   describe('POST: /v1/teams/:teamId/accounts', (done) => {
-    it('should not add an account to a team that does not exist', (done) => {
+    it('should not add a user to an account of a team that does not exist', (done) => {
       chai.request(server)
-        .post(`/v1/teams/${user0.id}/accounts`)
-        .send(mock.account1)
+        .post(`/v1/teams/${user0.id}/accounts/${user0.id}/members/${user0.id}`)
         .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {
           res.should.have.status(200);
@@ -60,7 +61,7 @@ describe('Tests for /v1/teams/:teamId/accounts/:accountId/members', () => {
           done();
         });
     });
-    it('should not add an account without a name to a team', (done) => {
+    it('should not add a user to an account that does not exist', (done) => {
       chai.request(server)
         .post('/v1/teams')
         .send(mock.team1)
@@ -69,22 +70,21 @@ describe('Tests for /v1/teams/:teamId/accounts/:accountId/members', () => {
           team1 = res.body.data.team;
 
           chai.request(server)
-            .post(`/v1/teams/${team1.id}/accounts`)
-            .send(mock.account1WithoutName)
+            .post(`/v1/teams/${team1.id}/accounts/${user0.id}/members/${user0.id}`)
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
               res2.should.have.status(200);
               res2.body.should.have.property('errors');
               expect(res2.body.errors).to.be.an('Array');
               expect(res2.body.errors)
-                .to.include('The name field is required.');
+                .to.include('Account with the specified ID does not exist.');
               expect(res2.body.data).to.be.undefined;
 
               done();
             });
         });
     });
-    it('should allow only team lead to add accounts to the team', (done) => {
+    it('should not add a user to an account that does not belong to the team', (done) => {
       chai.request(server)
         .post('/v1/teams')
         .send(mock.team1)
@@ -97,16 +97,21 @@ describe('Tests for /v1/teams/:teamId/accounts/:accountId/members', () => {
             .send(mock.account1)
             .set('x-teams-user-token', mock.user0.token)
             .end((err2, res2) => {
-              res2.should.have.status(200);
-              res2.body.should.have.property('data');
-              expect(res2.body.data).to.be.an('Object');
-              res2.body.data.should.have.property('account');
-              expect(res2.body.data.account.id).to.not.be.undefined;
-              expect(res2.body.data.account.teamId).to.equal(team1.id);
-              expect(res2.body.data.account.url).to.not.be.undefined;
-              expect(res2.body.errors).to.be.undefined;
+              const accountId = res2.body.data.account.id;
 
-              done();
+              chai.request(server)
+                .post(`/v1/teams/${team2.id}/accounts/${accountId}/members/${user0.id}`)
+                .set('x-teams-user-token', mock.user0.token)
+                .end((err3, res3) => {
+                  res3.should.have.status(200);
+                  res3.body.should.have.property('errors');
+                  expect(res3.body.errors).to.be.an('Array');
+                  expect(res3.body.errors)
+                    .to.include('Account with the specified ID does not belong to team with the specified ID.');
+                  expect(res3.body.data).to.be.undefined;
+
+                  done();
+                });
             });
         });
     });

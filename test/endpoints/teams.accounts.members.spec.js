@@ -232,8 +232,10 @@ describe('Tests for /v1/teams/:teamId/accounts/:accountId/members', () => {
                   expect(res3.body.data).to.be.an('Object');
                   res3.body.data.should.have.property('response');
                   res3.body.data.response.should.have.property('invitedUser');
-                  expect(res3.body.data.response.invitedUser.ok).to.not.be.undefined;
-                  expect(res3.body.data.response.invitedUser.ok).to.be.a('Boolean');
+                  expect(res3.body.data.response.invitedUser.ok)
+                    .to.not.be.undefined;
+                  expect(res3.body.data.response.invitedUser.ok)
+                    .to.be.a('Boolean');
                   expect(res3.body.errors).to.be.undefined;
 
                   done();

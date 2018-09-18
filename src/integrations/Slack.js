@@ -47,7 +47,11 @@ class Channel {
       // create channel
       let createChannelResponse;
       if (process.env.NODE_ENV === 'test') {
-        createChannelResponse = mock.slack.createChannelResponse1;
+        if (configuration.private) {
+          createChannelResponse = mock.slack.createGroupResponse1;
+        } else {
+          createChannelResponse = mock.slack.createChannelResponse1;
+        }
       } else {
         createChannelResponse = await channels.create(name);
       }

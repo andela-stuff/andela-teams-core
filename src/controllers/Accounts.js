@@ -38,7 +38,7 @@ export default class Accounts {
    */
   async addUser(req, res) {
     try {
-      let response;
+      const response = {};
 
       if (req.existingAccount.type === 'pt_project' || req.existingAccount.type === 'pt_private_project') {
         let role;

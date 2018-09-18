@@ -57,12 +57,12 @@ export default class Accounts {
         }
         response.invitedUser =
         await ptIntegration.project.addUser(
-            req.existingAccount.response.created.id,
-            req.existingUser.email,
-            {
-              role,
-            }
-          );
+          req.existingAccount.response.created.id,
+          req.existingUser.email,
+          {
+            role,
+          }
+        );
 
         return res.sendSuccess({ response });
       }
@@ -103,14 +103,14 @@ export default class Accounts {
       req.body.type === 'github_private_repo') {
         response =
         await githubIntegration.repo.create(
-            req.body.name,
-            {
-              private: (req.body.type === 'github_private_repo'),
-              description: req.body.description,
-              organization: config.GITHUB_ORGANIZATION,
-              type: 'org'
-            }
-          );
+          req.body.name,
+          {
+            private: (req.body.type === 'github_private_repo'),
+            description: req.body.description,
+            organization: config.GITHUB_ORGANIZATION,
+            type: 'org'
+          }
+        );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Github repo.');
@@ -123,14 +123,14 @@ export default class Accounts {
       req.body.type === 'pt_private_project') {
         response =
         await ptIntegration.project.create(
-            req.body.name,
-            {
-              accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
-              description: req.body.description,
-              private: (req.body.type === 'pt_private_project'),
-              user: req.user // invite the current user to the project
-            }
-          );
+          req.body.name,
+          {
+            accountId: config.PIVOTAL_TRACKER_ACCOUNT_ID,
+            description: req.body.description,
+            private: (req.body.type === 'pt_private_project'),
+            user: req.user // invite the current user to the project
+          }
+        );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Pivotal Tracker project.');
@@ -141,13 +141,13 @@ export default class Accounts {
       req.body.type === 'slack_group') {
         response =
         await slackIntegration.channel.create(
-            req.body.name,
-            {
-              private: (req.body.type === 'slack_group'),
-              purpose: req.body.description,
-              topic: req.existingTeam.description
-            }
-          );
+          req.body.name,
+          {
+            private: (req.body.type === 'slack_group'),
+            purpose: req.body.description,
+            topic: req.existingTeam.description
+          }
+        );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Slack channel or group.');

@@ -32,6 +32,39 @@ To see how this project integrates with third party APIs checkout [Third Party I
 
 ## Usage
 
+### Prerequisites ###
+You are going to need
+* Linux, macOS or Windows
+* node version 9.7.1
+* yarn version 1.5.1
+* npm version 5.6.0
+* Postgresql
+* `sequelize-cli` installed globally
+
+### Getting Set Up ###
+* Clone this repository to your local machine
+```
+$ git clone https://github.com/andela-stuff/andela-teams-core.git
+```
+* Change directory into the andela-teams-core directory
+```
+$ cd andela-teams-core
+```
+* Install all required dependencies by running
+```
+$ yarn install
+```
+* Once installation is done, create a .env file and fill it with the neccessary environment variables **(see .env-sample for the neccessary environment variables required)**
+* Create a database to be used with the application
+* Migrate database by running
+```
+$ sequelize db:migrate
+```
+* To start the application, run
+```
+npm run start:dev
+```
+
 ## Testing
 
 This project uses [Mocha](https://mochajs.org/), [Chai](http://chaijs.com/) and [Chai-Http](http://chaijs.com/plugins/chai-http/) for testing.

@@ -65,6 +65,31 @@ export default class Accounts {
         );
 
         return res.sendSuccess({ response });
+      } else if (req.existingAccount.type === 'github_repo' || req.existingAccount.type === 'github_private_repo') {
+        let permission;
+        switch (req.existingMember.role) {
+          case 'lead':
+            permission = 'admin';
+            break;
+          case 'developer':
+            permission = 'push';
+            break;
+          case 'member':
+            permission = 'pull';
+            break;
+          default:
+            permission = 'pull';
+        }
+        response.invitedUser =
+        await githubIntegration.repo.addUser(
+          req.existingUser.githubUsername,
+          req.existingAccount.response.created.name,
+          {
+            permission,
+          }
+        );
+
+        return res.sendSuccess({ response });
       }
     } catch (error) {
       return res.sendFailure([error.message]);

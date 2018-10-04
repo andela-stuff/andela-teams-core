@@ -1,5 +1,40 @@
 export default {
   github: {
+    addUserResponse1: {
+      id: 1,
+      repository: {
+        id: 1296269,
+        node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
+        name: 'Hello-World',
+        full_name: 'octocat/Hello-World',
+        private: false,
+        html_url: 'https://github.com/octocat/Hello-World',
+        description: 'This your first repo!'
+      },
+      invitee: {
+        login: 'octocat',
+        id: 1,
+        node_id: 'MDQ6VXNlcjE=',
+        avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+        gravatar_id: '',
+        html_url: 'https://github.com/octocat',
+        type: 'User',
+        site_admin: false
+      },
+      inviter: {
+        login: 'octocat',
+        id: 1,
+        node_id: 'MDQ6VXNlcjE=',
+        avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+        gravatar_id: '',
+        html_url: 'https://github.com/octocat',
+        type: 'User',
+        site_admin: false
+      },
+      permissions: 'write',
+      created_at: '2016-06-13T14:52:50-05:00',
+      html_url: 'https://github.com/octocat/Hello-World/invitations'
+    },
     createOrgRepoResponse1: {
       id: 140960259,
       node_id: 'MDEwOlJlcG9zaXRvcnkxNDA5NjAyNTk=',

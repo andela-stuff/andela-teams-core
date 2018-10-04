@@ -57,10 +57,35 @@ export default class Accounts {
         }
         response.invitedUser =
         await ptIntegration.project.addUser(
-          req.existingAccount.response.created.id,
           req.existingUser.email,
+          req.existingAccount.response.created.id,
           {
             role,
+          }
+        );
+
+        return res.sendSuccess({ response });
+      } else if (req.existingAccount.type === 'github_repo' || req.existingAccount.type === 'github_private_repo') {
+        let permission;
+        switch (req.existingMember.role) {
+          case 'lead':
+            permission = 'admin';
+            break;
+          case 'developer':
+            permission = 'push';
+            break;
+          case 'member':
+            permission = 'pull';
+            break;
+          default:
+            permission = 'pull';
+        }
+        response.invitedUser =
+        await githubIntegration.repo.addUser(
+          req.existingUser.githubUsername,
+          req.existingAccount.response.created.name,
+          {
+            permission,
           }
         );
 
@@ -108,15 +133,14 @@ export default class Accounts {
             private: (req.body.type === 'github_private_repo'),
             description: req.body.description,
             organization: config.GITHUB_ORGANIZATION,
-            type: 'org'
+            type: 'org',
+            user: req.user // invite the current user to the repo
           }
         );
 
         if (response.created.ok === false) {
           throw new Error('Could not create Github repo.');
         }
-
-        // TODO: invite the current user to the repo
 
         req.body.url = response.created.html_url;
       } else if (req.body.type === 'pt_project' ||

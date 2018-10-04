@@ -90,6 +90,20 @@ export default class Accounts {
         );
 
         return res.sendSuccess({ response });
+      } else if (req.existingAccount.type === 'slack_channel' || req.existingAccount.type === 'slack_group') {
+        const channel = req.existingAccount.response.created.channel ||
+        req.existingAccount.response.created.group;
+        response.invitedUser =
+        await slackIntegration.channel.addUser(
+          req.existingUser.slackId,
+          channel.id,
+          {
+            // private: !(!(req.existingAccount.response.created.group)),
+            private: (typeof req.existingAccount.response.created.group !== 'undefined'),
+          }
+        );
+
+        return res.sendSuccess({ response });
       }
     } catch (error) {
       return res.sendFailure([error.message]);
@@ -169,7 +183,8 @@ export default class Accounts {
           {
             private: (req.body.type === 'slack_group'),
             purpose: req.body.description,
-            topic: req.existingTeam.description
+            topic: req.existingTeam.description,
+            user: req.user // invite the current user to the project
           }
         );
 

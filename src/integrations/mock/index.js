@@ -170,6 +170,9 @@ export default {
     inviteCustomBotResponse1: {
       ok: true
     },
+    inviteUserResponse1: {
+      ok: true
+    },
     setPurposeResponse1: {
       ok: true,
       purpose: 'purpose of channel'

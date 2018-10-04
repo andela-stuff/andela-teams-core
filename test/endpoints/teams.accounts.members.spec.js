@@ -278,5 +278,40 @@ describe('Tests for /v1/teams/:teamId/accounts/:accountId/members', () => {
             });
         });
     });
+    it('should allow a lead of a team to add a user to an account (slack_channel) of that team', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/accounts`)
+            .send(mock.account1)
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err2, res2) => {
+              const accountId = res2.body.data.account.id;
+
+              chai.request(server)
+                .post(`/v1/teams/${team1.id}/accounts/${accountId}/members/${user0.id}`)
+                .set('x-teams-user-token', mock.user0.token)
+                .end((err3, res3) => {
+                  res3.should.have.status(200);
+                  res3.body.should.have.property('data');
+                  expect(res3.body.data).to.be.an('Object');
+                  res3.body.data.should.have.property('response');
+                  res3.body.data.response.should.have.property('invitedUser');
+                  expect(res3.body.data.response.invitedUser.ok)
+                    .to.not.be.undefined;
+                  expect(res3.body.data.response.invitedUser.ok)
+                    .to.be.a('Boolean');
+                  expect(res3.body.errors).to.be.undefined;
+
+                  done();
+                });
+            });
+        });
+    });
   });
 });

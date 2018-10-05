@@ -38,9 +38,9 @@ export default class Auth {
         // during sign in we can update the displayName and photo of the user
         let updatedUser =
         await user.update({
-            displayName: req.body.displayName || user.displayName,
-            photo: req.body.photo || user.photo
-          });
+          displayName: req.body.displayName || user.displayName,
+          photo: req.body.photo || user.photo
+        });
         const userToken = jwt.sign({ email: user.email }, config.SECRET);
         updatedUser = await helpers.Misc.updateUserAttributes(updatedUser, req);
         return res.sendSuccess({ user: updatedUser, userToken });

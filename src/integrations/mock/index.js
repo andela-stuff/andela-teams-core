@@ -1,5 +1,40 @@
 export default {
   github: {
+    addUserResponse1: {
+      id: 1,
+      repository: {
+        id: 1296269,
+        node_id: 'MDEwOlJlcG9zaXRvcnkxMjk2MjY5',
+        name: 'Hello-World',
+        full_name: 'octocat/Hello-World',
+        private: false,
+        html_url: 'https://github.com/octocat/Hello-World',
+        description: 'This your first repo!'
+      },
+      invitee: {
+        login: 'octocat',
+        id: 1,
+        node_id: 'MDQ6VXNlcjE=',
+        avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+        gravatar_id: '',
+        html_url: 'https://github.com/octocat',
+        type: 'User',
+        site_admin: false
+      },
+      inviter: {
+        login: 'octocat',
+        id: 1,
+        node_id: 'MDQ6VXNlcjE=',
+        avatar_url: 'https://github.com/images/error/octocat_happy.gif',
+        gravatar_id: '',
+        html_url: 'https://github.com/octocat',
+        type: 'User',
+        site_admin: false
+      },
+      permissions: 'write',
+      created_at: '2016-06-13T14:52:50-05:00',
+      html_url: 'https://github.com/octocat/Hello-World/invitations'
+    },
     createOrgRepoResponse1: {
       id: 140960259,
       node_id: 'MDEwOlJlcG9zaXRvcnkxNDA5NjAyNTk=',
@@ -91,10 +126,51 @@ export default {
         priority: 0
       }
     },
+    createGroupResponse1: {
+      ok: true,
+      group: {
+        id: 'ABCD12345',
+        name: 'slack_public_group_1',
+        is_channel: false,
+        created: 1528749214,
+        is_archived: false,
+        is_general: false,
+        unlinked: 0,
+        creator: 'EFGH67890',
+        name_normalized: 'slack_public_group_1',
+        is_shared: false,
+        is_org_shared: false,
+        is_member: true,
+        is_private: false,
+        is_mpim: false,
+        last_read: '0000000000.000000',
+        latest: null,
+        unread_count: 0,
+        unread_count_display: 0,
+        members: [
+          'EFGH67890'
+        ],
+        topic: {
+          value: '',
+          creator: '',
+          last_set: 0
+        },
+        purpose: {
+          value: '',
+          creator: '',
+          last_set: 0
+        },
+        previous_names: [],
+        priority: 0
+      }
+    },
     inviteBotResponse1: {
       ok: true
     },
     inviteCustomBotResponse1: {
+      ok: true
+    },
+    inviteUserResponse1: {
       ok: true
     },
     setPurposeResponse1: {

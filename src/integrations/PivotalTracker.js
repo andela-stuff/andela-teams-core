@@ -31,13 +31,13 @@ class Project {
    * @method addUser
    * @desc This method adds a user to a Pivotal Tracker project
    *
-   * @param { string } projectId the ID of the project
    * @param { object } userEmail the email of the user to add
+   * @param { string } projectId the ID of the project
    * @param { object } configuration the config with which to add the user
    *
    * @returns { object } a response object showing the result of the operation
    */
-  async addUser(projectId, userEmail, configuration = { role: 'member' }) {
+  async addUser(userEmail, projectId, configuration = { role: 'member' }) {
     try {
       const result = {}; // the result to be returned
 
@@ -134,8 +134,8 @@ class Project {
       // add current user to project
       if (configuration.user) {
         result.invitedUser = await this.addUser(
-          result.created.id,
           configuration.user.email,
+          result.created.id,
           { role: 'owner' }
         );
       }

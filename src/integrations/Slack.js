@@ -25,6 +25,50 @@ const userWebClient = new client.WebClient(config.SLACK_USER_TOKEN);
 */
 class Channel {
   /**
+   * @method addUser
+   * @desc This method adds a user to a Slack channel
+   *
+   * @param { string } slackId the Slack ID of the user to add
+   * @param { object } channelId the ID of the channel/group
+   * @param { object } configuration the config with which to add the user
+   *
+   * @returns { object } a response object showing the result of the operation
+   */
+  async addUser(slackId, channelId, configuration = { private: false }) {
+    try {
+      let result = {}; // the result to be returned
+
+      // let { channels } = userWebClient; // public channels
+      let customBotChannels = customBotWebClient.channels; // public channels
+
+      if (configuration.private) {
+        // channels = userWebClient.groups; // private channels
+        customBotChannels = customBotWebClient.groups; // private channels
+      }
+
+      // invite user to channel
+      let inviteUserResponse;
+      if (process.env.NODE_ENV === 'test') {
+        inviteUserResponse = mock.slack.inviteUserResponse1;
+      } else {
+        inviteUserResponse =
+        await customBotChannels.invite(
+          channelId,
+          slackId
+        );
+      }
+      result = inviteUserResponse;
+
+      return result;
+    } catch (error) {
+      return {
+        ok: false,
+        error: 'uncaught_exception',
+        detail: error.message
+      };
+    }
+  }
+  /**
    * @method create
    * @desc This method creates a new Slack channel
    *
@@ -47,7 +91,11 @@ class Channel {
       // create channel
       let createChannelResponse;
       if (process.env.NODE_ENV === 'test') {
-        createChannelResponse = mock.slack.createChannelResponse1;
+        if (configuration.private) {
+          createChannelResponse = mock.slack.createGroupResponse1;
+        } else {
+          createChannelResponse = mock.slack.createChannelResponse1;
+        }
       } else {
         createChannelResponse = await channels.create(name);
       }
@@ -64,9 +112,9 @@ class Channel {
         } else {
           inviteBotResponse =
           await channels.invite(
-              channel.id,
-              config.SLACK_BOT_ID
-            );
+            channel.id,
+            config.SLACK_BOT_ID
+          );
         }
         result.invitedBot = inviteBotResponse;
         // invite custom bot to channel
@@ -76,9 +124,9 @@ class Channel {
         } else {
           inviteCustomBotResponse =
           await channels.invite(
-              channel.id,
-              config.SLACK_CUSTOM_BOT_ID
-            );
+            channel.id,
+            config.SLACK_CUSTOM_BOT_ID
+          );
         }
         result.invitedCustomBot = inviteCustomBotResponse;
         // set channel's purpose
@@ -89,9 +137,9 @@ class Channel {
           } else {
             setPurposeResponse =
             await customBotChannels.setPurpose(
-                channel.id,
-                configuration.purpose
-              );
+              channel.id,
+              configuration.purpose
+            );
           }
           result.setPurpose = setPurposeResponse;
         }
@@ -104,11 +152,20 @@ class Channel {
           } else {
             setTopicResponse =
             await customBotChannels.setTopic(
-                channel.id,
-                configuration.topic
-              );
+              channel.id,
+              configuration.topic
+            );
           }
           result.setTopic = setTopicResponse;
+        }
+
+        // add current user to repo
+        if (configuration.user) {
+          result.invitedUser = await this.addUser(
+            configuration.user.slackId,
+            channel.id,
+            configuration
+          );
         }
       }
 

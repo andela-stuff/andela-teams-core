@@ -170,7 +170,7 @@ class Project {
         storiesResponse = await request.get(requestOptions);
       }
 
-      console.log(storiesResponse);
+      // console.log(storiesResponse);
 
       const result = storiesResponse;
 

@@ -151,6 +151,42 @@ class Project {
       };
     }
   }
+  /**
+   * @method addUser
+   * @desc This method fetches stories from a Pivotal Tracker project
+   *
+   * @param { string } projectId the ID of the project
+   * @param { object } options the options with which to fetch the stories
+   *
+   * @returns { object } a response object showing the result of the operation
+   */
+  async fetchStories(projectId, options = { }) {
+    try {
+      let storiesResponse;
+      requestOptions.uri = `/projects/${projectId}/stories`;
+      if (process.env.NODE_ENV === 'test') {
+        storiesResponse = mock.pivotalTracker.addUserResponse1; // ************
+      } else {
+        storiesResponse = await request.get(requestOptions);
+      }
+
+      console.log(storiesResponse);
+
+      const result = storiesResponse;
+
+      // for uniformity with the slack API (and easy error detection)
+      // add the 'ok' field
+      result.ok = true;
+
+      return result;
+    } catch (error) {
+      return {
+        ok: false,
+        error: 'uncaught_exception',
+        detail: error.message
+      };
+    }
+  }
 }
 
 /**

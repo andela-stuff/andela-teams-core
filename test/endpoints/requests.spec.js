@@ -22,6 +22,7 @@ import config from '../../src/config';
 import models from '../../src/models';
 import server from '../../src/server';
 
+const should = chai.should();
 const { expect } = chai;
 chai.use(chaiHttp);
 
@@ -48,7 +49,7 @@ describe('Tests for /v1/requests', () => {
           res.body.should.have.property('errors');
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
-            .to.include('The type field is required.');
+            .to.include('notNull Violation: Request.type cannot be null');
           done();
         });
     });

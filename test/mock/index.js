@@ -203,4 +203,17 @@ export default {
     googleId: 12345,
     photo: 'https://www.myphotos.com/1',
   },
+  adminRequest: {
+    type: 'admin_request'
+  },
+  adminRequest1: {
+    type: 'admin_request'
+  },
+  adminRequestWithNumericData: {
+    data: 1234
+  },
+  adminRequestWithoutType: {
+    data: 'Lead'
+  }
+
 };

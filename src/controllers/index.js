@@ -11,12 +11,14 @@
 
 import Auth from './Auth';
 import Members from './Members';
+import Requests from './Requests';
 import Teams from './Teams';
 import Users from './Users';
 
 export default {
   Auth,
   Members,
+  Requests,
   Teams,
   Users
 };

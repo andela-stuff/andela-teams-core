@@ -55,6 +55,10 @@ export default (sequelize, DataTypes) => {
       as: 'accounts',
       foreignKey: 'teamId',
     });
+    Team.hasMany(models.Project, {
+      as: 'projects',
+      foreignKey: 'teamId',
+    });
     Team.hasMany(models.Membership, {
       as: 'memberships',
       foreignKey: 'teamId',

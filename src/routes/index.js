@@ -19,6 +19,7 @@ import teamAccountsRoutes from './teamAccounts';
 import teamAccountMembersRoutes from './teamAccountMembers';
 import teamMembersRoutes from './teamMembers';
 import usersRoutes from './users';
+import { projectRoutes, teamProjectRoutes } from './projects';
 
 export default (app) => {
   app.use('/v1/auth', authRoutes);
@@ -32,6 +33,8 @@ export default (app) => {
   app.use('/v1/teams', teamAccountsRoutes);
 
   app.use('/v1/teams', teamAccountMembersRoutes);
+  app.use('/v1/teams', teamProjectRoutes);
+  app.use('/v1/projects', projectRoutes);
 
   app.use('/v1/teams', teamMembersRoutes);
 

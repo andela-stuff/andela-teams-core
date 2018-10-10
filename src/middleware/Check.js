@@ -208,4 +208,29 @@ export default class Check {
       return res.sendFailure([error.message]);
     }
   }
+
+  /**
+  * Get the membership that matches the project id provided
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async passTeamIdToReqParam(req, res, next) {
+    try {
+      const user = await models.User.findById(req.user.id);
+      const { projectId } = req.params;
+      const project = await models.Project.getOr404(projectId);
+      let userMembership = await user.getMemberships();
+      userMembership = userMembership
+        .find(membership => project.teamId === membership.teamId);
+      if (userMembership) {
+        req.params.teamId = userMembership.teamId;
+      }
+      next();
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
 }

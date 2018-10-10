@@ -38,6 +38,24 @@ const createTeamRules = {
   progress: 'numeric'
 };
 
+const createProjectRules = {
+  name: 'required|string',
+  description: 'string',
+  githubRepo: 'required|url',
+  ptProject: 'required|url',
+  startDate: 'required|date',
+  endDate: 'required|date'
+};
+
+const updateProjectRules = {
+  name: 'string',
+  description: 'string',
+  githubRepo: 'url',
+  ptProject: 'url',
+  startDate: 'date',
+  endDate: 'date'
+};
+
 const createTeamAccountRules = {
   name: 'required|string',
   description: 'string',
@@ -116,6 +134,52 @@ export default class Validate {
       ...validation.errors.get('progress'),
     ]));
     validation.passes(() => next());
+  }
+
+  /**
+  * Validate create project data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  * @param {object} rules the rules function
+  *
+  * @returns {any} the next middleware or controller
+  */
+  static async getProjectRules(req, res, next, rules) {
+    const validation = new Validator(req.body, rules);
+    validation.fails(() => res.sendFailure([
+      ...validation.errors.get('name'),
+      ...validation.errors.get('description'),
+      ...validation.errors.get('githubRepo'),
+      ...validation.errors.get('ptProject'),
+      ...validation.errors.get('startDate'),
+      ...validation.errors.get('endDate'),
+    ]));
+    validation.passes(() => next());
+  }
+
+  /**
+  * Validate create project data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async createProject(req, res, next) {
+    await Validate.getProjectRules(req, res, next, createProjectRules);
+  }
+
+  /**
+  * Validate create project data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async updateProject(req, res, next) {
+    Validate.getProjectRules(req, res, next, updateProjectRules);
   }
 
   /**

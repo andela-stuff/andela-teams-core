@@ -87,6 +87,36 @@ export default {
     description: 'description of team1',
     photo: 'https://www.myphotos.com/1',
   },
+  project1: {
+    name: 'cfh',
+    description: 'description of cfh',
+    githubRepo: 'https://www.github.com/cfh',
+    ptProject: 'https://www.pivotaltracker.com/cfh',
+    startDate: '11/09/2018',
+    endDate: '11/10/2018',
+  },
+  project1WithoutOptionalProperties: {
+    name: 'cfh'
+  },
+  project2WithoutOptionalProperties: {
+    name: 'rc'
+  },
+  project1WithoutName: {
+    description: 'description of cfh',
+    githubRepo: 'https://www.github.com/cfh',
+    ptProject: 'https://www.pivotaltracker.com/cfh',
+  },
+  project2: {
+    name: 'rc',
+    description: 'description of rc',
+    githubRepo: 'https://www.github.com/rc',
+    ptProject: 'https://www.pivotaltracker.com/rc',
+  },
+  project2WithoutName: {
+    description: 'description of rc',
+    githubRepo: 'https://www.github.com/rc',
+    ptProject: 'https://www.pivotaltracker.com/rc',
+  },
   user0: {
     displayName: 'user0',
     email: 'user0@andela.com',

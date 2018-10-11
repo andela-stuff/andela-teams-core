@@ -1,0 +1,15 @@
+{
+    "name": "andela-teams-core",
+    "scripts": {},
+    "env": {
+      "DATABASE_URL":{
+        "required": true
+      },
+      "SECRET":{
+        "required": true
+      }
+    },
+    "formation": {},
+    "addons": [],
+    "buildpacks": []
+  }

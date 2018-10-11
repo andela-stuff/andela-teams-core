@@ -90,7 +90,7 @@ export default class Accounts {
         );
 
         return res.sendSuccess({ response });
-      } else if (req.existingAccount.type === 'slack_channel' || req.existingAccount.type === 'slack_group') {
+      } else if (req.existingAccount.type === 'slack_channel' || req.existingAccount.type === 'slack_private_channel') {
         const channel = req.existingAccount.response.created.channel ||
         req.existingAccount.response.created.group;
         response.invitedUser =
@@ -176,12 +176,12 @@ export default class Accounts {
 
         req.body.url = `https://www.pivotaltracker.com/projects/${response.created.id}`;
       } else if (req.body.type === 'slack_channel' ||
-      req.body.type === 'slack_group') {
+      req.body.type === 'slack_private_channel') {
         response =
         await slackIntegration.channel.create(
           req.body.name,
           {
-            private: (req.body.type === 'slack_group'),
+            private: (req.body.type === 'slack_private_channel'),
             purpose: req.body.description,
             topic: req.existingTeam.description,
             user: req.user // invite the current user to the project
@@ -195,7 +195,7 @@ export default class Accounts {
         // TODO: invite the current user to the channel/group
 
         req.body.url =
-        `/messages/${(req.body.type === 'slack_group') ? response.created.group.id : response.created.channel.id}`;
+        `/messages/${(req.body.type === 'slack_private_channel') ? response.created.group.id : response.created.channel.id}`;
       }
 
       const account = await models.Account.create({

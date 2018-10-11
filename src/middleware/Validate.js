@@ -41,11 +41,16 @@ const createTeamRules = {
 const createTeamAccountRules = {
   name: 'required|string',
   description: 'string',
-  type: 'in:github_org,github_private_repo,github_repo,pt_private_project,pt_project,slack_channel,slack_group,slack_org',
+  type: 'in:github_org,github_private_repo,github_repo,pt_private_project,pt_project,slack_channel,slack_private_channel,slack_org',
 };
 
 const createTeamMemberRules = {
   role: 'in:developer,disabled,lead,member',
+};
+
+const createRequestRules = {
+  type: 'in:admin_request,member_request',
+  data: 'string'
 };
 
 /**
@@ -163,6 +168,23 @@ export default class Validate {
       ...validation.errors.get('photo'),
       ...validation.errors.get('role'),
       ...validation.errors.get('slackId'),
+    ]));
+    validation.passes(() => next());
+  }
+
+  /**
+  * Validate create request data
+  * @param {object} req express request object
+  * @param {object} res express response object
+  * @param {object} next the next middleware or controller
+  *
+  * @returns {any} the next middleware or controller
+  */
+  async createRequest(req, res, next) {
+    const validation = new Validator(req.body, createRequestRules);
+    validation.fails(() => res.sendFailure([
+      ...validation.errors.get('type'),
+      ...validation.errors.get('data'),
     ]));
     validation.passes(() => next());
   }

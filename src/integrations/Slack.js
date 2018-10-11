@@ -38,12 +38,10 @@ class Channel {
     try {
       let result = {}; // the result to be returned
 
-      // let { channels } = userWebClient; // public channels
-      let customBotChannels = customBotWebClient.channels; // public channels
+      let { channels } = userWebClient; // public channels
 
       if (configuration.private) {
-        // channels = userWebClient.groups; // private channels
-        customBotChannels = customBotWebClient.groups; // private channels
+        channels = userWebClient.groups; // private channels
       }
 
       // invite user to channel
@@ -52,7 +50,7 @@ class Channel {
         inviteUserResponse = mock.slack.inviteUserResponse1;
       } else {
         inviteUserResponse =
-        await customBotChannels.invite(
+        await channels.invite(
           channelId,
           slackId
         );

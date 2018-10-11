@@ -22,7 +22,7 @@ export default {
   account2: {
     name: 'account2',
     description: 'description of account2',
-    type: 'slack_group',
+    type: 'slack_private_channel',
   },
   account3: {
     name: 'account3',

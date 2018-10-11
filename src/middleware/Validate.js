@@ -41,7 +41,7 @@ const createTeamRules = {
 const createTeamAccountRules = {
   name: 'required|string',
   description: 'string',
-  type: 'in:github_org,github_private_repo,github_repo,pt_private_project,pt_project,slack_channel,slack_group,slack_org',
+  type: 'in:github_org,github_private_repo,github_repo,pt_private_project,pt_project,slack_channel,slack_private_channel,slack_org',
 };
 
 const createTeamMemberRules = {

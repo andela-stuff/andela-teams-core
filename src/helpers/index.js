@@ -96,6 +96,19 @@ function generatePaginationMeta(req, dbResult, limit = 20, offset = 0) {
 }
 
 /**
+ * @method updateAccountAttributes
+ * @desc Return updated account details
+ *
+ * @param { object } account the input account object
+ *
+ * @returns { object } the output account object
+ */
+function updateAccountAttributes(account) {
+  account = account.get();
+  return account;
+}
+
+/**
  * @method updateFavoriteAttributes
  * @desc Return updated favorite details
  *
@@ -214,9 +227,10 @@ async function updateUserAttributes(user, req) {
 export default {
   Misc: {
     generatePaginationMeta,
+    updateAccountAttributes,
     updateFavoriteAttributes,
     updateMembershipAttributes,
     updateTeamAttributes,
-    updateUserAttributes
+    updateUserAttributes,
   }
 };

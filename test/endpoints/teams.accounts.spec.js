@@ -1,3 +1,4 @@
+/* eslint no-unused-expressions:0 */
 /**
  * @fileOverview Tests for /v1/teams/:teamId/accounts
  *
@@ -41,6 +42,58 @@ describe('Tests for /v1/teams/:teamId/accounts', () => {
     user1 = await models.User.create(mock.user1);
     mock.user1.token = jwt.sign({ email: mock.user1.email }, config.SECRET);
     user1.token = mock.user1.token;
+  });
+
+  describe('GET: /v1/teams/:teamId/accounts', (done) => {
+    it(
+      'should not get a team account with invalid team ID',
+      (done) => {
+        const teamId = '7a2a5d4e-80b4-411a-8d79-0759b6ab06b0';
+        chai.request(server)
+          .get(`/v1/teams/${teamId}/accounts`)
+          .set('x-teams-user-token', mock.user0.token)
+          .end((err2, res) => {
+            res.should.have.status(200);
+            expect(res.body.errors)
+              .to.include('Team with the specified ID does not exist.');
+            expect(res.body.data).to.be.undefined;
+
+            done();
+          });
+      }
+    );
+    it('should get all team accounts', (done) => {
+      chai.request(server)
+        .post('/v1/teams')
+        .send(mock.team1)
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          team1 = res.body.data.team;
+
+          chai.request(server)
+            .post(`/v1/teams/${team1.id}/accounts`)
+            .send(mock.account1)
+            .set('x-teams-user-token', mock.user0.token)
+            .end((err, res2) => {
+              // Get team accounts
+              chai.request(server)
+                .get(`/v1/teams/${team1.id}/accounts`)
+                .set('x-teams-user-token', mock.user0.token)
+                .end((err, res3) => {
+                  res3.should.have.status(200);
+                  res3.body.should.have.property('data');
+                  expect(res3.body.data).to.be.an('Object');
+                  res3.body.data.should.have.property('accounts');
+                  expect(res3.body.data.accounts.length).to.equal(1);
+                  expect(res3.body.data.accounts[0].id).to.not.be.undefined;
+                  expect(res3.body.data.accounts[0].teamId).to.equal(team1.id);
+                  expect(res3.body.data.accounts[0].url).to.not.be.undefined;
+                  expect(res3.body.errors).to.be.undefined;
+                  done();
+                });
+            });
+        });
+    });
   });
 
   describe('POST: /v1/teams/:teamId/accounts', (done) => {

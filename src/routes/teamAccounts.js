@@ -18,7 +18,6 @@ const routes = new Router();
 
 routes.use(middleware.auth.authenticateUser);
 
-/**
 routes.get(
   '/:teamId/accounts',
   middleware.check.teamWithParamsIdExists,
@@ -26,15 +25,9 @@ routes.get(
   middleware.search,
   middleware.sort,
   middleware.filter,
-  membersController.get
+  accountsController.get
 );
-routes.get(
-  '/:teamId/accounts/:userId',
-  middleware.check.teamWithParamsIdExists,
-  middleware.check.userWithParamsIdExists,
-  membersController.getById
-);
-*/
+
 routes.post(
   '/:teamId/accounts',
   middleware.check.teamWithParamsIdExists,

@@ -135,6 +135,19 @@ function updateMembershipAttributes(membership) {
 }
 
 /**
+ * @method updateRequestAttributes
+ * @desc Return updated request details
+ *
+ * @param { object } request the input request object
+ *
+ * @returns { object } the output request object
+ */
+function updateRequestAttributes(request) {
+  request = request.get();
+  return request;
+}
+
+/**
  * @method updateTeamAttributes
  * @desc Return updated team details
  *
@@ -230,6 +243,7 @@ export default {
     updateAccountAttributes,
     updateFavoriteAttributes,
     updateMembershipAttributes,
+    updateRequestAttributes,
     updateTeamAttributes,
     updateUserAttributes,
   }

@@ -228,8 +228,8 @@ export default class Accounts {
 
   /**
    * @method get
-   * @desc This method gets an array of memberships
-   * from the team with the specified team ID
+   * @desc This method gets an object containing
+   * an array of team with the specified team ID
    *
    * @param { object} req request
    * @param { object} res response
@@ -241,25 +241,33 @@ export default class Accounts {
       const { limit, offset } = req.meta.pagination;
       const { query } = req.meta.search;
       const { attribute, order } = req.meta.sort;
-      const { where } = req.meta.filter;
+      let { where } = req.meta.filter;
 
-      // teamId must be included in the 'where'
+      // Team id can be specified in the where
       where.teamId = req.params.teamId;
+      // if search query is present, overwrite the 'where' so that
+      // the 'name' and 'type' are checked to see if it contains
+      // that search query (case-INsensitive)
+      if (query) {
+        where = {
+          [Op.or]: [
+            { name: { [Op.iLike]: `%${query}%` } },
+            { type: { [Op.iLike]: `%${query}%` } }
+          ]
+        };
+      }
 
-      // this endpoint currently does NOT recognize the '@search' query
-
-      const dbResult = await models.Membership.findAndCountAll({ where });
-      const memberships = await models.Membership.findAll({
+      const dbResult = await models.Account.findAndCountAll({ where });
+      const accounts = await models.Account.findAll({
         where,
         limit,
         offset,
         order: [[attribute, order]],
         include: [
           { model: models.Team, as: 'team' },
-          { model: models.User, as: 'user' }
         ]
       });
-      if (memberships) {
+      if (accounts) {
         const pagination = helpers.Misc.generatePaginationMeta(
           req,
           dbResult,
@@ -267,25 +275,25 @@ export default class Accounts {
           offset
         );
 
-        const updatedMemberships = [];
+        const updatedAccounts = [];
         // using await in loop as shown below
         // https://blog.lavrton.com/javascript-loops-how-to-handle-async-await-6252dd3c795
 
         // eslint-disable-next-line no-restricted-syntax
-        for (const membership of memberships) {
+        for (const account of accounts) {
           // eslint-disable-next-line no-await-in-loop
-          const m = await helpers.Misc.updateMembershipAttributes(membership);
-          updatedMemberships.push(m);
+          const a = await helpers.Misc.updateAccountAttributes(account);
+          updatedAccounts.push(a);
         }
 
         return res.sendSuccess(
-          { memberships: updatedMemberships },
+          { accounts: updatedAccounts },
           200,
           { pagination }
         );
       }
 
-      throw new Error('Could not retrieve memberships from the database.');
+      throw new Error('Could not retrieve accounts from the database.');
     } catch (error) {
       return res.sendFailure([error.message]);
     }

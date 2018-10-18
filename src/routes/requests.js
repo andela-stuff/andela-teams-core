@@ -24,4 +24,13 @@ routes.post(
   requestsController.create
 );
 
+routes.get(
+  '/',
+  middleware.pagination,
+  middleware.search,
+  middleware.sort,
+  middleware.filter,
+  requestsController.get
+);
+
 export default routes;

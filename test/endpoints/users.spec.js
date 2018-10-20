@@ -28,6 +28,7 @@ chai.use(chaiHttp);
 
 let user0 = {};
 let user1 = {};
+let user1Blocked = {};
 
 describe('Tests for /v1/users', () => {
   beforeEach(async () => {
@@ -38,6 +39,12 @@ describe('Tests for /v1/users', () => {
   });
 
   describe('GET: /v1/users', (done) => {
+    beforeEach(async () => {
+      user1Blocked = await models.User.create(mock.user1Blocked);
+      mock.user1Blocked.token =
+      jwt.sign({ email: mock.user1Blocked.email }, config.SECRET);
+      user1Blocked.token = mock.user1Blocked.token;
+    });
     it('should return an error if user token header is missing', (done) => {
       chai.request(server)
         .get('/v1/users')
@@ -51,9 +58,6 @@ describe('Tests for /v1/users', () => {
           done();
         });
     });
-  });
-
-  describe('GET: /v1/users', (done) => {
     it('should return an error if user token header is malformed', (done) => {
       chai.request(server)
         .get('/v1/users')
@@ -64,6 +68,20 @@ describe('Tests for /v1/users', () => {
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
             .to.include('jwt malformed');
+          expect(res.body.data).to.be.undefined;
+          done();
+        });
+    });
+    it('should return an error if user is blocked', (done) => {
+      chai.request(server)
+        .get('/v1/users')
+        .set('x-teams-user-token', user1Blocked.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('errors');
+          expect(res.body.errors).to.be.an('Array');
+          expect(res.body.errors)
+            .to.include('User is blocked.');
           expect(res.body.data).to.be.undefined;
           done();
         });

@@ -39,6 +39,9 @@ export default class Auth {
       });
 
       if (user) {
+        if (user.blocked) {
+          throw new Error('User is blocked.');
+        }
         req.user = user.get();
         req.userObj = user;
         return next();

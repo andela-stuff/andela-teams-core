@@ -136,6 +136,15 @@ export default {
     photo: 'https://www.myphotos.com/5',
     slackId: '1234565'
   },
+  user1Blocked: {
+    blocked: true,
+    displayName: 'user1',
+    email: 'user1@andela.com',
+    githubUsername: 'user1',
+    googleId: 123451,
+    photo: 'https://www.myphotos.com/1',
+    slackId: '1234561'
+  },
   user1WithNonAndelaEmail: {
     displayName: 'user1',
     email: 'user1@email.com',

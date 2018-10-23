@@ -30,8 +30,8 @@ let user0 = {};
 let user1 = {};
 let user2 = {};
 let request = {};
-let request0 = {};
 let request1 = {};
+let request2 = {};
 
 describe('Tests for /v1/requests', () => {
   beforeEach(async () => {
@@ -135,10 +135,10 @@ describe('Tests for /v1/requests', () => {
       before(async () => {
         user1 = await models.User.create(user1);
         user2 = await models.User.create(user2);
-        request0 = await models.Request.create({
+        request1 = await models.Request.create({
           ...mock.adminRequest, userId: user1.id
         });
-        request1 = await models.Request.create({
+        request2 = await models.Request.create({
           ...mock.adminRequest, userId: user2.id
         });
       });
@@ -150,7 +150,7 @@ describe('Tests for /v1/requests', () => {
         .put('/v1/requests')
         .send({
           userIds: [user1.id, user2.id],
-          requestIds: [request0.id, request1.id]
+          requestIds: [request1.id, request2.id]
         })
         .set('x-teams-user-token', mock.user0.token)
         .end((err, res) => {

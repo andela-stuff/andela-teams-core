@@ -113,4 +113,60 @@ export default class Requests {
       return res.sendFailure([error.message]);
     }
   }
+
+  /**
+   * @method update
+   * @desc This method accept requests
+   *
+   * @param { object} req request
+   * @param { object} res response
+   *
+   * @returns { object } response
+   */
+  async update(req, res) {
+    try {
+      const { userIds, requestIds } = req.body;
+
+      // Update the User table by setting the role to admin
+      await models.User.update({
+        role: 'admin',
+      }, {
+        where: {
+          id: {
+            [Op.in]: userIds
+          }
+        }
+      });
+
+      // Delete the requests of the accepted users
+      await models.Request.destroy({
+        where: {
+          id: {
+            [Op.in]: requestIds
+          }
+        }
+      });
+
+      // Get all the updated user's details
+      const users = await models.User.findAll({
+        where: {
+          id: {
+            [Op.in]: userIds
+          }
+        }
+      });
+
+      const acceptedUsers = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const user of users) {
+        // eslint-disable-next-line no-await-in-loop
+        const u = await helpers.Misc.updateUserAttributes(user, req);
+        acceptedUsers.push(u);
+      }
+
+      return res.sendSuccess({ acceptedUsers });
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
 }

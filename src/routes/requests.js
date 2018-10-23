@@ -33,4 +33,10 @@ routes.get(
   requestsController.get
 );
 
+routes.put(
+  '/',
+  middleware.check.currentUserIsAdmin,
+  requestsController.update
+);
+
 export default routes;

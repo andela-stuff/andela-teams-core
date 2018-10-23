@@ -28,7 +28,10 @@ chai.use(chaiHttp);
 
 let user0 = {};
 let user1 = {};
+let user2 = {};
 let request = {};
+let request0 = {};
+let request1 = {};
 
 describe('Tests for /v1/requests', () => {
   beforeEach(async () => {
@@ -122,6 +125,41 @@ describe('Tests for /v1/requests', () => {
           expect(res.body.errors).to.be.an('Array');
           expect(res.body.errors)
             .to.include('You have made a request with the same type.');
+          done();
+        });
+    });
+  });
+
+  describe('PUT: /v1/requests', (done) => {
+    it('should accept the user\'s requests', (done) => {
+      before(async () => {
+        user1 = await models.User.create(user1);
+        user2 = await models.User.create(user2);
+        request0 = await models.Request.create({
+          ...mock.adminRequest, userId: user1.id
+        });
+        request1 = await models.Request.create({
+          ...mock.adminRequest, userId: user2.id
+        });
+      });
+      after(async () => {
+        await models.Request.destroy({ where: {} });
+        await models.User.destroy({ where: {} });
+      });
+      chai.request(server)
+        .put('/v1/requests')
+        .send({
+          userIds: [user1.id, user2.id],
+          requestIds: [request0.id, request1.id]
+        })
+        .set('x-teams-user-token', mock.user0.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.have.property('data');
+          expect(res.body.data).to.be.an('Object');
+          res.body.data.should.have.property('acceptedUsers');
+          expect(res.body.data.acceptedUsers.length).to.equal(1);
+          expect(res.body.data.acceptedUsers[0].id).to.equal(user1.id);
           done();
         });
     });

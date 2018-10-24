@@ -39,4 +39,10 @@ routes.put(
   requestsController.update
 );
 
+routes.delete(
+  '/',
+  middleware.check.currentUserIsAdmin,
+  requestsController.delete
+);
+
 export default routes;

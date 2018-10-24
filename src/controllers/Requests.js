@@ -169,4 +169,29 @@ export default class Requests {
       return res.sendFailure([error.message]);
     }
   }
+
+  /**
+   * @method delete
+   * @desc This method reject requests
+   *
+   * @param { object} req request
+   * @param { object} res response
+   *
+   * @returns { object } response
+   */
+  async delete(req, res) {
+    try {
+      const { requestIds } = req.body;
+      await models.Request.destroy({
+        where: {
+          id: {
+            [Op.in]: requestIds
+          }
+        }
+      });
+      return res.sendSuccess();
+    } catch (error) {
+      return res.sendFailure([error.message]);
+    }
+  }
 }

@@ -165,7 +165,7 @@ class Project {
       let storiesResponse;
       requestOptions.uri = `/projects/${projectId}/stories`;
       if (process.env.NODE_ENV === 'test') {
-        storiesResponse = mock.pivotalTracker.addUserResponse1; // **change to actual mock
+        storiesResponse = mock.pivotalTracker.addUserResponse1; // ***
       } else {
         storiesResponse = await request.get(requestOptions);
       }

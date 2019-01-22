@@ -5,8 +5,8 @@
   "main": "index.js",
   "engines": {
     "node": "9.7.1",
-    "npm": "5.6.0",
-    "yarn": "1.5.1"
+    "npm": "6.6.0",
+    "yarn": "1.13.0"
   },
   "scripts": {
     "babel-node": "babel-node ./src/server --presets=env",
@@ -18,8 +18,8 @@
     "db:migrate": "./node_modules/.bin/sequelize db:migrate",
     "db:migrate:test": "NODE_ENV=test ./node_modules/.bin/sequelize db:migrate",
     "db:reset": "./node_modules/.bin/sequelize db:migrate:undo:all && ./node_modules/.bin/sequelize db:migrate",
-    "db:reset:test": "NODE_ENV=test ./node_modules/.bin/sequelize db:migrate:undo:all && NODE_ENV=test ./node_modules/.bin/sequelize db:migrate && npm run db:seed:database:test",
-    "db:seed:database:test": "NODE_ENV=test ./node_modules/.bin/sequelize db:seed:undo:all && NODE_ENV=test ./node_modules/.bin/sequelize db:seed:all",
+    "db:reset:test": "NODE_ENV=test ./node_modules/.bin/sequelize db:migrate:undo:all && NODE_ENV=test ./node_modules/.bin/sequelize db:migrate",
+    "db:seed:test": "NODE_ENV=test ./node_modules/.bin/sequelize db:seed:undo:all && NODE_ENV=test ./node_modules/.bin/sequelize db:seed:all",
     "eslint": "./node_modules/.bin/eslint src",
     "eslint-fix": "./node_modules/.bin/eslint --fix src",
     "heroku-postbuild": "npm run build",

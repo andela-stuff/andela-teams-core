@@ -85,7 +85,94 @@ export default {
       public: false,
       project_type: 'private',
       account_id: 1050596
-    }
+    },
+    fetchStoriesResponse1: [
+      {
+        kind: 'story',
+        id: 561,
+        created_at: 1546344000000,
+        updated_at: 1546344000000,
+        story_type: 'bug',
+        name: 'Tractor beam loses power intermittently',
+        current_state: 'unstarted',
+        requested_by_id: 102,
+        url: 'http://localhost/story/show/561',
+        project_id: 99,
+        owner_ids:
+        [
+        ],
+        labels:
+        [
+        ]
+      },
+      {
+        kind: 'story',
+        id: 566,
+        created_at: 1546344000000,
+        updated_at: 1546344000000,
+        story_type: 'chore',
+        name: 'Repair CommLink',
+        description: 'It\'s malfunctioning.',
+        current_state: 'unstarted',
+        requested_by_id: 104,
+        url: 'http://localhost/story/show/566',
+        project_id: 99,
+        owner_ids:
+        [
+        ],
+        labels:
+          [
+            {
+              id: 2011,
+              project_id: 99,
+              kind: 'label',
+              name: 'mnt',
+              created_at: 1546344000000,
+              updated_at: 1546344000000
+            }
+          ]
+      },
+      {
+        kind: 'story',
+        id: 552,
+        created_at: 1546344000000,
+        updated_at: 1546344000000,
+        deadline: 1546344005000,
+        story_type: 'release',
+        name: 'Battlestation fully operational',
+        description: 'Everything is proceeding as I have foreseen.',
+        current_state: 'unstarted',
+        requested_by_id: 100,
+        url: 'http://localhost/story/show/552',
+        project_id: 99,
+        owner_ids:
+        [
+        ],
+        labels:
+        [
+        ]
+      },
+      {
+        kind: 'story',
+        id: 555,
+        created_at: 1546344000000,
+        updated_at: 1546344000000,
+        estimate: 2,
+        story_type: 'feature',
+        name: 'Bring me the passengers',
+        description: 'ignore the droids',
+        current_state: 'unstarted',
+        requested_by_id: 101,
+        url: 'http://localhost/story/show/555',
+        project_id: 99,
+        owner_ids:
+        [
+        ],
+        labels:
+        [
+        ]
+      }
+    ]
   },
   slack: {
     createChannelResponse1: {

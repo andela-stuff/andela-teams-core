@@ -1,6 +1,5 @@
 const path = require('path');
 
-
 let src = 'src'
 
 if(process.env.NODE_ENV === 'production'){
